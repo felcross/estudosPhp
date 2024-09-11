@@ -1,0 +1,17 @@
+{
+    "name": "teste/project1",
+    "description": "teste",
+    "autoload": {
+        "psr-4": {
+            "Teste\\Project1\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Felipe Batista",
+            "email": "feljava32@gmail.com"
+        }
+    ],
+    "require": {
+    }
+}
