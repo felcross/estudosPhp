@@ -27,21 +27,30 @@ namespace patterns;
 
         public function setData($key,$value){
             //setando um valor na posição X[key] que é igual a value 
-            return $this->data[$key] = $value;
+            //$string = '';
+            $string = "{$key} = \"{$value}\"";
+            //var_dump($string);
+            //return $this->data[$key] = $value;
+            file_put_contents('application.ini',$string);
+            
         } 
        
         public function save() {
            // metodo pra gravar preferencias no arquivo caso seja modificado 
           $string = '';
+          var_dump($string);
           //percorrendo esse vetor de dados e escrevendo novamente no arquivo 
           if($this->data){
             foreach($this->data as $key => $value) {
                  // montando string 
                   $string . "{$key} = \" {$value}\" \n";
             }
+          var_dump($string);
+          //file_put_contents('application.ini',$string);
           }
-          // gravando novamente no arquivo
-          file_put_contents('application.ini',$string);
+             // gravando novamente no arquivo
+             file_put_contents('application.ini',$string);
+          
       }
 
 
