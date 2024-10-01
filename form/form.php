@@ -21,10 +21,12 @@
      <input name="email"  type="text" style="width:20%">
      <label>Cidade</label>
      <select name="id_cidade"  style="width:20%">
-
-     
-
-     </select>
+       <?php 
+       require_once 'buscaCidade.php';
+       print cidade_list();
+       
+       ?>     
+    </select>
 
      <input type="submit">
  
