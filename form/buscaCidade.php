@@ -15,7 +15,7 @@ function cidade_list(){
         //print $row['codigo'] . '-' . $row['nome'] . '<br>';
          $id = $row['id'];
          $nome =$row['nome'];
-         $output .= "<option value={'{$id}'}>$nome</option>";
+         $output .= "<option value='{$id}'>$nome</option>";
       }
  }
  pg_close($conn);

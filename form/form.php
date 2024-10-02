@@ -7,12 +7,11 @@
 <body>
     <form enctype="multipart/form-data" method="post" action="form_save.php">
 
-     <label>Codigo</label>
-     <input name="id" readonly="1" type="text" style="width:20%">
+    
      <label>Nome</label>
      <input name="nome" type="text" style="width:20%">
      <label>Endereço</label>
-     <input name="end"  type="text" style="width:20%">
+     <input name="endereco"  type="text" style="width:20%">
      <label>Bairro</label>
      <input name="bairro"  type="text" style="width:20%">
      <label>Tel</label>
