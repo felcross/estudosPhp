@@ -23,6 +23,7 @@
        <?php 
        require_once 'buscaCidade.php';
        print cidade_list();
+      
        
        ?>     
     </select>

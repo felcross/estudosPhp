@@ -1,9 +1,9 @@
 <?php
 
 function cidade_list(){
-  
-    $conn = pg_connect('host=localhost port=5432 dbname=postgres
- user=postgres password=fel123');
+   // port=5432  password=fel123
+    $conn = pg_connect('host=localhost port=5433 dbname=postgres
+ user=postgres password=123');
 
  $output='';
  $result = pg_query($conn,'SELECT ID, NOME FROM CIDADE');
