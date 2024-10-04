@@ -23,8 +23,8 @@
 
   <tbody>
     <?php 
-       $conn = pg_connect('host=localhost port=5433 dbname=postgres
-       user=postgres password=123');
+       $conn = pg_connect('host=localhost port=5432 dbname=postgres
+       user=postgres password=fel123');
 
       $result =  pg_query($conn,'SELECT * FROM pessoa ORDER BY id');
 

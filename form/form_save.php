@@ -2,8 +2,8 @@
 
 $dados = $_POST;
 
-$conn = pg_connect('host=localhost port=5433 dbname=postgres
-user=postgres password=123');
+$conn = pg_connect('host=localhost port=5432 dbname=postgres
+user=postgres password=fel123');
 
 
 $sql = "INSERT INTO pessoa(nome,endereco,bairro,telefone, email, id_cidade) 
