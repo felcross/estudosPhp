@@ -16,18 +16,7 @@ $sql = "INSERT INTO pessoa(nome,endereco,bairro,telefone, email, id_cidade)
        '{$dados['id_cidade']}')";
 
 
-/*$sql = "INSERT INTO pessoa(nome,endereco,bairro,telefone, email, id_cidade) 
-       VALUES(";
 
-$sql .= "'".$dados['nome']."',";
-      $sql.= "'".$dados['endereco']."',";
-       $sql.= "'".$dados['bairro']."',";
-       $sql.= "'".$dados['tel']."',";
-       $sql.="'".$dados['email']."',";
-       $sql.= "'".$dados['id_cidade']."'";
-       $sql .=  ")";*/
-
-//print $sql;
 $result = pg_query($conn,$sql);
 
 if($result)

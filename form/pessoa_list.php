@@ -3,6 +3,8 @@
 <head>
    <meta charset="utf-8">
    <title>Lista Pessoas</title>  
+   <link href="css/list.css" rel="stylesheet" type="text/css" 
+   media="screen"/>
 </head>
 
 <body>
@@ -62,7 +64,7 @@
   </tbody>
   </table>
   <button onclick="window.location='form.php'">
-    <img src="button.svg" alt="" style="width: 80%;height: 2%;" > ADD PERSON 
+    <img src="button.svg" alt="" style="width: 80%;height: 2%;" > Add
   </button>
 
 </body>

@@ -9,7 +9,7 @@ function cidade_list(){
  $result = pg_query($conn,'SELECT ID, NOME FROM CIDADE');
 
  if($result) 
- {         // fetch_assoc retornar em vetor 
+ {         // fetch_assoc retorna um vetor associativo 
       while ($row = pg_fetch_assoc($result)) 
       {
         //print $row['codigo'] . '-' . $row['nome'] . '<br>';
