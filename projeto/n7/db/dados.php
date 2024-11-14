@@ -1,7 +1,7 @@
 <?php
  function get_pessoa($id){
-    $conn = pg_connect('host=localhost port=5433 dbname=postgres
-    user=postgres password=123');
+    $conn = pg_connect('host=localhost port=5432 dbname=postgres
+    user=postgres password=fel123');
 
     $result =  pg_query($conn,"SELECT * FROM pessoa WHERE id = '{$id}' ");
     $pessoa = pg_fetch_assoc($result);
@@ -10,8 +10,8 @@
 
  }
  function excluir_pessoa($id){
-    $conn = pg_connect('host=localhost port=5433 dbname=postgres
-    user=postgres password=123');
+   $conn = pg_connect('host=localhost port=5432 dbname=postgres
+   user=postgres password=fel123');
 
     $result =  pg_query($conn,"DELETE FROM pessoa WHERE id ='{$id}'");
     pg_close($conn);
@@ -19,8 +19,8 @@
 
  }
  function insert_pessoa($pessoa){
-    $conn = pg_connect('host=localhost port=5433 dbname=postgres
-    user=postgres password=123');
+   $conn = pg_connect('host=localhost port=5432 dbname=postgres
+   user=postgres password=fel123');
 
     $sql = "INSERT INTO pessoa(nome,endereco,bairro,telefone, email, id_cidade) 
         VALUES(
@@ -37,8 +37,8 @@
  }
  function update_pessoa($pessoa){
 
-    $conn = pg_connect('host=localhost port=5433 dbname=postgres
-    user=postgres password=123');
+   $conn = pg_connect('host=localhost port=5432 dbname=postgres
+   user=postgres password=fel123');
 
     $sql =  $sql = "UPDATE pessoa SET 
     nome ='{$pessoa['nome']}',
@@ -54,8 +54,8 @@
  }
 
  function list_pessoa(){
-    $conn = pg_connect('host=localhost port=5433 dbname=postgres
-    user=postgres password=123');
+   $conn = pg_connect('host=localhost port=5432 dbname=postgres
+   user=postgres password=fel123');
 
     $result =  pg_query($conn,"SELECT * FROM pessoa ORDER BY id");
     $list = pg_fetch_all($result);

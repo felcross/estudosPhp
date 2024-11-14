@@ -3,25 +3,29 @@ require_once 'ProdutoGateway.php';
 require_once 'Produto.php';
 try 
 {  //abre conexão
-    $conn = new PDO('pgsql: dbname=postgres user=postgres password=123 
-    host=localhost port=5433');
+    $conn = new PDO('pgsql: dbname=postgres user=postgres password=fel123 
+    host=localhost port=5432');
     $conn->setAttribute(PDO::ATTR_ERRMODE,  PDO::ERRMODE_EXCEPTION);
    //diz qual vai usar e seta no gateway
     Produto::setConnection($conn);
       
-    $produtos =  Produto::All('estoque <= 10');
-    var_dump($produtos);
-
-    $uni = Produto::find(5);
-    var_dump($uni);
+    $produtos =  Produto::all();
     
-    print 'Decrição: ' . $uni->descricao . '<br>';
+    //$unis =  Produto::find(1);
+   // $produtos2 =  Produto::all();
+    //var_dump($produtos);
+  
+   foreach($produtos as $produto) {
 
-   foreach($produtos as $produto ) {
-
-      print $produto->descricao . '<br>';
+      print  $produto->descricao. '<br>';  
       
     }
+
+
+
+  //  var_dump(array_keys($teste2));
+
+
 
     //$produtos =  new Produto;
     //$produtos->all();

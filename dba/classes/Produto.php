@@ -10,7 +10,7 @@ class Produto
     
     public function __get($prop)
     {
-        $this->data[$prop];
+        return $this->data[$prop];
     }
 
     public function __set($prop, $value)

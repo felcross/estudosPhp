@@ -51,7 +51,7 @@ class PessoaForm
             print 'Salvo com sucesso';
 
         } catch (Exception $e) {
-            return $e->getMessage();
+             var_dump($e->getMessage());
         }
     }
 
