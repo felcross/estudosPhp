@@ -1,0 +1,48 @@
+<?php 
+ class Conn {
+
+   
+    private function __construct() {}
+   
+    public static function open($name){
+      
+        if(file_exists("config/{$name}.ini")) {
+
+            $init = parse_ini_file("config/{$name}.ini");
+        }  else  {
+
+            throw new Exception("Arquivo {$name} não existe") ;
+        }
+
+       $name = $init['name'] ? $init['name']: null; 
+       $host = $init['host'] ? $init['host']: null;;
+       $user = $init['user'] ? $init['user']: null;;
+       $password = $init['password'] ? $init['password']:null ;
+       $type = $init['type']  ? $init['type']:null ;
+
+         switch ($type) {
+            case 'pgsql':
+                $port = $init['port'] ? $init['port']: null;
+                $conn = new PDO("pgsql:dbname={$name};user={$user};
+                password={$password};host={$host};port={$port}");
+       
+                break;
+
+            case 'Outrobanco':
+                break;
+                
+            case 'Outrobanco 2':    
+                break;
+
+         }
+         $conn->setAttribute(PDO::ATTR_ERRMODE,  PDO::ERRMODE_EXCEPTION);
+         return $conn;
+
+        
+
+    }
+
+
+
+
+ }

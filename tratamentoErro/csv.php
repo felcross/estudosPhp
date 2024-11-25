@@ -5,8 +5,8 @@ $csv = new CSVParser('clientes.csv', ';');
 try {
 $csv->parse(); // método que pode lançar exceção
 while ($row = $csv->fetch()) {
-print $row['Cliente'] . " - ";
-print $row['Cidade'] . "<br>\n";
+print "Cliente: " . $row['Cliente'] . " - ";
+print "Cidade: " . $row['Cidade'] . "<br>\n";
 }
 }
 catch (Exception $e) {

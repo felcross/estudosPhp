@@ -15,7 +15,7 @@ try
     $data->preco_venda= 355.99;
     $data->codigo_barras= "12335555890123";
     $data->data_cadastro= '2024-05-08';
-    $data->origem = "S"; 
+    $data->origem = "S";
 
    $gw = new ProdutoGateway;
    $gw->save($data);

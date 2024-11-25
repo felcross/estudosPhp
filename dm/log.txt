@@ -1,0 +1,9 @@
+2024-11-25 18:48:35 : INSERT INTO produto (descricao, estoque, preco_custo, preco_venda, codigo_barras, data_cadastro, origem)
+                    VALUES 
+                    ('Café fraco', 
+                    '102', 
+                    '15', 
+                    '25.99', 
+                    '58914143',
+                    '2024-05-08', 
+                    'N')

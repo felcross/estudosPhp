@@ -20,8 +20,21 @@ try
       print  $produto->descricao. '<br>';  
       
     }
+    $data = new Produto;
+    $data->descricao = "Queijo";
+    $data->estoque= 56;
+    $data->preco_custo= 65;
+    $data->preco_venda= 65.99;
+    $data->codigo_barras= "5890123";
+    $data->data_cadastro= '2021-05-08';
+    $data->origem = "N"; 
+    $data->save();
 
+    foreach($produtos as $produto) {
 
+      print  $produto->descricao. '<br>';  
+      
+    }
 
   //  var_dump(array_keys($teste2));
 
