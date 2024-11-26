@@ -2,7 +2,14 @@
 //intercepitando o get e set acessados sem permissão da classe.
 class teste {
 
-public function __get($name)
+ private $data= array();
+
+
+public function getNome() {
+return  $this->data;
+}
+
+public function __get($data)
 {
     print 'Não tem acesso';
 }
@@ -19,5 +26,9 @@ public function __set($name, $value)
 
 $teste = new teste;
 
-$teste->valor;
-$teste->teste = 200;
+print $teste->getNome();
+$teste->__get($nome);
+
+
+
+
