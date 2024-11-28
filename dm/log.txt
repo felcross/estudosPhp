@@ -1,9 +1,1 @@
-2024-11-25 18:48:35 : INSERT INTO produto (descricao, estoque, preco_custo, preco_venda, codigo_barras, data_cadastro, origem)
-                    VALUES 
-                    ('Café fraco', 
-                    '102', 
-                    '15', 
-                    '25.99', 
-                    '58914143',
-                    '2024-05-08', 
-                    'N')
+2024-11-28 19:45:53 : SELECT * FROM Produto WHERE id =92024-11-28 19:45:53 : SELECT * FROM Produto WHERE id =92024-11-28 19:45:53 : UPDATE Produto SET id = 9, descricao = 'vinho' , estoque = 76, preco_custo = '65' , preco_venda = '65.99' , codigo_barras = '5890123' , data_cadastro = '2021-05-08' , origem = 'N'  WHERE id =9

@@ -70,6 +70,14 @@ abstract class Record
 
     }
 
+    public static function find($id){
+       //metodo me diz que classe estou usando. 
+        $classename = get_called_class();
+        $ar= new $classename;
+        return $ar->load($id);  
+    }
+
+
   public function load($id){
  
     $sql = "SELECT * FROM {$this->getEntity()} WHERE id =" . (int) $id;
@@ -96,7 +104,20 @@ abstract class Record
      //segunda condição se o id que passou pro load não existir.
      if((empty($this->data['id'])) OR (!$this->load($this->data['id'])))
      {  $sql = "INSERT INTO {$this->getEntity()}" 
-      . '(' . implode(array_keys($this->data)) . ')' . 'values' . '(' . implode(array_values($this->data)) . ')'; 
+      . '(' . implode(', ',array_keys($prepared)) . ')' . 'values' . '(' . implode(', ',array_values($prepared)) . ')'; 
+
+     }  else  {
+         
+         $prepared = $this->prepared($this->data);
+        
+         $set = [];
+         foreach($prepared as $column => $value){
+            
+          $set [] =  "$column = $value";
+         }
+         $sql = "UPDATE {$this->getEntity()}";
+         $sql .= " SET " . implode(', ', $set);
+         $sql .= " WHERE id =" . (int) $this->data['id'];;
 
      }
 
@@ -125,16 +146,42 @@ abstract class Record
     
 
   }
+
+  // prepara as strings colocando dá forma correta para consulta 
+  public function prepared($data) {
+    
+    $prepared = array();
+     foreach($data as $key => $value) {
+      if(is_scalar($value)){
+
+        $prepared[$key] = $this->escape($value);
+      }
+     }  
+     return $prepared;
+  }
+
+
+  public function escape($value){
+
+     if (is_string($value) and (!empty($value)))
+     {
+      // add \ em aspas 
+      $value = addslashes($value);
+      return "'$value' ";
+     } 
+     else if  (is_bool($value)) {
+
+        return $value ? 'TRUE':'FALSE';
+     } else if($value !== '') {
+       
+       return $value;
+     } else {
+        return "NULL";
+     }
+
+  }
     
 }
 
 
-class ProdutoRecord extends Record {
 
- const TABLENAME = 'Produto' ;
-
-
-
-
-
-}
