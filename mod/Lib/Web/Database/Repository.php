@@ -1,5 +1,7 @@
 <?php 
+namespace  Web\Database;
 
+use Exception;
 class Repository {
 
     private $ar;

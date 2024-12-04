@@ -1,18 +1,56 @@
 <?php
 
 require_once 'Criteria.php';
+require_once 'Conn.php';
+require_once 'Logger.php';
+require_once 'LoggerTXT.php';
+require_once 'ProdutoRecord.php';
+require_once 'Transaction.php';
+require_once 'Repository.php';
+require_once 'Record.php';
 
-/*$criteria = new Criteria;
-$criteria->add('idade','<',16 ,'and');
-//$criteria->add('idade','<',60 , 'or');
-
-print $criteria->dump() . "<br>";*/
+try{ 
+    Transaction::open('config');
+    Transaction::setLogger(new LoggerTXT('log.txt'));
 
 
-// Exemplo de uso
-$criteria = new Criteria();
-//$criteria->add('age', '>', 18);
-$criteria->add('name', 'IN', ['John', 'Jane'], 'or');
-$criteria->add('status', '=', 'active');
+    
+$criteria = new Criteria;
+$criteria->add('estoque','>',10 ,'or');
+$criteria->add('origem','=','N');
+$criteria2 = new Criteria;
+$criteria2->add('origem','=','N');
 
-echo $criteria->dump() . '<br>';
+ $repository = new Repository('ProdutoRecord');
+ $produtos = $repository->load($criteria);
+
+ if($produtos)
+ {
+     foreach($produtos as $produto)
+     {
+         print 'Id:' . $produto->id;
+         print '- Descrição:' . $produto->descricao;
+         print '- Estoque:' . $produto->estoque;
+         print '<br>';
+     }
+ }
+/*
+ $Qtd = $repository->count($criteria);
+
+ print  'Quantidade: ' . $Qtd;
+*/
+
+
+
+print $criteria->dump() . "<br>";
+     
+
+
+    Transaction::close();
+
+
+  } catch(Exception $e){
+
+     return $e->getMessage();
+    Transaction::rollback();
+  }

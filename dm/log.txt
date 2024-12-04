@@ -1,1 +1,1 @@
-2024-11-29 18:16:51 : SELECT * FROM Produto WHERE id =92024-11-29 18:16:51 : SELECT * FROM Produto WHERE id =92024-11-29 18:16:51 : UPDATE Produto SET id = 9, descricao = 'vinho' , estoque = 106, preco_custo = '65' , preco_venda = '65.99' , codigo_barras = '5890123' , data_cadastro = '2021-05-08' , origem = 'N'  WHERE id =9
+2024-12-04 18:26:51 : SELECT * FROM Produto WHERE(estoque > 10 and origem = 'N')
