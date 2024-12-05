@@ -18,7 +18,11 @@ class AppLoader
      */
     public function addDirectory($directory)
     {
-        $this->directories[] = $directory;
+        $directory = realpath($directory);
+     if ($directory && is_dir($directory)) {
+    $this->directories[] = $directory;
+}
+
     }
     
     /**
@@ -34,13 +38,18 @@ class AppLoader
      */
     public function loadClass($class)
     {
+        //file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/mod/Lib/web/Log/teste.txt',$class);
+
         $folders = $this->directories;
         
         foreach ($folders as $folder)
         {
             if (file_exists("{$folder}/{$class}.php"))
-            {
-                require_once "{$folder}/{$class}.php";
+            {   
+             //   $class = str_replace('{','', $class);
+
+             file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/mod/Lib/web/Log/teste.txt',"{$folder}" . "\{$class}.php");
+                return require_once "{$folder}/{$class}.php";
                 return TRUE;
             }
             else
@@ -64,3 +73,4 @@ class AppLoader
         }
     }
 }
+
