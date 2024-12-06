@@ -1,5 +1,5 @@
 <?php 
- class Cidade {
+ class CidadeTT {
 
     private static $conn;
     public static function getConnection()

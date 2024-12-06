@@ -30,7 +30,7 @@ class AppLoader
      */
     public function register()
     {
-        spl_autoload_register(array($this, 'loadClass'));
+       return spl_autoload_register(array($this, 'loadClass'));
     }
     
     /**
@@ -48,9 +48,9 @@ class AppLoader
             {   
              //   $class = str_replace('{','', $class);
 
-             file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/mod/Lib/web/Log/teste.txt',"{$folder}" . "\{$class}.php");
-                return require_once "{$folder}/{$class}.php";
-                return TRUE;
+             file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/mod/Lib/web/Log/teste.txt',"{$folder}" . "\\"."{$class}.php");
+                return require_once "{$folder}" . "\\"."{$class}.php";
+                //return TRUE;
             }
             else
             {
