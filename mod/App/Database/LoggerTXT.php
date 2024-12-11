@@ -1,5 +1,5 @@
 <?php
-namespace  Web\log;
+namespace  Log;
 
 class LoggerTXT extends Logger{
 

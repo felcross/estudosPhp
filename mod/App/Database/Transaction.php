@@ -1,7 +1,8 @@
 <?php 
-namespace  Web\Database;
+ namespace  Database;
 
- use Logger;
+ use  Log\Logger;
+ use  Database\Conn; 
 
  class Transaction {
 

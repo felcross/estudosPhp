@@ -1,5 +1,5 @@
 <?php 
-namespace  Web\Database;
+namespace  Database;
 
 use Exception;
 use PDO;
@@ -7,13 +7,16 @@ use PDO;
  class Conn {
 
    
-    private function __construct() {}
-   
-    public static function open($name){
-      
-        if(file_exists("App/Config/{$name}.ini")) {
+    private function __construct() {
 
-            $init = parse_ini_file("App/Config/{$name}.ini");
+       
+    }
+   //"config/{$name}.ini"
+    public static function open($name){
+        //var_dump(config_ini);
+        if(file_exists("config/{$name}.ini")) {
+
+            $init = parse_ini_file("config/{$name}.ini");
         }  else  {
 
             throw new Exception("Arquivo {$name} não existe") ;

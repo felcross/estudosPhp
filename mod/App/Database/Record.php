@@ -1,6 +1,5 @@
 <?php
-namespace  Web\Database;
-
+namespace  Database;
 use Exception;
 
 abstract class Record

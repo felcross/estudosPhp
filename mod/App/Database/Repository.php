@@ -1,21 +1,24 @@
 <?php 
-namespace  Web\Database;
-
+namespace  Database;
 use Exception;
+
+
 class Repository {
 
     private $ar;
     public function __construct($class)
-    {
-        $this->ar = $class;
+    {   $model = '\Model\\' . $class;
+        $this->ar = new $model;
     }
 
 
     public function load(Criteria $criteria)
-    {
-
-        $sql = "SELECT * FROM " . constant($this->ar .'::TABLENAME');
-
+    {     // var_dump($criteria);
+           var_dump($this->ar->TABLENAME);
+ 
+        $sql = "SELECT * FROM " . $this->ar->TABLENAME ;
+        //var_dump($sql);
+        
         if($criteria)
         {
             $expression = $criteria->dump();
@@ -40,19 +43,24 @@ class Repository {
 
                     $sql .= 'OFFSET ' . $order;
                  }
+                 
+                
             }  
 
               if($conn = Transaction::get()) 
               {   
                  Transaction::log($sql);
                  $result = $conn->query($sql); 
+                 var_dump($result);
                        if($result)
                         {
                             $results = [];
-                            while($row = $result->fetchObject($this->ar))
+                            while($row = $result->fetchObject($this->ar->TABLENAME))
                             {
                                 $results[]= $row;
                             }
+                        
+
                             return $results;
                         }
                     

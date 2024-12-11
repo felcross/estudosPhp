@@ -1,5 +1,5 @@
 <?php
-namespace  Web\Database;
+ namespace  Database;
 
 class Criteria
 {
