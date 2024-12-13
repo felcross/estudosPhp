@@ -1,6 +1,6 @@
 <?php
+namespace Model;
 
-require_once 'Record.php';
 use Database\Record;
 
 class Pessoa extends Record {

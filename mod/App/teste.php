@@ -1,26 +1,33 @@
 <?php
-
 require_once 'autoloadApp.php';
 
-/*require_once 'Criteria.php';
-require_once 'Conn.php';
-require_once 'Logger.php';
-require_once 'LoggerTXT.php';
-require_once 'ProdutoRecord.php';
-require_once 'Transaction.php';
-require_once 'Repository.php';
-require_once 'Record.php';
-require_once 'Pessoa.php';*/
-
+use Database\Conn;
 use Database\Transaction;
+use Log\LoggerTXT;
 use Database\Criteria;
 use Database\Repository;
-use Log\LoggerTXT;
+use Model\Pessoa;
+
+//$obj1 = Conn::open('config');
+//var_dump($obj1);
+
 
 try{ 
+
+    
+
     Transaction::open('config');
     Transaction::setLogger(new LoggerTXT('log.txt'));
 
+  //$obj2 = new Pessoa(21);
+ //var_dump($obj2);
+
+
+  //var_dump($_SERVER['DOCUMENT_ROOT']);
+
+
+
+    
 
     
 $criteria = new Criteria;
@@ -29,10 +36,10 @@ $criteria->add('origem','=','N');
 //$criteria2 = new Criteria;
 //$criteria2->add('origem','=','N');
 
- $repository = new Repository('ProdutoRecord');
+ $repository = new Repository('Produto');
  $produtos = $repository->load($criteria);
 
- //var_dump($produtos);
+ var_dump($produtos);
 
  if($produtos)
  {
@@ -52,11 +59,11 @@ $criteria->add('origem','=','N');
 
 
 
-print $criteria->dump() . "<br>";
+//print $criteria->dump() . "<br>";
      
 
 
-    Transaction::close();
+  Transaction::close();
 
 
   } catch(Exception $e){
