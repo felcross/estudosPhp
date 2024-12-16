@@ -1,1 +1,1 @@
-2024-12-16 14:06:18 : SELECT * FROM produto WHERE id =21
+2024-12-16 22:17:50 : SELECT * FROM produto WHERE id =7

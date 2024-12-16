@@ -21,7 +21,7 @@ try{
     Transaction::setLogger(new LoggerTXT('log.txt'));
 
   //$obj2 = new Pessoa(21);
-   $obj1 = new ProdutoRecord(21);
+   $obj1 = new ProdutoRecord(7);
  var_dump($obj1);
 
 
