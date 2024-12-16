@@ -60,7 +60,7 @@ class Repository {
 
     public function delete(Criteria $criteria)
     {
-        $sql = "DELETE FROM " . constant($this->ar . '::TABLENAME');
+        $sql = "DELETE FROM "  . $this->ar;
 
         if ($criteria) {
             $expression = $criteria->dump();

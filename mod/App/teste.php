@@ -7,6 +7,7 @@ use Log\LoggerTXT;
 use Database\Criteria;
 use Database\Repository;
 use Model\Pessoa;
+use Model\ProdutoRecord;
 
 //$obj1 = Conn::open('config');
 //var_dump($obj1);
@@ -20,7 +21,8 @@ try{
     Transaction::setLogger(new LoggerTXT('log.txt'));
 
   //$obj2 = new Pessoa(21);
- //var_dump($obj2);
+   $obj1 = new ProdutoRecord(21);
+ var_dump($obj1);
 
 
   //var_dump($_SERVER['DOCUMENT_ROOT']);
@@ -28,7 +30,7 @@ try{
 
 
     
-
+/*
     
 $criteria = new Criteria;
 $criteria->add('estoque','>',10 ,'or');
@@ -56,7 +58,7 @@ $criteria->add('origem','=','N');
 
  print  'Quantidade: ' . $Qtd;
 
-
+*/
 
 
 //print $criteria->dump() . "<br>";

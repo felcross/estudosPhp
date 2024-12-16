@@ -1,5 +1,5 @@
 <?php
-/*namespace App\Model;
+namespace Model;
 use Database\Transaction;
 use Database\Criteria;
 use Database\Repository;
@@ -38,4 +38,12 @@ class PessoaControl {
              }
         }
 
-}*/
+
+        public function show($param){
+
+            if(isset($param['method']) && ($param['method'] == 'listar')) {
+                $this->listar();
+            }
+        }
+
+}
