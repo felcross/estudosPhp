@@ -3,12 +3,13 @@ namespace Model;
 use Database\Transaction;
 use Database\Criteria;
 use Database\Repository;
+use Controller\PageControl;
 use Exception;
 
 
 
 
-class CidadeControl {
+class CidadeControl  {
 
 
      
@@ -38,11 +39,21 @@ class CidadeControl {
              }
         }
 
+        public function Ola() {
+
+            print 'Emsoft cleitin, Boa Tarde  !! ';
+        }
+
 
         public function show($param){
 
             if(isset($param['method']) && ($param['method'] == 'listar')) {
                 $this->listar();
+            }
+
+
+            if(isset($param['method']) && ($param['method'] == 'ola')) {
+                $this->Ola();
             }
         }
 

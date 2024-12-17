@@ -1,25 +1,35 @@
 <?php
 
-/*spl_autoload_register(function ($class) {
-   var_dump($class . '*classes');
- $var = function ($i) use($class) {
-    $url = explode('\\', $class);
-    return $url[$i] . DIRECTORY_SEPARATOR;
- };
+spl_autoload_register(function($class) {
+   // Caminho base do projeto (ajuste conforme necessário)
+   $baseDir = __DIR__ . '\\'; // Usa o diretório atual como base
+   
+   // Substitui as barras invertidas do namespace por barras de diretório
+   $classPath = str_replace('\\', '/', $class) . '.php';
+   
+   // Caminho completo para o arquivo
+   $file = $baseDir . $classPath;
 
- $end = __DIR__ . DIRECTORY_SEPARATOR . $var(0) . $var(1) . $var(2) . '.php';
- //$end = substr($end,0 , -1);
- $end = str_replace('\\.', '.', $end);
- var_dump($end . '*endereço');
- 
 
- require $end;
 
-});*/
+   // Verifica se o arquivo existe e o inclui
+   if (file_exists($file)) {
+       require_once $file;
+   } else {
+       echo "Autoload: Não foi possível carregar a classe {$class} em {$file}.";
+   }
+});
 
+
+
+
+
+
+
+/*
 spl_autoload_register(function($class){
    include_once './Config/Config.php';
-   if(file_exists($class . '.php'))
+   if(file_exists($class . '.php')) 
    {require_once $class . '.php';}
-});
+});*/
 
