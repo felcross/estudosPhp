@@ -8,17 +8,17 @@ use Model\Pessoa;
 class PessoaService  {
 
 
-   public function getData($request) 
+   public static function getData($request) 
    {  
         $id_pessoa = $request['id'];
 
-        Transaction::open('config');
+        Transaction::open('configCasa');
         Transaction::setLogger(new LoggerTXT('log.txt'));
-
+      //trás do banco o OBJ 
         $pessoa = Pessoa::find($id_pessoa);
 
         if($pessoa) 
-        {
+        {  //converte em vetor para ser tratado do outro lado.
            $pessoa_array = $pessoa->toArray();
 
         } else  {
