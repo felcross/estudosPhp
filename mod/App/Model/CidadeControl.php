@@ -11,7 +11,7 @@ use Exception;
 
 
 
-class CidadeControl  {
+class CidadeControl extends PageControl {
 
 
      
@@ -46,7 +46,7 @@ class CidadeControl  {
             print 'Emsoft cleitin, Boa Tarde  !! ';
         }
 
-
+  /*
         public function show($param){
 
             if(isset($param['method']) && ($param['method'] == 'listar')) {
@@ -57,6 +57,6 @@ class CidadeControl  {
             if(isset($param['method']) && ($param['method'] == 'ola')) {
                 $this->Ola();
             }
-        }
+        }*/
 
 }
