@@ -15,7 +15,7 @@ class PessoaControl {
 
         public  function listar() {
             try{
-                Transaction::open('config');
+                Transaction::open('configCasa');
                  $criteria = new Criteria;
                  $criteria->setProperty('order','id');
                  $repo = new Repository('Pessoa');

@@ -1,5 +1,7 @@
 <?php
 namespace Model;
+
+
 use Database\Transaction;
 use Database\Criteria;
 use Database\Repository;
