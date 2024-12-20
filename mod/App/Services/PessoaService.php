@@ -1,9 +1,10 @@
 <?php
 namespace Services;
 use Database\Transaction;
-use Exception;
 use Log\LoggerTXT;
 use Model\Pessoa;
+
+use Exception;
 
 class PessoaService  {
 
@@ -12,7 +13,7 @@ class PessoaService  {
    {  
         $id_pessoa = $request['id'];
 
-        Transaction::open('configCasa');
+        Transaction::open('config');
         Transaction::setLogger(new LoggerTXT('log.txt'));
       //trás do banco o OBJ 
         $pessoa = Pessoa::find($id_pessoa);

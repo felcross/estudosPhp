@@ -4,7 +4,7 @@ $location = "http://localhost/mod/App/rest.php";
 $parameters = [];
 $parameters['class'] = '\Services\PessoaService';
 $parameters['method'] = 'getData';
-$parameters['id'] = '10';
+$parameters['id'] = '21';
 
 $url = $location . '?' . http_build_query($parameters);
 

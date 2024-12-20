@@ -18,7 +18,7 @@ class CidadeControl extends PageControl {
 
         public  function listar() {
             try{
-                Transaction::open('configCasa');
+                Transaction::open('config');
                  $criteria = new Criteria;
                  $criteria->setProperty('order','id');
                  $repo = new Repository('Cidade');
