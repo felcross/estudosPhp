@@ -54,6 +54,14 @@ class SimpleForm {
 
             }
 
+            echo  "<div class='col py-2 px-sm-3 '>";
+            echo  "<button class='btn btn-success ' type='submit' value='Enviar' >Button</button> \n";
+         //   echo  "<button class='btn btn-primary' type='button'>Button</button>"
+  
+            echo "</div> \n";
+
+
+
 
           echo "</form> \n";
           echo "</div> \n";

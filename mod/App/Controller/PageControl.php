@@ -12,7 +12,7 @@ class PageControl {
                      
                   if(method_exists($this,$method)){
                       
-                       call_user_func([$this,$method],$_GET );
+                       call_user_func([$this,$method],$_REQUEST );
                   }
                  
           }
