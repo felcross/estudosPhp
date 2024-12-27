@@ -1,35 +1,35 @@
 <?php
 namespace Page;
+require_once '/Apache24/htdocs/mod/App/vendor/autoload.php';
 
 use Components\Nav;
 use Components\SimpleForm;
 use Controller\PageControl;
+use Twig\Attribute\FirstClassTwigCallableReady;
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
 
 class TwigControl extends PageControl{
 
    public function __construct()
    {
-       //parent::__construct();
-        $nav = new Nav('my_nav');
-        $nav->setTitle('opção 1');
-     
-        $nav->show();
+        //$loader = new FirstClassTwigCallableReady();
+        $loader = new FilesystemLoader('Templates');
+        $twig = new Environment($loader);
+        $template = $twig->load('form.html');
 
+        $replaces =[];
+        $replaces['nome'] = 'Deu bom';
+        $replaces['Password'] = 'Deu bom 2';
+        $replaces['action'] = 'index.php?class=\Page\TwigControl&method=onGravar';
 
-       $form = new SimpleForm('my_form');
-       $form->setTitle('Meu formulário');
-       $form->addField('Nome','Name','Text','Maria','form-control');
-       $form->addField('Telefone','telefone','Text','999999','form-control');
-       $form->addField('Endereço','end','Text','Rua xxx','form-control');
-       $form->setAction('index.php?class=\page\SimpleFormControl&method=gravar');
-       $form->show();
-
+        print $template->render($replaces);
 
        
    } 
 
 
-   public function gravar($param)
+   public function onGravar($param)
     {
         var_dump($param);
     }

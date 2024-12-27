@@ -1,6 +1,48 @@
 <?php
 require_once 'autoloadApp.php';
+require_once 'vendor/autoload.php';
 
+
+use Controller\PageControl;
+use Twig\Attribute\FirstClassTwigCallableReady;
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
+
+class teste extends PageControl{
+
+   public function __construct()
+   {
+        //$loader = new FirstClassTwigCallableReady();
+        $loader = new FilesystemLoader('Templates');
+        $twig = new Environment($loader);
+        $template = $twig->load('form.html');
+
+        $replaces =[];
+        $replaces['nome'] = 'Deu bom';
+        $replaces['Password'] = 'Deu bom 2';
+        $replaces['action'] = 'index.php?class=\Page\TwigControl&method=onGravar';
+
+        print $template->render($replaces);
+
+       
+   } 
+
+
+   public function gravar($param)
+    {
+        var_dump($param);
+    }
+
+}
+
+
+
+
+
+
+
+
+/*
 use Database\Conn;
 use Database\Transaction;
 use Log\LoggerTXT;
@@ -17,7 +59,7 @@ try{
 
     
 
-    Transaction::open('config');
+    Transaction::open('configCasa');
     Transaction::setLogger(new LoggerTXT('log.txt'));
 
   //$obj2 = new Pessoa(21);
@@ -58,7 +100,7 @@ $criteria->add('origem','=','N');
 
  print  'Quantidade: ' . $Qtd;
 
-*/
+
 
 
 //print $criteria->dump() . "<br>";
@@ -72,4 +114,4 @@ $criteria->add('origem','=','N');
 
      return $e->getMessage();
     Transaction::rollback();
-  }
+  } */
