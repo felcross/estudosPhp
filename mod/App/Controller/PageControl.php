@@ -1,6 +1,8 @@
 <?php 
 namespace Controller;
 
+
+
 class PageControl {
 
 
@@ -16,6 +18,7 @@ class PageControl {
                   }
                  
           }
+
     }
 
 }
