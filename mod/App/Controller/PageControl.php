@@ -1,9 +1,14 @@
 <?php 
 namespace Controller;
 
+use Components\Element;
 
+class PageControl  extends Element {
 
-class PageControl {
+    public function __construct()
+    {
+        parent::__construct('div');
+    }
 
 
     public function show() {
@@ -18,6 +23,8 @@ class PageControl {
                   }
                  
           }
+
+          parent::show();
 
     }
 
