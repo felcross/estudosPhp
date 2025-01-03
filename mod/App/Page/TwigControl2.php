@@ -9,7 +9,7 @@ use Twig\Attribute\FirstClassTwigCallableReady;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 
-class TwigControl extends PageControl {
+class TwigControl2 extends PageControl {
 
     
 
@@ -18,18 +18,27 @@ class TwigControl extends PageControl {
         parent::__construct();
         $loader = new FilesystemLoader('Templates');
         $twig = new Environment($loader);
-        $template = $twig->load('Welcome.html');
+        $template = $twig->load('Navbar.html');
+        $template2 = $twig->load('welcome.html');
          
         
 
         $replaces = [];
-        $replaces['nome'] = 'maria';
-        $replaces['rua'] = 'das flores';
-        $replaces['cep'] = '252514125';
-        $replaces['fone'] = '21 6565656';
+        $replaces['Home'] = 'Home';
+        $replaces['Sobre'] = 'Sobre';
+        $replaces['Serviços'] = 'Serviços';
+        $replaces['Contato'] = 'Contato';
+
+        $replaces2 = [];
+        $replaces2['nome'] = 'maria';
+        $replaces2['rua'] = 'das flores';
+        $replaces2['cep'] = '252514125';
+        $replaces2['fone'] = '21 6565656';
         //$replaces['action'] = '?class=\page\TwigControl&method=onGravar';
 
         print $template->render($replaces);
+        print $template2->render($replaces2);
+
 
     
         //print $template->display($replaces);
@@ -42,9 +51,9 @@ class TwigControl extends PageControl {
 
    public function onGravar($param)
     {
-        echo 'Resultado da ação';
-        echo $param['nome'];
-        echo $param['rua'];
+        echo 'Resultado da ação 2';
+        echo $param['Contato'];
+        echo $param['Sobre'];
         
     }
 

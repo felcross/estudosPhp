@@ -1,5 +1,5 @@
 <?php
-namespace Components;
+namespace Components\Widgets;
 
 
 class SimpleForm {

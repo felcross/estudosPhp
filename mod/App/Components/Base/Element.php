@@ -1,10 +1,7 @@
 <?php
-namespace Components;
+namespace Components\Base;
 
-/**
- * Classe suporte para tags
- * @author Pablo Dall'Oglio
- */
+
 class Element
 {
     protected $tagname;       // nome da TAG
@@ -19,6 +16,8 @@ class Element
     {
         // define o nome do elemento
         $this->tagname = $name;
+
+        echo ' estou no estagio 2 ';
     }
     
     /**

@@ -3,7 +3,7 @@ namespace Page;
 
 use Components\Container\Panel;
 use Controller\PageControl;
-use Components\SimpleForm;
+use Components\Widgets\SimpleForm;
 
 
 class  SimplePanelControl extends PageControl{

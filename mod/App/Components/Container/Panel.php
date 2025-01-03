@@ -1,7 +1,7 @@
 <?php
 namespace Components\Container;
 
-use Components\Element;
+use Components\Base\Element;
 
 
 

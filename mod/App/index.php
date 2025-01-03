@@ -12,7 +12,7 @@ $class = $_GET['class'];
 
 if ($_GET) 
 {
-
+   echo 'estou no estagio 1';
 if (class_exists($class)) {
   $page = new $class;
   $page->show();

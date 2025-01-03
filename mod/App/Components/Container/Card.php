@@ -1,10 +1,10 @@
 <?php
 namespace Components\Container;
 
-use Components\Element;
+use Components\Base\Element;
 
 
-class Hbox extends Element {
+class Card extends Element {
     
     private $body;
     private $footer;

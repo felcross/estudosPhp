@@ -4,7 +4,6 @@ require_once 'vendor/autoload.php';
 
 
 use Controller\PageControl;
-use Twig\Attribute\FirstClassTwigCallableReady;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 

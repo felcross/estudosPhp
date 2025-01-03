@@ -1,10 +1,10 @@
 <?php
 namespace Page;
 
-use Components\Nav;
-use Components\SimpleForm;
+use Components\Widgets\Nav;
+use Components\Widgets\SimpleForm;
 use Controller\PageControl;
-use Components\Element;
+use Components\Base\Element;
 
 class SimpleFormControl extends PageControl{
 

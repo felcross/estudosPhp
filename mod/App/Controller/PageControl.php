@@ -1,13 +1,15 @@
 <?php 
 namespace Controller;
 
-use Components\Element;
+use Components\Base\Element;
 
 class PageControl  extends Element {
 
     public function __construct()
     {
         parent::__construct('div');
+
+        echo 'estou estagio 3';
     }
 
 

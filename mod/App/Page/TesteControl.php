@@ -1,7 +1,7 @@
 <?php
 namespace Page;
 
-use Components\Element;
+use Components\Base\Element;
 use Controller\PageControl;
 
 class TesteControl extends PageControl

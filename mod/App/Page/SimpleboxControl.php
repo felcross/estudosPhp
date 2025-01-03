@@ -1,10 +1,10 @@
 <?php
 namespace Page;
 
-use Components\Container\Hbox;
+use Components\Container\Card;
 use Components\Container\Panel;
 use Controller\PageControl;
-use Components\SimpleForm;
+use Components\Widgets\SimpleForm;
 
 
 class  SimpleboxControl extends PageControl{
@@ -21,7 +21,7 @@ class  SimpleboxControl extends PageControl{
        $panel2->style = 'margin:10px';
        $panel2->add('Card2');
 
-       $box = new Hbox();
+       $box = new Card();
        $box->add($panel);
        $box->add($panel2);
        
