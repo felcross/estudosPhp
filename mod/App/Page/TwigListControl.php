@@ -18,7 +18,7 @@ class TwigListControl extends PageControl {
         parent::__construct();
         $loader = new FilesystemLoader('Templates');
         $twig = new Environment($loader);
-        $template = $twig->load('Navbar.html');
+        //$template = $twig->load('Navbar.html');
         $template2 = $twig->load('list.html');
          
         
@@ -49,7 +49,7 @@ class TwigListControl extends PageControl {
         
         //$replaces['action'] = '?class=\page\TwigControl&method=onGravar';
 
-        print $template->render($replaces);
+       // print $template->render($replaces);
         print $template2->render($registros);
 
 
