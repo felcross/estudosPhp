@@ -1,5 +1,5 @@
 <?php
-namespace Base;
+namespace Components\Base;
 
 interface FormElementInterface {
 
@@ -11,6 +11,6 @@ interface FormElementInterface {
 
   public function getvalue();
 
-  public function show($show);
+  public function show();
 
 }

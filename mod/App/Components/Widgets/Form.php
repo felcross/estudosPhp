@@ -1,8 +1,10 @@
 <?php
 namespace Components\Widgets;
 
-use Base\FormElementInterface;
+
 use Controller\ActionInterface;
+
+use Components\Base\FormElementInterface;
 use stdClass;
 
 class Form {
@@ -12,7 +14,7 @@ class Form {
     protected $fields;
     protected $actions;  
 
-    public function __construct($name = 'my_form')
+    public function __construct($name = '')
     {
          $this->setName($name);
     }
@@ -30,10 +32,11 @@ class Form {
      public function getTitle(){
         return $this->title;
      }
-     public function addField($label,FormElementInterface $object, $size ='100%'){
-     
-      $object->setValue($size);
+     public function addField($label,FormElementInterface $object, $size =''){
+      
       $object->setName($label);
+      $object->setValue($size);
+    
       $this->fields[$object->getName()] = $object;
 
      }
@@ -59,18 +62,27 @@ class Form {
             }
          }
      }
-     public function getData($type = 'stdClass'){
-       
-       $object = new $type;
-      foreach($this->fields as $name => $field)
-      {
-        $value = isset($_POST[$name]) ? isset($_POST[$name]) : '';
-        $object->$name = $value;
-      }
+     
 
-      return $object;
-
-     }
+     /**
+     * Retorna os dados do formulário em forma de objeto
+     */
+    public function getData($class = 'stdClass')
+    {
+        $object = new $class;
+        
+        foreach ($this->fields as $key => $fieldObject)
+        {
+            $val = isset($_POST[$key]) ? $_POST[$key] : '';
+            $object->$key = $val;
+        }
+        // percorre os arquivos de upload
+        foreach ($_FILES as $key => $content)
+        {
+            $object->$key = $content['tmp_name'];
+        }
+        return $object;
+    }
      
 
 

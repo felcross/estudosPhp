@@ -17,7 +17,7 @@ class Element
         // define o nome do elemento
         $this->tagname = $name;
 
-        echo ' estou no estagio 2 ';
+       // echo ' estou no estagio 2 ';
     }
     
     /**
