@@ -20,7 +20,7 @@ public function __construct(Form $form)
 //pro FormWrapper  e chamando nessa classe o metodo informado.
 public function __call($method, $parameters)
 {
-    call_user_func_array([$this->decorated, $method],$parameters);
+   return call_user_func_array([$this->decorated, $method],$parameters);
 }
 
 
@@ -31,7 +31,7 @@ public function show(){
     $element->enctype = 'multipart/form-data';
     $element->method  = 'post';
     $element->name    = $this->decorated->getName();
-    $element->width   = '50px';
+    $element->width   = '';
     
     foreach ($this->decorated->getField() as $field)
     {
@@ -47,7 +47,7 @@ public function show(){
         $col->add( $field );
         $field->class = 'form-control';
         
-      //  $group->add($label);
+        $group->add($label);
         $group->add($col);
         $element->add($group);
     }

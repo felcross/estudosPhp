@@ -3,11 +3,11 @@ namespace Components\Widgets;
 
 
 use Controller\ActionInterface;
-
+use Components\Base\Field;
 use Components\Base\FormElementInterface;
 use stdClass;
 
-class Form {
+class Form extends Field implements FormElementInterface{
 
     protected $title;
     protected $name;
@@ -18,6 +18,8 @@ class Form {
     {
          $this->setName($name);
     }
+
+    public function show(){}
 
      public function setName($name){
         $this->name = $name;
@@ -32,10 +34,10 @@ class Form {
      public function getTitle(){
         return $this->title;
      }
-     public function addField($label,FormElementInterface $object, $size =''){
+     public function addField($label,Field $object, $size =''){
       
-      $object->setName($label);
-      $object->setValue($size);
+      $object->setLabel($label);
+      $object->setSize($size);
     
       $this->fields[$object->getName()] = $object;
 
