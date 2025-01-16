@@ -1,5 +1,5 @@
 <?php 
- namespace Widgets;
+namespace Components\Widgets;
 
 use Controller\ActionInterface;
 
