@@ -2,8 +2,10 @@
 namespace Components\Widgets;
 
 use Controller\ActionInterface;
+use Components\Widgets\DatagridColumn;
 
-class Datagrid {
+
+class Datagrid  {
 
    private  $columms;
    private  $actions;
@@ -18,7 +20,7 @@ class Datagrid {
          }
 
 
-     public function addColumn($object) {
+     public function addColumn(DatagridColumn $object) {
 
         $this->columms[] = $object;
      }
@@ -53,6 +55,10 @@ class Datagrid {
 
         $this->items = [];
      }
+
+
+
+     
    
       
 

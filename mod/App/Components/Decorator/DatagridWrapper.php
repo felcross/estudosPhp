@@ -41,7 +41,7 @@ class DatagridWrapper {
     public function show()
     {
         $element = new Element('table');
-        $element->class = 'table table-striped table-hover';
+        $element->class = 'table';
         
         // cria o header
         $thead = new Element('thead');
