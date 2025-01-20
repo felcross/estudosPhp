@@ -18,9 +18,9 @@ class Grid extends PageControl{
          $this->datagrid = new DatagridWrapper(new Datagrid);
          // atributo, Label, Alinhamento, largura
           $codigo = new DatagridColumn('id','Código','center', '10%');
-          $nome = new DatagridColumn('nome','Nome','left', '20%');
-          $email = new DatagridColumn('email','Email','left', '20%');
-          $assunto = new DatagridColumn('assunto','Assunto','left', '20%');
+          $nome = new DatagridColumn('nome','Nome','left', '15%');
+          $email = new DatagridColumn('email','Email','left', '15%');
+          $assunto = new DatagridColumn('assunto','Assunto','left', '15%');
 
           
           $this->datagrid->addColumn($codigo);
@@ -28,7 +28,11 @@ class Grid extends PageControl{
           $this->datagrid->addColumn($email);
           $this->datagrid->addColumn($assunto);
 
-         $this->datagrid->addAction('visualizar', new Action([$this, 'onMessage']),'nome');
+          $nome->setTransformer( function($value){
+            return strtoupper($value);
+          });
+
+        $this->datagrid->addAction('visualizar', new Action([$this, 'onMessage']),'nome');
 
           parent::add($this->datagrid);
     }
@@ -65,7 +69,7 @@ class Grid extends PageControl{
         $this->datagrid->addItem($m3);
     }
 
-   // quando desejo carregar os dados jutno com a tela. 
+   // quando desejo carregar os dados junto com a tela. 
     public function show(){
 
         $this->onReload();

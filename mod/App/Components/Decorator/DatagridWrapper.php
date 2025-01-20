@@ -161,6 +161,7 @@ class DatagridWrapper {
                 $element = new Element('td');
                 $element->add($link);
                 $element->align = 'center';
+                $element->width = '10%';
                 
                 // adiciona a célula à linha
                 $row->add($element);

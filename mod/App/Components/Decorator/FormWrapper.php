@@ -60,7 +60,7 @@ public function show(){
         $button = new Button($name);
         $button->setFormName($this->decorated->getName());
         $button->setAction($action, $label);
-        $button->class = 'btn ' . ( ($i==0) ? 'btn-success' : 'btn-default');
+        $button->class = 'btn btn-success' . ( ($i==0) ? 'btn btn-link' : 'btn btn-success');
         
         $footer->add($button);
         $i ++;
