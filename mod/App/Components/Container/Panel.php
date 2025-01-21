@@ -13,7 +13,7 @@ class Panel extends Element {
     public function __construct($panel_title = null)
     {  
         parent::__construct('div');
-        $this->class ='card bg-info text-white';
+        $this->class ='container';
 
         if($panel_title){
             $head = new Element('div');

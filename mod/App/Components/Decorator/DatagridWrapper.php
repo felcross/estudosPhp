@@ -82,6 +82,7 @@ class DatagridWrapper {
             foreach ($actions as $action)
             {
                 $celula = new Element('th');
+                $celula->scope = 'row';
                 $celula->width = '40px';
                 $row->add($celula);
             }
