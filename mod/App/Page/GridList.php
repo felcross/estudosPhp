@@ -3,6 +3,7 @@ namespace Page;
 use Controller\PageControl;
 use Components\Decorator\DatagridWrapper;
 use Components\Dialog\Message;
+use Components\Dialog\Question;
 use Components\Widgets\Datagrid;
 use Components\Widgets\DatagridColumn;
 use Controller\Action;
@@ -10,6 +11,7 @@ use Database\Criteria;
 use Database\Repository;
 use Database\Transaction;
 use Exception;
+use Model\Funcionario;
 use stdClass;
 
 class GridList extends PageControl{
@@ -37,6 +39,8 @@ class GridList extends PageControl{
           });*/
 
         $this->datagrid->addAction('visualizar', new Action([$this, 'onMessage']),'nome');
+        $this->datagrid->addAction('Editar', new Action([new FormFuncionario, 'onEdit']),'id');
+        $this->datagrid->addAction('Deletar', new Action([$this, 'onDelete']),'id');
 
           parent::add($this->datagrid);
     }
@@ -45,6 +49,36 @@ class GridList extends PageControl{
 
         new Message('info', 'você clicou no registo: ' . $param['nome']);
     }
+
+    public function onDelete($param){
+     
+      $action = new Action([$this,'delete']);
+      $action->setParameter('id',$param['id']);
+     new Question('Deseja excluir o registro ??', $action);
+  }
+
+  public function delete($param) 
+  {  
+       try{  
+            Transaction::open('config');
+            $data = Funcionario::find($param['id']);
+            if($data)
+            {
+              $$data->delete();
+            }
+            Transaction::close();
+            $this->onReload();
+
+            new Message('info', 'Deletado com Sucesso');
+
+
+        }
+       catch(Exception $e)
+       {
+         new Message('erro', $e->getMessage());
+       }
+
+  }
 
 
     public function onReload(){
