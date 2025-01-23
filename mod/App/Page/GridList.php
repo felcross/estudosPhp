@@ -38,7 +38,7 @@ class GridList extends PageControl{
             return strtoupper($value);
           });*/
 
-        $this->datagrid->addAction('visualizar', new Action([$this, 'onMessage']),'nome');
+       // $this->datagrid->addAction('visualizar', new Action([$this, 'onMessage']),'nome');
         $this->datagrid->addAction('Editar', new Action([new FormFuncionario, 'onEdit']),'id');
         $this->datagrid->addAction('Deletar', new Action([$this, 'onDelete']),'id');
 
@@ -58,13 +58,15 @@ class GridList extends PageControl{
   }
 
   public function delete($param) 
-  {  
-       try{  
+  {      
+        try{  
             Transaction::open('config');
             $data = Funcionario::find($param['id']);
-            if($data)
+
+           
+             if($data)
             {
-              $$data->delete();
+              $data->delete($data->id);
             }
             Transaction::close();
             $this->onReload();
