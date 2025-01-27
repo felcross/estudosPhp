@@ -1,1 +1,1 @@
-2024-12-26 23:12:56 : SELECT * FROM produto WHERE id =7
+2025-01-27 18:48:29 : SELECT * FROM funcionario ORDER BY id
