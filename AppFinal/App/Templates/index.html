@@ -1,343 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Modern Dashboard</title>
-<style>
-
-:root {
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Dashboard</title>
+    <style>
+  :root {
     --primary: #0070f3;
     --primary-foreground: #ffffff;
     --secondary: #f5f5f5;
-    --secondary-foreground: #111111;
+    --secondary-foreground: #1f2937;
     --background: #ffffff;
-    --foreground: #111111;
+    --foreground: #1f2937;
     --card: #ffffff;
-    --card-foreground: #111111;
-    --border: #e5e5e5;
-    --input: #ffffff;
-    --ring: #0070f3;
+    --card-foreground: #1f2937;
+    --popover: #ffffff;
+    --popover-foreground: #1f2937;
+    --muted: #f3f4f6;
+    --muted-foreground: #6b7280;
+    --border: #e5e7eb;
+    --input: #e5e7eb;
+    --ring: #e5e7eb;
     --radius: 0.5rem;
-    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
 }
 
 body {
-    font-family: var(--font-family, system-ui);
-    background: var(--background);
+    min-height: 100vh;
+    background-color: var(--background);
     color: var(--foreground);
-    min-height: 100vh;
-    margin: 0;
-}
-
-.wrapper {
-    display: flex;
-    width: 100%;
-    align-items: stretch;
-    background: red;
-}
-
-.sidebar {
-    min-width: 250px;
-    max-width: 250px;
-    background: var(--primary);
-    color: var(--primary-foreground);
-    transition: all 0.3s;
-    box-shadow: var(--shadow);
-}
-
-.sidebar.active {
-    margin-left: -250px;
-}
-
-.sidebar .sidebar-header {
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-.sidebar .sidebar-header .logo {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
-}
-
-.sidebar ul.components {
-    padding: 20px 0;
-}
-
-.sidebar ul li a {
-    padding: 15px 20px;
-    display: block;
-    color: var(--primary-foreground);
-    text-decoration: none;
-    transition: all 0.3s;
-}
-
-.sidebar ul li a:hover,
-.sidebar ul li.active > a {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.sidebar ul li a i {
-    margin-right: 10px;
-}
-
-#content {
-    width: 100%;
-    min-height: 100vh;
-    transition: all 0.3s;
+    padding-top: 56px;
 }
 
 .navbar {
-    background: var(--card);
+    background-color: var(--card);
     box-shadow: var(--shadow);
-    padding: 15px;
 }
 
-#sidebarCollapse {
-    background: transparent;
-    border: none;
-    font-size: 1.5rem;
+.navbar-brand {
     color: var(--foreground);
+    font-weight: 600;
 }
 
-.user-avatar {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    object-fit: cover;
+.offcanvas {
+    border-right: 1px solid var(--border);
+    background-color: var(--background);
 }
 
-.dashboard-card {
-    border: none;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    transition: transform 0.3s;
+.list-group-item {
+    background-color: transparent;
+    color: var(--foreground);
+    border-color: var(--border);
+    transition: all 0.2s ease-in-out;
 }
 
-.dashboard-card:hover {
-    transform: translateY(-5px);
+.list-group-item:hover {
+    background-color: var(--muted);
 }
 
-.progress {
-    height: 6px;
-    margin-top: 15px;
-    background-color: var(--secondary);
-}
-
-.progress-bar {
+.list-group-item.active {
     background-color: var(--primary);
+    color: var(--primary-foreground);
+    border-color: var(--primary);
 }
 
-.notification-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.notification-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    background: var(--secondary);
+.btn {
     border-radius: var(--radius);
 }
 
-.notification-item i {
-    color: var(--primary);
+.dropdown-menu {
+    background-color: var(--popover);
+    border-color: var(--border);
+    box-shadow: var(--shadow);
 }
 
-@media (max-width: 768px) {
-    .sidebar {
-        margin-left: -250px;
+.dropdown-item {
+    color: var(--popover-foreground);
+}
+
+.dropdown-item:hover {
+    background-color: var(--muted);
+}
+
+@media (min-width: 992px) {
+    .offcanvas {
+        width: 250px;
+        transform: none;
+        visibility: visible !important;
     }
-    .sidebar.active {
-        margin-left: 0;
-    }
-    #content {
-        width: 100%;
-    }
-    #content.active {
+    
+    .content {
         margin-left: 250px;
     }
 }
 
+@media (max-width: 991.98px) {
+    .content {
+        margin-left: 0;
+    }
+}
 
-
-
-</style>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-<link href="" rel="stylesheet">
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
-<div class="wrapper">
-    <nav id="sidebar" class="sidebar">
-        <div class="sidebar-header">
-            <img src="" alt="Logo" class="logo">
-            <h3>Dashboard</h3>
+    <!--   topbar -->
+    <nav class="navbar fixed-top navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                <i class="bi bi-list fs-4"></i>
+            </button>
+            <a class="navbar-brand" href="#">
+                <img src="https://images.unsplash.com/photo-1551150441-3f3828204ef0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8bG9nb3x8fHx8fDE3MDQ0MzgyNDI&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=40" alt="logo" class="d-inline-block align-text-top me-2">
+                Dashboard
+            </a>
+            <div class="ms-auto d-flex align-items-center">
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8YXZhdGFyfHx8fHx8MTcwNDQzODI0Mg&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=40" alt="profile" class="rounded-circle">
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
         </div>
-        <ul class="list-unstyled components">
-            <li class="active">
-                <a href="#"><i class="bi bi-house-door"></i> Home</a>
-            </li>
-            <li>
-                <a href="#"><i class="bi bi-graph-up"></i> Analytics</a>
-            </li>
-            <li>
-                <a href="#"><i class="bi bi-people"></i> Users</a>
-            </li>
-            <li>
-                <a href="#"><i class="bi bi-gear"></i> Settings</a>
-            </li>
-        </ul>
     </nav>
-    <div id="content">
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-                <button type="button" id="sidebarCollapse" class="btn">
-                    <i class="bi bi-list"></i>
-                </button>
-                <div class="ms-auto d-flex align-items-center">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
-                            <img src="" alt="User" class="user-avatar">
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Logout</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        <div class="container-fluid p-4">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-                </ol>
-            </nav>
-            <div class="row g-4">
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="card dashboard-card">
-                        <div class="card-body">
-                            <h5 class="card-title">Total Users</h5>
-                            <h2>1,524</h2>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: 75%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="card dashboard-card">
-                        <div class="card-body">
-                            <h5 class="card-title">Revenue</h5>
-                            <h2>$8,245</h2>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: 65%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="card dashboard-card">
-                        <div class="card-body">
-                            <h5 class="card-title">Orders</h5>
-                            <h2>284</h2>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: 45%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="card dashboard-card">
-                        <div class="card-body">
-                            <h5 class="card-title">Growth</h5>
-                            <h2>+24%</h2>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: 85%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-12 col-lg-8">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Recent Activity</h5>
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>User</th>
-                                            <th>Activity</th>
-                                            <th>Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>#1234</td>
-                                            <td>John Doe</td>
-                                            <td>Purchase</td>
-                                            <td>2024-01-20</td>
-                                        </tr>
-                                        <tr>
-                                            <td>#1235</td>
-                                            <td>Jane Smith</td>
-                                            <td>Login</td>
-                                            <td>2024-01-20</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Notifications</h5>
-                            <div class="notification-list">
-                                <div class="notification-item">
-                                    <i class="bi bi-bell"></i>
-                                    <span>New user registered</span>
-                                </div>
-                                <div class="notification-item">
-                                    <i class="bi bi-envelope"></i>
-                                    <span>New message received</span>
-                                </div>
-                                <div class="notification-item">
-                                    <i class="bi bi-card-checklist"></i>
-                                    <span>Task completed</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+   <!--   Sidebar -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="sidebarLabel">
+                <img src="https://images.unsplash.com/photo-1551150441-3f3828204ef0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8bG9nb3x8fHx8fDE3MDQ0MzgyNDI&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=40" alt="logo" class="me-2">
+                Dashboard
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="list-group list-group-flush">
+                <a href="#" class="list-group-item list-group-item-action active">
+                    <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                </a>
+                <a href="index.php?class=CidadesFormList" class="list-group-item list-group-item-action">
+                    <i class="bi bi-graph-up me-2"></i> Cidades
+                </a>
+                <a href="index.php?class=FabricantesFormList" class="list-group-item list-group-item-action">
+                    <i class="bi bi-people me-2"></i> Fabricantes
+                </a>
+                <a  href="index.php?class=ProdutosList" class="list-group-item list-group-item-action">
+                    <i class="bi bi-gear me-2"></i> Produtos
+                </a>
+
+                <a  href="index.php?class=PessoasList" class="list-group-item list-group-item-action">
+                    <i class="bi bi-gear me-2"></i> Pessoas
+                </a>
+
+                <a href="index.php?class=VendasForm" class="list-group-item list-group-item-action">
+                    <i class="bi bi-gear me-2"></i> Vendas
+                </a>
+
+                <a href="index.php?class=VendasReport" class="list-group-item list-group-item-action">
+                    <i class="bi bi-gear me-2"></i> Rel. Vendas
+                </a>
+
+                <a href="index.php?class=ContasReport" class="list-group-item list-group-item-action">
+                    <i class="bi bi-gear me-2"></i> Rel. Contas
+                </a>
+
+                <a href="index.php?class=ProdutosReport" class="list-group-item list-group-item-action">
+                    <i class="bi bi-gear me-2"></i> Rel. Produtos
+                </a>
+
+                <a href="index.php?class=PessoasReport" class="list-group-item list-group-item-action">
+                    <i class="bi bi-gear me-2"></i> Rel. Pessoas
+                </a>
+
+                <a href="index.php?class=VendasMesChart" class="list-group-item list-group-item-action">
+                    <i class="bi bi-gear me-2"></i> Vendas mês
+                </a>
+
+                <a href="index.php?class=VendasTipoChart"class="list-group-item list-group-item-action">
+                    <i class="bi bi-gear me-2"></i> Vendas tipo
+                </a>
+
             </div>
         </div>
     </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-document.getElementById("sidebarCollapse").addEventListener("click", function() {
-    document.getElementById("sidebar").classList.toggle("active");
-    document.getElementById("content").classList.toggle("active");
-});
-</script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+
+    <main class="content">
+        <div class="container-fluid pt-4">
+            {content}
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
