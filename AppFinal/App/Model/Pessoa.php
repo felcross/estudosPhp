@@ -53,7 +53,7 @@ class Pessoa extends Record
 	    $criteria = new Criteria;
 	    $criteria->add('id_pessoa', '=', $this->id);
 	    
-	    $repo = new Repository('PessoaGrupo');
+	    $repo = new Repository('pessoa_grupo');
 	    return $repo->delete($criteria);
     }
     
@@ -66,7 +66,7 @@ class Pessoa extends Record
 	    $criteria = new Criteria;
 	    $criteria->add('id_pessoa', '=', $this->id);
 	    
-	    $repo = new Repository('PessoaGrupo');
+	    $repo = new Repository('pessoa_grupo');
 	    $vinculos = $repo->load($criteria);
 	    if ($vinculos) {
 	        foreach ($vinculos as $vinculo) {
@@ -96,7 +96,7 @@ class Pessoa extends Record
     {
         $criteria = new Criteria;
         $criteria->add('id_pessoa', '=', $this->id);
-        $repo = new Repository('PessoaGrupo');
+        $repo = new Repository('pessoa_grupo');
         $repo->delete($criteria);
         
        // parent::delete($id);

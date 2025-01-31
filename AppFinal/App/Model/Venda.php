@@ -71,7 +71,7 @@ class Venda extends Record
     public function get_itens()
     {
         // instancia um repositóio de Item
-        $repositorio = new Repository('ItemVenda');
+        $repositorio = new Repository('item_venda');
         // define o critério
         $criterio = new Criteria;
         $criterio->add('id_venda', '=', $this->id);

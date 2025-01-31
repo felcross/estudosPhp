@@ -5,6 +5,7 @@ use Database\Transaction;
 use Model\Cidade;
 use Model\Estado;
 use Exception;
+use Model\Pessoa;
 
 class TesteLoja extends PageControl  {
 
@@ -14,6 +15,10 @@ class TesteLoja extends PageControl  {
 
      try{
               Transaction::open('configLoja');
+
+               $p1 = new Pessoa(5);
+               print $p1->nome . '<br>';
+
 
               $c1 = Cidade::find(12);
               print $c1->nome .'<br>';
