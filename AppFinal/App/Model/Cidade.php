@@ -2,6 +2,8 @@
 namespace Model;
 use Database\Record;
 use Model\Estado;
+use Database\Transaction;
+use Exception;
 
 
 class Cidade extends Record
@@ -28,4 +30,7 @@ class Cidade extends Record
         
         return $this->estado->nome;
     }
+
+
+
 }

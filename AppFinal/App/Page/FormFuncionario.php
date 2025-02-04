@@ -74,10 +74,10 @@ class FormFuncionario extends PageControl
                   throw new Exception('Compo Nome vazio');
                }
 
-               $funcionario = new Funcionario();
-               $funcionario->fromArray((array) $data);
-               $funcionario->idiomas = implode(',',(array) $data->idiomas);
-               $funcionario->store();
+              // $funcionario = new Funcionario();
+             //  $funcionario->fromArray((array) $data);
+              // $funcionario->idiomas = implode(',',(array) $data->idiomas);
+              // $funcionario->store();
 
             //    $data->id = $funcionario->id;
 
@@ -150,7 +150,7 @@ class FormFuncionario extends PageControl
       {
            try{        Transaction::open('config');
                      $id = isset($param['id'])? $param['id'] : null;
-                     $funcionario = Funcionario::find($id);
+                /*     $funcionario = Funcionario::find($id);
                      if($funcionario)
                      {        if(isset($funcionario->idiomas))
                               {       
@@ -160,7 +160,7 @@ class FormFuncionario extends PageControl
                          $this->form->setData($funcionario);
 
                      }
-                       Transaction::close();
+                       Transaction::close();*/
                         
 
               

@@ -21,12 +21,12 @@ class TesteLoja3 extends PageControl  {
              $venda = new Venda;
              $venda->set_cliente(new Pessoa(2));
              $venda->data_venda= date('Y-m-d');
-             $venda->desconto = 10;
+             $venda->desconto = 20;
              $venda->acrescimos =0;
-             $venda->obs ='teste 3';
+             $venda->obs ='teste 4';
 
-             $venda->addItem( new Produto(2),2);
-             $venda->addItem( new Produto(2),1);
+             $venda->addItem( new Produto(4),1);
+             $venda->addItem( new Produto(4),1);
 
              $venda->valor_final = $venda->valor_venda + $venda->acrescimo - $venda->desconto;
 

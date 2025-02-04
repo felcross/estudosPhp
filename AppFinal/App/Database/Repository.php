@@ -44,7 +44,7 @@ class Repository {
         if ($conn = Transaction::get()) {   
             Transaction::log($sql);
             $result = $conn->query($sql); 
-            var_dump($result);
+          //  var_dump($result);
             if ($result) {
                 $results = [];
               
@@ -99,5 +99,28 @@ class Repository {
         } else { 
             throw new Exception('Não há conexão aberta no método ' . __METHOD__);
         } 
+    }
+
+
+    public function all()
+    {    
+        $sql = "SELECT * FROM " . $this->ar ;
+        
+       
+        if ($conn = Transaction::get()) {   
+            Transaction::log($sql);
+            $result = $conn->query($sql); 
+            //var_dump($result);
+            if ($result) {
+                $results = [];
+              
+                while ($row = $result->fetchObject()) {
+                    $results[] = $row;
+                }
+                return $results;
+            }
+        } else { 
+            throw new Exception('Não há conexão aberta no método ' . __METHOD__);
+        }
     }
 }

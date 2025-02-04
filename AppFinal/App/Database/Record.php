@@ -1,8 +1,9 @@
 <?php
 namespace  Database;
+use Database\RecordInterface;
 use Exception;
 
-abstract class Record
+abstract class Record implements RecordInterface
 {
     Private $data;
 
@@ -99,6 +100,8 @@ abstract class Record
     }
 
   }
+
+  
 
   public function store(){
 
