@@ -13,6 +13,7 @@ use Controller\Action;
 use Database\Transaction;
 use Components\Dialog\Message;
 use Database\Repository;
+use Model\Grupo;
 use Exception;
 
 
@@ -35,7 +36,7 @@ class FormPessoa extends PageControl
             $grupo = new CheckGroup('id_grupo');
             $grupo->setLayout('horizontal');
 
-            Transaction::open('config');
+            Transaction::open('configCasa2');
              $repository = new Repository('cidade');
              $cidades = $repository->all();
              $itens = array();
@@ -46,16 +47,17 @@ class FormPessoa extends PageControl
                 }
 
              $cidade->addItems($itens);
-          /*
-             $grupos = new Grupo();
-             $itensGrupos = [];
+             
+             $repository = new Repository('Grupo');
+             $grupos = $repository->all();
+             $itensGrupos = array();
 
              foreach( $grupos as $obj_grupo)
              {      //indice                  // valor 
-                $itensGrupos[$$obj_grupo->id] =  $$obj_grupo->nome;
+                $itensGrupos[$obj_grupo->id] =  $obj_grupo->nome;
              }
 
-             $grupo->addItems($itensGrupos);*/
+             $grupo->addItems($itensGrupos);
 
             
             
@@ -71,6 +73,7 @@ class FormPessoa extends PageControl
          $this->form->addField('Bairro',$bairro,'300px');
          $this->form->addField('Telefone',$tel,'300px');
          $this->form->addField('Cidade',$cidade,'300px');
+         $this->form->addField('Grupo',$grupo,'300px');
         
         
          

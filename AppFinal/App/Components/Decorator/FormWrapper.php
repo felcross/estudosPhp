@@ -27,7 +27,7 @@ public function __call($method, $parameters)
 public function show(){
       
     $element = new Element('form');
-    $element->class   = 'form-horizontal';
+    $element->class   = 'row g-3';
     $element->enctype = 'multipart/form-data';
     $element->method  = 'post';
     $element->name    = $this->decorated->getName();

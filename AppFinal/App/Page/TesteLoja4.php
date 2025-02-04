@@ -16,7 +16,7 @@ class TesteLoja4 extends PageControl  {
   public function show() {
 
      try{
-              Transaction::open('configLoja');
+              Transaction::open('configCasa2');
 
              $p1 = Pessoa::find(2);
 
