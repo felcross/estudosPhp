@@ -1,1 +1,1 @@
-2025-01-27 13:04:52 : SELECT * FROM funcionario ORDER BY id
+2025-02-05 19:47:20 : SELECT * FROM funcionario ORDER BY id

@@ -3,7 +3,7 @@ namespace Components\Decorator;
 
 use Components\Base\Element;
 use Components\Widgets\Datagrid;
-use Components\Container\Panel;
+use Components\Container\Container;
 
 /**
  * Decora datagrids no formato Bootstrap
@@ -58,10 +58,10 @@ class DatagridWrapper {
             $this->createItem($tbody, $item);
         }
         
-        $panel = new Panel;
-        $panel->type = 'datagrid';
-        $panel->add($element);
-        $panel->show();
+        $Container = new Container;
+        $Container->type = 'datagrid';
+        $Container->add($element);
+        $Container->show();
     }
     
     /**

@@ -15,7 +15,7 @@ use Components\Dialog\Message;
 use Database\Repository;
 use Model\Grupo;
 use Exception;
-
+use Model\Pessoa;
 
 class FormPessoa extends PageControl 
 {
@@ -27,6 +27,8 @@ class FormPessoa extends PageControl
             $this->form = new FormWrapper(new Form('Form_cli'));
             $this->form->setTitle('Cadastro de Clientes');
 
+            $id = new Entry('id');
+            $id->setEditable(false);
             $nome = new Entry('nome');
             $endereco = new Entry('endereco');
             $bairro = new Entry('bairro');
@@ -36,7 +38,7 @@ class FormPessoa extends PageControl
             $grupo = new CheckGroup('id_grupo');
             $grupo->setLayout('horizontal');
 
-            Transaction::open('configCasa2');
+             Transaction::open('configLoja');
              $repository = new Repository('cidade');
              $cidades = $repository->all();
              $itens = array();
@@ -66,7 +68,6 @@ class FormPessoa extends PageControl
        
            
      
-       //  $this->form->addField( 'Id',$id,'80');
          $this->form->addField( 'Nome',$nome,'300px');
          $this->form->addField('Email',$email,'300px');
          $this->form->addField('Endereço',$endereco,'300px');
@@ -102,6 +103,35 @@ class FormPessoa extends PageControl
            }
          
       }
+
+
+      public function onEdit($param) 
+      {      print 'esse é o id' . $param['id'];
+           try{
+
+                   Transaction::open('config');
+                   $id = isset($param['id'])? $param['id'] : null;
+                   $p1 = Pessoa::find($id);
+                      
+                     $this->form->setData($p1);
+                     
+        
+                   
+                     Transaction::close();
+
+                   
+            
+
+
+           }
+           catch(Exception $e){
+
+              new Message('error', $e->getMessage());
+              Transaction::rollback();
+           }
+         
+      }
+
 
 
 }

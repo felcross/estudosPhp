@@ -2,7 +2,7 @@
 namespace Components\Decorator;
 
 use Components\Widgets\Form;
-use Components\Container\Panel;
+use Components\Container\Container;
 use Components\Base\Element;
 use Components\Widgets\Button;
 
@@ -66,10 +66,10 @@ public function show(){
         $i ++;
     }
     
-    $panel = new Panel( $this->decorated->getTitle() );
-    $panel->add( $element );
-    $panel->addFooter( $footer );
-    $panel->show();
+    $container = new Container( $this->decorated->getTitle() );
+    $container->add( $element );
+    $container->addFooter( $footer );
+    $container->show();
 
 
 }

@@ -5,7 +5,7 @@ use Components\Base\Element;
 
 
 
-class Panel extends Element {
+class Container extends Element {
     
     private $body;
     private $footer;
@@ -14,13 +14,16 @@ class Panel extends Element {
     {  
         parent::__construct('div');
         $this->class ='container-fluid';
+        $this->style = 'background-color:;
+                        margin:50px;
+                        padding-left:20%';
 
         if($panel_title){
             $head = new Element('div');
             $head->class = '';
 
            // $title = new Element('div');
-            //$title->class = 'panel-title';
+           // $title->class = 'panel-title';
 
             $label = new Element('h4');
             $label->class = '';
@@ -32,11 +35,13 @@ class Panel extends Element {
             parent::add($head);
         }
 
-        $this->body = new Element('div');
+        $this->body = new Element('body');
         $this->body->class = 'mb-3';
+      //  $this->body->style = 'margin: 50px';
         parent::add($this->body);
         $this->footer = new Element('div');
-        $this->footer->class = 'card-footer';
+        $this->footer->class = 'mb-3';
+
 
     }
 

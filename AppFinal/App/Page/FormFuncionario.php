@@ -150,8 +150,13 @@ class FormFuncionario extends PageControl
       {
            try{        Transaction::open('config');
                      $id = isset($param['id'])? $param['id'] : null;
-                /*     $funcionario = Funcionario::find($id);
-                     if($funcionario)
+                     $funcionario = Funcionario::find($id);
+
+                     $this->form->setData($funcionario);
+
+
+
+                     /*if($funcionario)
                      {        if(isset($funcionario->idiomas))
                               {       
                                     $funcionario->idiomas = explode(',',$funcionario->idiomas);
@@ -159,8 +164,8 @@ class FormFuncionario extends PageControl
                              
                          $this->form->setData($funcionario);
 
-                     }
-                       Transaction::close();*/
+                     }*/
+                       Transaction::close();
                         
 
               
@@ -168,6 +173,7 @@ class FormFuncionario extends PageControl
            }catch(Exception $e)
            {  
             new Message('error', $e->getMessage());
+            Transaction::rollback();
  
            }
  
