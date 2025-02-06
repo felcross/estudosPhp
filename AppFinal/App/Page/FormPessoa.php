@@ -30,7 +30,7 @@ class FormPessoa extends PageControl
 
       $id = new Entry('id');
       $id->setEditable(false);
-      $nome = new Entry('nome');
+      $nome =  new Entry('nome');
       $endereco = new Entry('endereco');
       $bairro = new Entry('bairro');
       $tel = new Entry('telefone');
@@ -39,7 +39,7 @@ class FormPessoa extends PageControl
       $grupo = new CheckGroup('id_grupo');
       $grupo->setLayout('horizontal');
 
-      Transaction::open('configCasa2');
+      Transaction::open('configLoja');
       $repository = new Repository('cidade');
       $cidades = $repository->all();
       $itens = array();
@@ -66,7 +66,7 @@ class FormPessoa extends PageControl
 
 
 
-
+      $this->form->addField('Id', $id, '50px');
       $this->form->addField('Nome', $nome, '300px');
       $this->form->addField('Email', $email, '300px');
       $this->form->addField('Endereço', $endereco, '300px');
@@ -78,6 +78,7 @@ class FormPessoa extends PageControl
 
 
       $this->form->addAction('Enviar', new Action([$this, 'onSave']));
+      $this->form->addAction('Editar', new Action([$this, 'onEdit']),'id');
 
       parent::add($this->form);
    }
@@ -86,15 +87,32 @@ class FormPessoa extends PageControl
    public function onSave()
    {
       try {
-         Transaction::open('configCasa2');
+         Transaction::open('configLoja');
+         // puxando o dados do form, vem em Objeto
+         $dados = $this->form->getData();
+         // matendo o form preenchido após post
+        // $this->form->setData($dados);
+
+         //cria um objeto vazio
+         $pessoa = new Pessoa;
+         $pessoa->fromArray( (array) $dados);
+         $pessoa->store();
+         $pessoa->delGrupos();
 
 
+         if ($dados->id_grupo) {
+            foreach ($dados->id_grupo as $id_grupo) {
+               $pessoa->addGrupo(new Grupo($id_grupo));
+               
+            }
+         }
+        Transaction::close();
 
-
-         Transaction::close();
+        new Message('info', 'Dados Salvos com sucesso');
       } catch (Exception $e) {
 
          new Message('error', $e->getMessage());
+         Transaction::rollback();
       }
    }
 
@@ -103,13 +121,13 @@ class FormPessoa extends PageControl
    {
       try {
 
-         
+
          $id = isset($param['id']) ? $param['id'] : null;
-         Transaction::open('configCasa2');
+         Transaction::open('configLoja');
          $p1 = Pessoa::find($id);
 
          if ($p1) {
-            
+
             $p1->id_grupo = $p1->getIdsGrupos();
             $this->form->setData($p1);
          }

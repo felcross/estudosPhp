@@ -74,23 +74,25 @@ class FormFuncionario extends PageControl
                   throw new Exception('Compo Nome vazio');
                }
 
-              // $funcionario = new Funcionario();
-             //  $funcionario->fromArray((array) $data);
-              // $funcionario->idiomas = implode(',',(array) $data->idiomas);
-              // $funcionario->store();
+               $funcionario = new Funcionario();
+                //$funcionario->id = $data->id;
+                //$funcionario->nome = $data->nome;
+                //$funcionario->endereco = $data->endereco;
+                //$funcionario->email = $data->email;
+                //$funcionario->departamento = $data->departamento;
+                //$funcionario->idiomas = $data->idiomas;
+                //$funcionario->contrato = $data->contrato;
+               $funcionario->fromArray((array) $data);
+               $funcionario->idiomas = implode(',',(array) $data->idiomas);
+               $funcionario->store();
 
-            //    $data->id = $funcionario->id;
+                //$data->id = $funcionario->id;
 
-              // $this->form->setData($data);
+               //$this->form->setData($data);
 
                new Message('info','Dados salvos com Sucesso');
 
-                /*$funcionario->nome = $data->nome;
-                $funcionario->endereco = $data->endereco;
-                $funcionario->email = $data->email;
-                $funcionario->departamento = $data->departamento;
-                $funcionario->idiomas = $data->idiomas;
-                $funcionario->contrato = $data->contrato;*/
+               
             
 
 
