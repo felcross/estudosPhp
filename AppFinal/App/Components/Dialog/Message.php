@@ -10,9 +10,11 @@ class Message {
       $div = new Element('div');
       if($type == 'info'){
         $div->class = 'alert alert-info';
+        $div->role = 'alert';
       }
       else if($type == 'error'){
         $div->class = 'alert alert-danger';
+        $div->role = 'alert';
       }
 
       $div->add($message);

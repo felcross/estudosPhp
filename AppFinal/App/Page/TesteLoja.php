@@ -18,11 +18,12 @@ class TesteLoja extends PageControl  {
 
                $p1 = new Pessoa(5);
                print $p1->nome . '<br>';
+               print $p1->get_cidade()->nome . '<br>';
 
 
-              $c1 = Cidade::find(12);
+             /* $c1 = Cidade::find(12);
               print $c1->nome .'<br>';
-              print $c1->get_estado()->nome .'<br>';
+              print $c1->get_estado()->nome .'<br>';*/
 
               Transaction::close();
 

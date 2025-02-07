@@ -15,7 +15,8 @@ class Question
     function __construct($message, Action $action_yes, ?Action $action_no = NULL)
     {
         $div = new Element('div');
-        $div->class = 'alert alert-warning question';
+        $div->class = 'alert alert-warning"';
+        $div->role = 'alert';
    
 
         

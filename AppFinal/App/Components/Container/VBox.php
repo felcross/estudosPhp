@@ -15,6 +15,7 @@ class VBox extends Element
     public function __construct()
     {
         parent::__construct('div');
+        $this->class = 'col-sm-8';
         $this->{'style'} = 'display: inline-block';
     }
     

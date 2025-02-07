@@ -99,7 +99,7 @@ class Pessoa extends Record
         $repo = new Repository('pessoa_grupo');
         $repo->delete($criteria);
         
-       // parent::delete($id);
+        parent::delete($id);
     }
     
     /**

@@ -44,7 +44,7 @@ class Repository {
         if ($conn = Transaction::get()) {   
             Transaction::log($sql);
             $result = $conn->query($sql); 
-          //  var_dump($result);
+           // var_dump($result);
             if ($result) {
                 $results = [];
               
@@ -91,7 +91,8 @@ class Repository {
 
         if ($conn = Transaction::get()) {   
             Transaction::log($sql);
-            $result = $conn->query($sql); 
+            $result = $conn->query($sql);
+           // var_dump($result); 
             if ($result) {
                 $row = $result->fetch();
                 return $row[0];
@@ -110,7 +111,7 @@ class Repository {
         if ($conn = Transaction::get()) {   
             Transaction::log($sql);
             $result = $conn->query($sql); 
-            //var_dump($result);
+           // var_dump($result);
             if ($result) {
                 $results = [];
               
