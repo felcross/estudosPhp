@@ -44,7 +44,7 @@ class FormProduto extends PageControl
     {
         parent::__construct();
 
-        $this->connection = 'configLoja';
+        $this->connection = 'configCasa2';
         $this->activeRecord = 'produto';
         
         // instancia um formulário
@@ -62,7 +62,7 @@ class FormProduto extends PageControl
         $unidade     = new Combo('id_unidade');
         
         // carrega os fabricantes do banco de dados
-        Transaction::open('configLoja');
+        Transaction::open('configCasa2');
 
         $repository = new Repository('fabricante');
         $fabricantes = $repository->all();

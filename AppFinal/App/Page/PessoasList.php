@@ -78,7 +78,7 @@ class PessoasList extends PageControl
      */
     public function onReload()
     {
-        Transaction::open('configLoja'); // inicia transação com o BD
+        Transaction::open('configCasa2'); // inicia transação com o BD
         $repository = new Repository('Pessoa');
 
         // cria um critério de seleção de dados
@@ -137,7 +137,7 @@ class PessoasList extends PageControl
         try
         {
             $id = $param['id']; // obtém a chave
-            Transaction::open('configLoja'); // inicia transação com o banco 'livro'
+            Transaction::open('configCasa2'); // inicia transação com o banco 'livro'
             $pessoa = Pessoa::find($id);
             $pessoa->delete(); // deleta objeto do banco de dados
             Transaction::close(); // finaliza a transação
