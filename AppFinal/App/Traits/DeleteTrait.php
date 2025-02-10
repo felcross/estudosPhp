@@ -5,12 +5,12 @@ use Database\Transaction;
 use Components\Dialog\Message;
 use Exception;
 
-trait EditTrait
+trait DeleteTrait
 {
     /**
      * Carrega registro para edição
      */
-    function onEdit($param)
+    function Delete($param)
     {
         try
         {
@@ -21,6 +21,7 @@ trait EditTrait
                 
                 $class = 'Model\\' . $this->activeRecord;
                 $object = $class::find($id); // instancia o Active Record
+                $object->delete();
                 $this->form->setData($object); // lança os dados no formulário
                 Transaction::close(); // finaliza a transação
             }

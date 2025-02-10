@@ -3,7 +3,6 @@ namespace Traits;
 
 use Database\Transaction;
 use Components\Dialog\Message;
-use Model\Produto;
 use Exception;
 
 trait SaveTrait

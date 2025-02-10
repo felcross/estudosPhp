@@ -8,11 +8,10 @@ use Components\Widgets\Entry;
 use Components\Container\VBox;
 use Components\Widgets\Datagrid;
 use Components\Widgets\DatagridColumn;
-use Components\Dialog\Message;
 use Components\Dialog\Question;
-use Components\Container\Panel;
 use Components\Decorator\FormWrapper;
 use Components\Decorator\DatagridWrapper;
+use Components\Dialog\Message;
 use Database\Transaction;
 use Database\Repository;
 use Database\Criteria;
@@ -28,6 +27,8 @@ class PessoasList extends PageControl
     private $form;     // formulário de buscas
     private $datagrid; // listagem
     private $loaded;
+
+
 
     /**
      * Construtor da página
