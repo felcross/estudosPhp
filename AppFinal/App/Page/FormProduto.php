@@ -17,10 +17,6 @@ use Components\Decorator\FormWrapper;
 
 
 
-use Model\Fabricante;
-use Model\Tipo;
-use Model\Unidade;
-
 /**
  * Cadastro de Produtos
  */
@@ -44,7 +40,7 @@ class FormProduto extends PageControl
     {
         parent::__construct();
 
-        $this->connection = 'configCasa2';
+        $this->connection = 'configLoja';
         $this->activeRecord = 'produto';
         
         // instancia um formulário
@@ -62,7 +58,7 @@ class FormProduto extends PageControl
         $unidade     = new Combo('id_unidade');
         
         // carrega os fabricantes do banco de dados
-        Transaction::open('configCasa2');
+        Transaction::open('configLoja');
 
         $repository = new Repository('fabricante');
         $fabricantes = $repository->all();

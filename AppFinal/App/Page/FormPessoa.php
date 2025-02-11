@@ -39,7 +39,7 @@ class FormPessoa extends PageControl
       $grupo = new CheckGroup('id_grupo');
       $grupo->setLayout('horizontal');
 
-      Transaction::open('configCasa2');
+      Transaction::open('configLoja');
       $repository = new Repository('cidade');
       $cidades = $repository->all();
       $itens = array();

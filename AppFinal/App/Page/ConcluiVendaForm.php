@@ -100,7 +100,7 @@ class ConcluiVendaForm extends PageControl
         try 
         {
             // inicia transação com o banco 'livro'
-            Transaction::open('configCasa2');
+            Transaction::open('configLoja');
             
             $dados = $this->form->getData();
             

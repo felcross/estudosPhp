@@ -91,7 +91,7 @@ class GridBusca extends PageControl{
   public function delete($param) 
   {      
         try{  
-            Transaction::open('config');
+            Transaction::open('configLoja');
             $data = Funcionario::find($param['id']);
 
            
@@ -120,7 +120,7 @@ class GridBusca extends PageControl{
       try{ 
         
         $this->datagrid->clear();
-        Transaction::open('config'); //iniciar transação com banco
+        Transaction::open('configLoja'); //iniciar transação com banco
         Transaction::setLogger(new LoggerTXT('log.txt'));
         $repository = new Repository('funcionario');
         //criar critério de seleçãod e dados  

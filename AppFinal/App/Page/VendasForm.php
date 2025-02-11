@@ -83,13 +83,16 @@ class VendasForm extends PageControl
     /**
      * Adiciona item
      */
+    
+     
+
     public function onAdiciona()
     {
         try {
             // obtém os dados do formulário
             $item = $this->form->getData();
             
-            Transaction::open('configCasa2');
+            Transaction::open('configLoja');
             $produto = Produto::find($item->id_produto);
             if ($produto)
             {

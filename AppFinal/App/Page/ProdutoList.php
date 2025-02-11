@@ -44,7 +44,7 @@ class ProdutoList extends PageControl
         
         // Define o Active Record
         $this->activeRecord = 'Produto';
-        $this->connection   = 'configCasa2';
+        $this->connection   = 'configLoja';
         
         // instancia um formulário
         $this->form = new FormWrapper(new Form('form_busca_produtos'));

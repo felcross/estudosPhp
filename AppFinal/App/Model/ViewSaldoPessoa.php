@@ -1,4 +1,6 @@
 <?php
+namespace Model;
+
 use Database\Record;
 
 class ViewSaldoPessoa extends Record
