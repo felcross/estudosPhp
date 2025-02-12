@@ -46,7 +46,7 @@ class Venda extends Record
         $item->quantidade = $quantidade;
         
         $this->itens[] = $item;
-        $this->valor_venda += ($item->preco * $quantidade);
+        //$this->valor_venda += ($item->preco * $quantidade);
     }
     
     /**

@@ -51,9 +51,7 @@ class ConcluiVendaForm extends PageControl
         $parcelas->addItems(array(1=>'Uma', 2=>'Duas', 3=>'Três'));
         $parcelas->setValue(1);
 
-        // define uma ação de cálculo Javascript
-        $desconto->onBlur = "$('[name=valor_final]').val( Number($('[name=valor_venda]').val()) + Number($('[name=acrescimos]').val()) - Number($('[name=desconto]').val()) );";
-        $acrescimos->onBlur = $desconto->onBlur;
+ 
         
         $valor_venda->setEditable(FALSE);
         $valor_final->setEditable(FALSE);
@@ -73,7 +71,7 @@ class ConcluiVendaForm extends PageControl
     /**
      * Carrega formulário de conclusão
      */
-    public function onLoad($param)
+    public function onLoad()
     {
         $total = 0;
         $itens = Session::getValue('list');
@@ -86,10 +84,15 @@ class ConcluiVendaForm extends PageControl
             }
         }
         
+       
+
+        
         $data = new stdClass;
         $data->valor_venda = $total;
         $data->valor_final = $total;
         $this->form->setData($data);
+
+        return $total;
     }
     
     /**
@@ -111,7 +114,16 @@ class ConcluiVendaForm extends PageControl
             if ($cliente->totalDebitos() > 0)
             {
                 throw new Exception('Débitos impedem esta operação');
-            }
+            }  
+
+             $total = $this->onLoad();
+
+             $acres = isset($dados->acrescimos) ? (float) $dados->acrescimos : 0;
+             $desc  = isset($dados->desconto) ? (float) $dados->desconto : 0;
+             $total = isset($total) ? (float) $total : 0; // Certifique-se de que $total também é numérico
+
+             $valor_final = ($total + $acres) - $desc;
+
             
             $venda = new Venda;
             $venda->cliente     = $cliente;
@@ -119,7 +131,7 @@ class ConcluiVendaForm extends PageControl
             $venda->valor_venda = $dados->valor_venda;
             $venda->desconto    = $dados->desconto;
             $venda->acrescimos  = $dados->acrescimos;
-            $venda->valor_final = $dados->valor_final;
+            $venda->valor_final = $valor_final;
             $venda->obs         = $dados->obs;
     
             // lê a variável $list da seção
