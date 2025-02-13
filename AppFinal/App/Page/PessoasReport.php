@@ -59,14 +59,25 @@ class PessoasReport extends PageControl
 
         $dompdf = new Dompdf();
        // $options = $dompdf->getOptions();
-        $dompdf->loadHtml('C:\Apache24\htdocs\AppFinal\App\Page\PessoasReport.php');
+        $dompdf->loadHtml($content);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
 
-
         $filename = $_SERVER['DOCUMENT_ROOT'] . '/AppFinal/App/conta.pdf';
         file_put_contents($filename, $dompdf->output());
-        echo "<script> window.open('{$filename}')  </script>";
+    
+        /*if(is_writable('/AppFinal/App/conta.pdf')) 
+        {
+           
+            file_put_contents($filename, $dompdf->output());
+
+        }
+       else {
+                  new Message('error', 'Permissão negada em: ' . $filename);
+           
+            }*/
+        
+        //echo "<script> window.open('{$filename}')  </script>";
 
 
        /* $filename = $_SERVER['DOCUMENT_ROOT'] . '/AppFinal/App/conta.pdf';
