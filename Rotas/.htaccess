@@ -1,0 +1,12 @@
+# Ativação do RewriteEngine
+RewriteEngine On
+
+# Definição da rota principal
+RewriteBase '/'
+
+# Se o diretório ou arquivo não existir, redireciona para index.php
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# Redireciona todas as requisições para index.php, passando o parâmetro
+RewriteRule ^(.+)$ index.php?param=$1 [QSA,L]

@@ -1,0 +1,11 @@
+{
+    "name": "emsoft/api",
+    "autoload": {
+        "psr-4": {
+            "Emsoft\\Api\\": "src/"
+        }
+    },
+    "require": {
+        "symfony/http-foundation": "^7.2"
+    }
+}
