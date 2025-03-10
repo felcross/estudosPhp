@@ -39,8 +39,18 @@ class apiConsumer
   public function get_all_countries()
   {   
      //pegar todos os paises
-      return $this->api('all');
-    
+      $results =  $this->api('all');
+      $countries = [];
+       
+      foreach($results as $result)
+      {
+        $countries[]= $result['name']['official'];
+        
+      }
+     // sort($countries);
+      return $countries;
+
+     
       
   }
 
