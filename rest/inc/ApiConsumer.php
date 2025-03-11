@@ -47,7 +47,7 @@ class apiConsumer
         $countries[]= $result['name']['official'];
         
       }
-     // sort($countries);
+      //arsort($countries);
       return $countries;
 
      

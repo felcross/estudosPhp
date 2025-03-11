@@ -3,10 +3,14 @@
 defined('CONTROL') or die('acesso negado');
 //get all data 
 $api = new apiConsumer();
-$countries = $api->get_all_countries();
+$country = $_GET['name'] ?? null;
 
-//get especific data 
-//$country = $api->get_country('Brazil');
+if(!$country) {
+    header('Location: ?route=home');
+    die();
+}
+
+$country_name = $api->get_country($country);
 
 
 ?>
