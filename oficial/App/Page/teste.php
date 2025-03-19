@@ -7,11 +7,18 @@ use Database\Transaction;
 use Database\Repository;
 use Exception;
 use Model\Funcionario;
+use Core\Session;
 use PDO;
 
 class teste extends PageControl{
 
+    public function teste(){
 
+      Session::set('teste','jwt');
+
+      Session::dump();
+
+    }
     public  function listar() {
         try{
              //PDO está configurado pra trazer a linha como obj
@@ -54,7 +61,7 @@ class teste extends PageControl{
     }
 
     public  function buscar() {
-        try{
+        try{  
 
            $user = new Funcionario();
 

@@ -2,6 +2,7 @@
 
 require_once 'autoloadApp.php';
 
+
 //echo '<link rel="stylesheet" href="App/Templates/bootstrap.min.css">';
 
 echo '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -9,10 +10,10 @@ echo '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/
 
 
 $class = $_GET['class'];
-
+//$url = $_SERVER['REQUEST_URI'];
 if ($_GET) 
 {
-   echo 'estou no estagio 1';
+  
 if (class_exists($class)) {
   $page = new $class;
   $page->show();
