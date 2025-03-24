@@ -1,0 +1,16 @@
+{
+    "name": "emsoft/projecto",
+    "type": "n",
+    "autoload": {
+        "psr-4": {
+            "Emsoft\\Projecto\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "felcross",
+            "email": "feljava32@gmail.com"
+        }
+    ],
+    "require": {}
+}

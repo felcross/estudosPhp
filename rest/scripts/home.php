@@ -39,4 +39,5 @@ $countries = $api->get_all_countries();
   })
     })
 
+
 </script>

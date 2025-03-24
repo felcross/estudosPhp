@@ -11,7 +11,7 @@ class apiConsumer
 
     curl_setopt_array($curl, [
       CURLOPT_URL => "https://restcountries.com/v3.1/" . $endpoint,
-      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_RETURNTRANSFER => true, 
       CURLOPT_ENCODING => "",
       CURLOPT_SSL_VERIFYPEER => false,
       CURLOPT_MAXREDIRS => 10,
@@ -44,7 +44,7 @@ class apiConsumer
        
       foreach($results as $result)
       {
-        $countries[]= $result['name']['official'];
+        $countries[]= $result['name']['common'];
         
       }
       //arsort($countries);
@@ -57,6 +57,8 @@ class apiConsumer
   public function get_country($country)
   {   
      //pegar todos os paises
+      $country = urlencode($country);
+
       return $this->api("name/{$country}?fullText=true");
     
       
