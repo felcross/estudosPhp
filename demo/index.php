@@ -1,27 +1,10 @@
 <?php
 
-require './functions.php';
+// Carrega funções utilitárias
+require_once './functions.php';
 
-require './router.php';
+// Carrega a classe de banco de dados
+require_once './Db.php';
 
-require './Db.php';
-
-$db = new Db();
-
-
-$data = $db->query("SELECT * FROM POSTS");
-//dd($data);
-
-/*foreach ($data as $key => $value) { 
-
-    echo  "<li>" .  $value['id'] .  $value["title"] . "<li>";
-}*/
-
-foreach ($data as $value) { 
-
-    echo  "<pre>" . $value["id"] . '  ' . $value["title"] . "<pre>";
-}
-
-
-
-
+// Carrega e executa o roteador
+require_once './router.php';

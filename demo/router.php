@@ -1,12 +1,17 @@
 <?php
 
-$uri = $_SERVER['QUERY_STRING'];
+$uri = parse_url($_SERVER['QUERY_STRING'])['path'];
+
+
+
 
 $routes = [
 
       ''=> 'controllers/home.php',
       'contac'=> 'controllers/contact.php',
       'about'=> 'controllers/about.php',
+      'notes'=> 'controllers/notes.php',
+      'note'=> 'controllers/note.php',
 ];
 
 
