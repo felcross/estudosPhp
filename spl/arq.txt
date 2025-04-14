@@ -1,3 +1,0 @@
-nome=  felipe
-linguagem = php
-trabalho = programar 
