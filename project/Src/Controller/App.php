@@ -7,7 +7,7 @@ class App
     
 
     public function __construct(array $get)
-    {
+    {   var_dump($get);
         if (isset($get["class"])) {
 
             if (class_exists($get["class"])) {
@@ -29,7 +29,7 @@ class App
     private function getRouters(string $class)
     {
 
-        $array = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/project/Src/Routers/rota.json');
+        $array = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/project/src/routers/rota.json');
         $decod = json_decode($array, true);
 
         $rota = $decod[$class];
@@ -41,8 +41,8 @@ class App
     private function layout(): array
     {
         return [
-            'header' => file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/project/Src/view/template/sidebar.php'),
-            'footer' => file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/project/Src/view/template/footer.php'),
+            'header' => file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/project/src/view/template/sidebar.php'),
+            'footer' => file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/project/src/view/template/footer.php'),
         ];
 
     } 

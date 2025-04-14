@@ -1,0 +1,15 @@
+{
+    "name": "pichau/novo",
+    "autoload": {
+        "psr-4": {
+            "Pichau\\Novo\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "felipe",
+            "email": "feljava32@gmail.com"
+        }
+    ],
+    "require": {}
+}

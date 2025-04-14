@@ -1,0 +1,15 @@
+{
+    "name": "pichau/app",
+    "autoload": {
+        "psr-4": {
+            "Pichau\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "felipe",
+            "email": "feljava32@gmail.com"
+        }
+    ],
+    "require": {}
+}

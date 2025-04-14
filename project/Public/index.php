@@ -22,15 +22,22 @@
             require '../autoLoad.php';
             //require '../vendor/autoload.php';
             require '../Src/Controller/MyController.php';
-           //$app = new \Controller\App($_GET);
 
-          $uri = $_SERVER["QUERY_STRING"];
+            
+           
+          $app = new App($_GET);
+
+
+
+       /*   $uri = $_SERVER["QUERY_STRING"];
+
+          var_dump($uri);
           
           if($uri === '/')
         {
           require '../Src/Model/Teste.php';
         
-        }
+        }*/
             ?>
         </div>
     </main>
