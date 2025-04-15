@@ -14,7 +14,7 @@
         <?php foreach ($notes as $note) : ?>
         
           <li>
-          <a href="/demo/index.php?note<?= $note['id']?>" class="text-blue-500">
+          <a href="/demo/index.php?note?id=<?= $note['id']?>" class="text-blue-500">
             <?=  $note['body'] ?>
           </a>
         </li>

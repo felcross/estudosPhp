@@ -15,22 +15,22 @@ class Db
        
     }
 
-public function queryAll($sql): mixed
+public function queryAll($sql,$params = []): mixed
 {
 
     $statement = $this->conn->prepare($sql);
 
-    $statement->execute();
+    $statement->execute($params);
 
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
-public function query($sql, $param = []): mixed
+public function query($sql, $params = []): mixed
 {
 
     $statement = $this->conn->prepare($sql);
 
-    $statement->execute($param);
+    $statement->execute($params);
 
     return $statement->fetch(PDO::FETCH_ASSOC);
 }

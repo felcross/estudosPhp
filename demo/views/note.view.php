@@ -10,17 +10,13 @@
   <main>
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <p>NOTES</p>
-
-        <?php foreach ($notes as $note) : ?>
-        
-          <li>
-          <a href="/demo/index.php?notes?id=<?= $note['id']?>" class="text-blue-500">
-            <?=  $note['body'] ?>
+          <a href="/demo/index.php?notes" class="text-blue-500">
+            <p>Go back..</p>
           </a>
-        </li>
+        
+           <p> <?= $note['body'] ?></p>
 
-        <?php  endforeach; ?>
-    
+
     </div>
   </main>
   <?php require('components/footer.php') ?>
