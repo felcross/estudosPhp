@@ -10,7 +10,7 @@
   <main>
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <p>NOTES</p>
-
+      <ul>
         <?php foreach ($notes as $note) : ?>
         
           <li>
@@ -18,9 +18,14 @@
             <?=  $note['body'] ?>
           </a>
         </li>
-
+      </ul>
         <?php  endforeach; ?>
-    
+         <p>
+         <a href="/demo/index.php?notes/create" class="text-blue-500 hover:underline">
+           Create Note 
+          </a>
+           
+         </p>
     </div>
   </main>
   <?php require('components/footer.php') ?>

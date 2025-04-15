@@ -10,13 +10,23 @@
   <main>
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <p>NOTES</p>
-          <a href="/demo/index.php?notes" class="text-blue-500">
-            <p>Go back..</p>
-          </a>
-        
-           <p> <?= $note['body'] ?? 'não existe' ?></p>
+        <form  action="index.php?notes/create" method="POST">
 
+          <label for="body"> Escreve aqui</label>
 
+          <div>
+          <textarea id="body" type="body" ></textarea>
+
+          </div>
+         
+
+           <p>
+            <button  type="submit">
+              Create
+            </button>
+           </p>
+
+        </form>
     </div>
   </main>
   <?php require('components/footer.php') ?>
