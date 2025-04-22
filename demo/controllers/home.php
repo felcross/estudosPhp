@@ -2,4 +2,4 @@
 
 
 
-require './views/home.view.php';
+require '../views/home.view.php';

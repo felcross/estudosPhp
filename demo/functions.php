@@ -10,3 +10,10 @@ function dd( $value )
 
 }
 
+
+function base_path($path , $attributes = []) 
+{
+    extract($attributes);
+
+  return require $_SERVER['DOCUMENT_ROOT'] . $path ;
+}

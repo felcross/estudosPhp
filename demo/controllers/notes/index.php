@@ -13,4 +13,4 @@ $note = $db->query($sql,$params );
 if(!$note) {  echo 'não existe'; }
 
 
-require './views/note.view.php';
+base_path('/demo/views/notes/note.view.php', ['note' => $note]);

@@ -1,5 +1,6 @@
 <?php
 
+defined('CONTROL') or die('acesso negado');
 $routes = require 'routes.php';
 
 

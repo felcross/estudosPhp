@@ -1,5 +1,5 @@
-<?php require('components/head.php') ?>
-<?php require('components/nav.php') ?>
+<?php require($_SERVER['DOCUMENT_ROOT'] . '/demo/views/components/head.php') ?>
+<?php require($_SERVER['DOCUMENT_ROOT'] . '/demo/views/components/nav.php') ?>
 
 <header class="bg-white shadow-sm">
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -12,10 +12,10 @@
           <p>NOTES</p>
         <form  action="index.php?notes/create" method="POST">
 
-          <label for="body"> Escreve aqui</label>
+          <label for="body"  require> Escreve aqui</label>
 
-          <div>
-          <textarea id="body" type="body" ></textarea>
+          
+          <textarea  name="text"></textarea>
 
           </div>
          
@@ -29,4 +29,4 @@
         </form>
     </div>
   </main>
-  <?php require('components/footer.php') ?>
+  <?php require($_SERVER['DOCUMENT_ROOT'] . '/demo/views/components/footer.php') ?>
