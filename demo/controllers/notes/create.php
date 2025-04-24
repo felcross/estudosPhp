@@ -21,4 +21,4 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 
 
 
- base_path('/demo/views/notes/notes-create.view.php');
+view('notes/create.view.php');

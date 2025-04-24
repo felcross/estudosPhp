@@ -1,4 +1,4 @@
 <?php 
 
 
-require '../views/contact.view.php';
+view('../views/contact.view.php');

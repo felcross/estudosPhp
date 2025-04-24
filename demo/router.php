@@ -1,6 +1,6 @@
 <?php
 
-defined('CONTROL') or die('acesso negado');
+
 $routes = require 'routes.php';
 
 
@@ -14,6 +14,7 @@ function routeToController($uri,$routes) {
        }
 
 }
+
 
 $uri = parse_url($_SERVER['QUERY_STRING'])['path'];
 

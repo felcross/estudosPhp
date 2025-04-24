@@ -20,7 +20,7 @@
             <?php
 
             require '../autoLoad.php';
-            //require '../vendor/autoload.php';
+            require '../vendor/autoload.php';
             require '../Src/Controller/MyController.php';
 
             

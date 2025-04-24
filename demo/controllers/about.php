@@ -2,4 +2,4 @@
 
 
 
-require '../views/about.view.php';
+view('../views/about.view.php');
