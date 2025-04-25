@@ -1,8 +1,9 @@
-
-
-
-
 <?php
+
+
+
+
+
 
 // Carrega funções utilitárias
 
@@ -19,6 +20,8 @@ require_once '../Db.php';
 require '../autoLoad.php';
 
 
+
+
 $router = new Core\Router;
 
 $uri = parse_url($_SERVER['QUERY_STRING'])['path'];
@@ -28,7 +31,7 @@ require_once '../routes.php';
 
 $router->router($uri,$method );
 
-?>
+
 
 
 
