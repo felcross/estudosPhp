@@ -20,7 +20,7 @@
 <?php
    require '../autoLoad.php';
    require '../vendor/autoload.php';
-   require '../core/Router.php';
+   require '../src/core/Router.php';
    require '../functions.php';
 
 
@@ -29,7 +29,7 @@ $router = new Core\Router;
 $uri = parse_url($_SERVER['QUERY_STRING'])['path'];
 $method = $_SERVER["REQUEST_METHOD"];
 
-require '../core/routes.php';
+require '../src/core/routes.php';
 
 //dd($uri);
 
@@ -41,9 +41,6 @@ $router->router($uri,$method );
 ?>
         </div>
     </main>
-
-
-
 
     <script src="../public/js/ext/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

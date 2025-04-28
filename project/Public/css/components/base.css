@@ -1,0 +1,38 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+
+.con {
+    width: 80%; /* ou qualquer largura desejada */
+    max-width: 1200px; /* largura máxima */
+    margin: 0 auto; /* centraliza horizontalmente */
+    padding: 0 15px; /* espaçamento opcional */
+    margin-top: 50px;
+    margin-left: 50px;
+  }
+
+.header {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    text-align: center; /* Centered text */
+    padding: 20px; /* Padding around the header */
+}
+
+.content {
+    padding: 20px; /* Padding around the content */
+    background-color: #f4f4f4; /* Light gray background */
+    min-height: 400px; /* Minimum height for the content area */
+}
+
+.footer {
+    background-color: #333; /* Dark background */
+    color: white; /* White text */
+    text-align: center; /* Centered text */
+    padding: 10px; /* Padding around the footer */
+    position: relative; /* Positioning for footer */
+    bottom: 0; /* Stick to the bottom */
+    width: 100%; /* Full width */
+}

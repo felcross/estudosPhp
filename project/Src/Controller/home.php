@@ -1,10 +1,10 @@
 <?php
 
-require $_SERVER['DOCUMENT_ROOT'] . '/project/autoload.php';
+require NomeSistema . 'autoload.php';
 
-View::render('page/form.html', js: 'teste');
+View::render('page/home.html', js: 'teste');
 
-//view('/form.html');
+
 
 
 

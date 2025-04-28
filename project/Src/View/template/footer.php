@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<!-- <div class="container-fluid">
 <footer>
     <div class="footer-content">
         <p>&copy; 2023 Your Company Name. All rights reserved.</p>
@@ -9,4 +9,4 @@
         </ul>
     </div>
 </footer>
-</div>
+</div> -->
