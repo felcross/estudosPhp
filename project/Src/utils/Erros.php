@@ -45,7 +45,7 @@ class Erros
         $caminho =  NomeSistema . 'logs/';
         $arquivos = array_diff(scandir($caminho), ['.', '..']);
 
-        if (count($arquivos) >= 30) {
+        if (count($arquivos) >= 5) {
             foreach ($arquivos as $arquivo) {
                 $caminhoArquivo = $caminho . $arquivo;
 

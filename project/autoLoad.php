@@ -3,9 +3,7 @@
 require_once __DIR__ . "/config/base.php";
 
 spl_autoload_register(function ($class) {
-   $path = NomeSistema  . 'src/core/' .  $class . '.php';
-
-   var_dump($path);
+   $path = NomeSistema  . 'src/' .  $class . '.php';
    require $path;
 
    return;

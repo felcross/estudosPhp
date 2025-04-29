@@ -1,10 +1,10 @@
 <?php
 
-namespace controller;
+namespace api;
 
 
 use api\ApiServiceEmauto;
-use model\DadosINI;
+use utils\DadosINI;
 use utils\Crypto;
 use utils\Erros;
 use utils\Temp;

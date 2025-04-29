@@ -1,11 +1,11 @@
 <?php
 
-namespace config;
+namespace api;
 
 use api\ApiServiceEmauto;
 use utils\Temp;
 use utils\Erros;
-use controller\RequestChavesEmauto;
+use api\RequestChavesEmauto;
 
 
 
@@ -60,7 +60,7 @@ class TokensControl
 
         $emauto = $this->temp->recuperaJSON(chaveAcessoEMAUTO);
 
-        if(isset($_SESSION['chaveEMAUTO']) && $_SESSION['chaveOutro']) {
+        if(isset($_SESSION['chaveEMAUTO']) ) {
             return;
         }
 

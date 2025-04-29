@@ -1,7 +1,7 @@
 <?php
 
 
-namespace model;
+namespace utils;
 
 use utils\Crypto;
 use utils\Sanitizantes;

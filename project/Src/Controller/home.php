@@ -1,8 +1,26 @@
 <?php
 
-require NomeSistema . 'autoload.php';
+use Core\View;
+use model\ProdutoApi;
 
-View::render('page/home.html', js: 'teste');
+
+    
+    
+    
+        $produtoApi = new ProdutoApi();
+    
+    
+
+    
+        // Buscar produtos (por exemplo, 20 produtos)
+        $produtos = $produtoApi->getProduto(1);
+        
+
+
+
+
+View::render('page/home.html.php', [], js: 'teste');
+
 
 
 

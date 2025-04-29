@@ -17,28 +17,65 @@
 
     <main class="content">
         <div class="container-fluid pt-4">
-<?php
-   require '../autoLoad.php';
-   require '../vendor/autoload.php';
-   require '../src/core/Router.php';
-   require '../functions.php';
+            <?php
+
+use api\TokensControl;
+use utils\Crypto;
+use utils\Erros;
+use utils\JsonManual;
+use utils\Sanitizantes;
+use utils\Temp;
 
 
-$router = new Core\Router;
+            require '../autoLoad.php';
+            require '../vendor/autoload.php';
+            require '../src/core/Router.php';
+            require '../src/core/View.php';
+            require '../functions.php';
+            
 
-$uri = parse_url($_SERVER['QUERY_STRING'])['path'];
-$method = $_SERVER["REQUEST_METHOD"];
-
-require '../src/core/routes.php';
-
-//dd($uri);
-
-$router->router($uri,$method );
-
+            $router = new Core\Router;
+            
+            $uri = parse_url($_SERVER['QUERY_STRING'])['path'];
+            $method = $_SERVER["REQUEST_METHOD"];
+            
+            require '../src/core/routes.php';
+            
 
 
+            $router->router($uri,$method );
 
-?>
+            //$teste = Sanitizantes::filtro("SELECT * FROM usuarios WHERE id = 1; @@@ '' & DROP TABLE usuarios; -- ");
+           // Crypto::gerarChaves();
+            //$teste2 =  Crypto::criptografar("SELECT * FROM usuarios WHERE id = 1; @@@ '' & DROP TABLE usuarios; -- ");
+           // $teste3 =  Crypto::descriptografar($teste2);
+
+            // $teste =  JsonManual::encode([
+            //     "nome" => "Lucas",
+            //     "idade" => JsonManual::defineString(20.59),
+            //     "endereco" => [
+            //         "rua" => "Rua A",
+            //         "numero" => 123,
+            //         "cidade" => "São Paulo"
+            //     ],
+            //     "telefones" => [
+            //         ["tipo" => "celular", "numero" => "(11) 98765-4321"],
+            //         ["tipo" => "residencial", "numero" => "(11) 1234-5678"]
+            //     ]
+            // ]);
+
+
+        //   $teste2 = new Temp;
+        //   $teste2->setDataUltUpdateProdutos("teste");
+        //   $t = $teste2->recuperaJSON("data.json");
+          
+    //   $token = new TokensControl;
+    //   $token->__construct();
+           
+         
+
+
+            ?>
         </div>
     </main>
 
@@ -48,6 +85,3 @@ $router->router($uri,$method );
 </body>
 
 </html>
-
-
-

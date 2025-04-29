@@ -19,11 +19,10 @@ define('apiEmauto', 'http://166.0.186.208:2002/');
 // URL base do sistema para Mercado Livre
 define('EnderecoBase', '/emsoft/emauto/');
 
-
 /**
  * CONSTANTES DOS ENDPOINTS - EMAUTO
  * Definem os endpoints da API Emauto utilizados para interação com os serviços.
- */
+    */
 
 // Endpoint para login no sistema Emauto
 define('apiLogin', EnderecoBase . 'ServiceSistema/Login');

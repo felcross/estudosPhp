@@ -6,7 +6,24 @@ namespace utils;
 class Crypto
 {
 
-    /**
+   /**
+ * Gera uma chave criptográfica aleatória e a salva em um arquivo.
+ * 
+ * Este método utiliza a função `openssl_random_pseudo_bytes` para gerar uma chave de 32 bytes 
+ * (256 bits) e a armazena no arquivo "chave_privada.pem" localizado na pasta "./system/config".
+ * Após salvar a chave, exibe uma mensagem informando o sucesso da operação e instruções sobre 
+ * a configuração do usuário e o uso correto do comando.
+ * 
+ * @return void
+ */
+public static function gerarChaves(): void  
+{
+    $chave = openssl_random_pseudo_bytes(32); // Gera uma chave aleatória de 32 bytes (256 bits)
+    file_put_contents(NomeSistema . "config/chave_privada.pem", $chave);
+}
+
+
+/**
      * Função que utiliza a chave gerada para criptograr dados
      * @access public
      * @param mixed $conteudo - Dado a ser criptografado
