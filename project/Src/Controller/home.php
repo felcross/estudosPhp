@@ -7,19 +7,23 @@ use model\ProdutoApi;
     
     
     
-        $produtoApi = new ProdutoApi();
+        $produtoApi = new ProdutoApi;
     
     
 
     
         // Buscar produtos (por exemplo, 20 produtos)
-        $produtos = $produtoApi->getProduto(1);
+        $produtos = $produtoApi->buscarProdutos('A12', false);
+
+        dd($produtos);
+
+     
         
 
 
 
 
-View::render('page/home.html.php', [], js: 'teste');
+View::render('page/home.html.php', ['produtos' => $produtos ] , js: 'teste');
 
 
 
