@@ -1,0 +1,44 @@
+[
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "05-05-2025 08:42:56",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "ProdutosErro - Erro ao buscar produtos no EMAUTO",
+        "Horário": "05-05-2025 10:13:32",
+        "Erro": {
+            "termo": "31002150",
+            "buscaParcial": true,
+            "erro": "api\\ApiServiceEmauto::set(): Argument #3 ($dados) must be of type array|string, null given, called in C:\\Apache24\\htdocs\\project\\src\\model\\ProdutoApi.php on line 83"
+        }
+    },
+    {
+        "Referente": "ProdutosErro - Erro ao buscar produtos no EMAUTO",
+        "Horário": "05-05-2025 10:47:12",
+        "Erro": {
+            "termo": "31002150",
+            "buscaParcial": true,
+            "erro": "api\\ApiServiceEmauto::set(): Argument #3 ($dados) must be of type array|string, null given, called in C:\\Apache24\\htdocs\\project\\src\\model\\ProdutoApi.php on line 83"
+        }
+    },
+    {
+        "Referente": "ProdutosErro - Erro ao buscar produtos no EMAUTO",
+        "Horário": "05-05-2025 10:49:37",
+        "Erro": {
+            "termo": "31002150",
+            "buscaParcial": true,
+            "erro": "api\\ApiServiceEmauto::set(): Argument #3 ($dados) must be of type array|string, null given, called in C:\\Apache24\\htdocs\\project\\src\\model\\ProdutoApi.php on line 83"
+        }
+    },
+    {
+        "Referente": "APIEmauto - Erro na requisição",
+        "Horário": "05-05-2025 10:49:55",
+        "Erro": "URL rejected: Malformed input to a URL function"
+    }
+]

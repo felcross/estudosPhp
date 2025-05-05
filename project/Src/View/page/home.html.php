@@ -38,6 +38,7 @@
                                     <p class="card-text">CódBarra: <?= htmlspecialchars($produto['CODIGOBARRA']) ?></p>
                                 <?php endif; ?>
                                 
+                                
                                 <?php if (isset($produto['CUSTO'])): ?>
                                     <p class="card-text fw-bold">Preço: R$ <?= number_format($produto['CUSTO'], 2, ',', '.') ?></p>
                                 <?php endif; ?>

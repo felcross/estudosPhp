@@ -13,11 +13,11 @@ use model\ProdutoApi;
 
     
         // Buscar produtos (por exemplo, 20 produtos)
-        $produtos = $produtoApi->buscarProdutos('A12', false);
+        $produtos = $produtoApi->buscarProdutos('31002150', '11101010102', '7896587300721',  '7896587300946', buscaParcial: true);
 
-        dd($produtos);
 
-     
+
+
         
 
 
