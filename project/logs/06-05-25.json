@@ -1,0 +1,72 @@
+[
+    {
+        "Referente": "API EMauto - Tentativa de logar",
+        "Horário": "06-05-2025 09:47:53",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Usuário\/Senha inválida."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "06-05-2025 09:47:53",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "API EMauto - Tentativa de logar",
+        "Horário": "06-05-2025 09:48:23",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Usuário\/Senha inválida."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "06-05-2025 09:48:23",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Usuário não autenticado."
+            }
+        }
+    },
+    {
+        "Referente": "API EMauto - Tentativa de logar",
+        "Horário": "06-05-2025 09:48:26",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Usuário\/Senha inválida."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "06-05-2025 09:48:26",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Usuário não autenticado."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "06-05-2025 09:51:39",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Usuário não autenticado."
+            }
+        }
+    }
+]

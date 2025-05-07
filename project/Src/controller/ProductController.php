@@ -4,26 +4,66 @@ use Core\View;
 use model\ProdutoApi;
 
 
-    
-    
-    
-        $produtoApi = new ProdutoApi;
-    
-    
 
-    
-        // Buscar produtos (por exemplo, 20 produtos)
-        $produtos = $produtoApi->buscarProdutos('31002150', '11101010102', '7896587300721',  '7896587300946', buscaParcial: true);
+// Controller
+$produtoApi = new ProdutoApi;
+
+$termo = $_POST['termo'] ?? '';
 
 
 
+$produtos = [];
+if (!empty($termo)) {
 
-        
+    dd($termo);
+    $produtos = $produtoApi->buscarTodos($termo, $buscaParcial, 10);
+}
 
 
 
 
-View::render('page/home.html.php', ['produtos' => $produtos ] , js: 'teste');
+
+
+
+
+// Para requisições normais, renderiza a view completa
+View::render('page/search.html.php', [
+    'produtos' => $produtos,
+    'termo' => $termo,
+    'buscaParcial' => $buscaParcial
+], js: 'product');
+
+
+
+
+
+// $produtoApi = new ProdutoApi;
+
+// $termo = $_GET['termo'] ?? '';
+// $buscaParcial = isset($_GET['parcial']) ? (bool)$_GET['parcial'] : true;
+
+// $produtos = [];
+// if (!empty($termo)) {
+//     $produtos = $produtoApi->buscarTodos($termo,true,10);
+// }
+
+
+
+
+
+// View::render('page/search.html.php', [
+//     'produtos' => $produtos,
+//     'termo' => $termo,
+//     'buscaParcial' => $buscaParcial
+// ], js: 'product');
+
+    // if ($category) {
+    //     $filteredProducts = array_filter($filteredProducts, function ($product) use ($category) {
+    //         return $product['category'] === $category;
+    //     });
+    // }
+
+
 
 
 
