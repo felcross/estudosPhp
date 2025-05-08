@@ -1,70 +1,65 @@
 <?php
 
-use Core\View;
-use model\ProdutoApi;
+
+// use Core\View;
+// use model\ProdutoApi;
 
 
 
-// Controller
-$produtoApi = new ProdutoApi;
+   
+//     $termo = $_POST['termo'] ?? '';
+    
 
-$termo = $_POST['termo'] ?? '';
-
-
-
-$produtos = [];
-if (!empty($termo)) {
-
-    dd($termo);
-    $produtos = $produtoApi->buscarTodos($termo, $buscaParcial, 10);
-}
-
-
-
-
-
-
-
-
-// Para requisições normais, renderiza a view completa
-View::render('page/search.html.php', [
-    'produtos' => $produtos,
-    'termo' => $termo,
-    'buscaParcial' => $buscaParcial
-], js: 'product');
-
-
-
-
-
-// $produtoApi = new ProdutoApi;
-
-// $termo = $_GET['termo'] ?? '';
-// $buscaParcial = isset($_GET['parcial']) ? (bool)$_GET['parcial'] : true;
-
-// $produtos = [];
-// if (!empty($termo)) {
-//     $produtos = $produtoApi->buscarTodos($termo,true,10);
-// }
-
-
-
-
-
+//     $produtoApi = new  ProdutoApi;
+    
+ 
+//     $produtos = [];
+//     if (!empty($termo)) {
+//         $produtos = $produtoApi->buscarTodos($termo, true, 10);
+//     }
+    
 // View::render('page/search.html.php', [
 //     'produtos' => $produtos,
 //     'termo' => $termo,
 //     'buscaParcial' => $buscaParcial
 // ], js: 'product');
 
-    // if ($category) {
-    //     $filteredProducts = array_filter($filteredProducts, function ($product) use ($category) {
-    //         return $product['category'] === $category;
-    //     });
-    // }
 
+namespace src\controller;
 
+use Core\View;
+use model\ProdutoApi;
 
+class ProductController
+{
+    public function search()
+    {
+        // pega termo e flag AJAX
+        $termo = $_POST['termo'] ?? '';
+        $isAjax = !empty($_POST['ajax']);
+
+        // faz a busca na API
+        $produtoApi = new ProdutoApi;
+        $produtos = [];
+        if ($termo !== '') {
+            $produtos = $produtoApi->buscarTodos($termo, true, 10);
+        }
+
+        if ($isAjax) {
+            // retorna JSON e encerra
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($produtos);
+            exit;
+        }
+
+        // render normal de página
+        View::render('page/search.html.php', [
+            'produtos'    => $produtos,
+            'termo'       => $termo,
+            'buscaParcial'=> $buscaParcial ?? false
+        ], js: 'product');
+    }
+}
 
 
 

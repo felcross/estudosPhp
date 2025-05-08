@@ -19,29 +19,36 @@
         <div class="container-fluid pt-4">
             <?php
 
+            
 
+           
             require '../autoLoad.php';
             require '../vendor/autoload.php';
             require '../src/core/Router.php';
             require '../src/core/View.php';
             require '../functions.php';
             
-
+            
+           \utils\Tokens::geraTokenCSRF();
             $router = new Core\Router;
             
             $uri = parse_url($_SERVER['QUERY_STRING'])['path'];
+
             $method = $_SERVER["REQUEST_METHOD"];
             
             require '../src/core/routes.php';
+         
 
             $router->router($uri,$method );
+     
 
          
 
 
             ?>
-        </div>
+        </div> 
     </main>
+    <input type="hidden" name="token" id="token" value="<?= $_SESSION['TokenCSRF'] ?? null?>">
 
     <script src="../public/js/ext/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
