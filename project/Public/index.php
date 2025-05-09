@@ -29,7 +29,7 @@
             require '../functions.php';
             
             
-           \utils\Tokens::geraTokenCSRF();
+       //    \utils\Tokens::geraTokenCSRF();
             $router = new Core\Router;
             
             $uri = parse_url($_SERVER['QUERY_STRING'])['path'];
@@ -48,7 +48,7 @@
             ?>
         </div> 
     </main>
-    <input type="hidden" name="token" id="token" value="<?= $_SESSION['TokenCSRF'] ?? null?>">
+
 
     <script src="../public/js/ext/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

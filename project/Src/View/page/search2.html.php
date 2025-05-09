@@ -1,17 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca de Produtos</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Estilos adicionais, se necessário */
+    </style>
+</head>
+<body>
+
 <div class="container my-5">
     <h1 class="mb-4">Busca de Produtos</h1>
-    
+
+
+
     <form action="<?= $_SERVER['PHP_SELF']?>" method="POST" class="mb-4">
         <div class="row g-3">
             <div class="col-md-6">
-                <input type="text" name="termo" class="form-control" 
-                       placeholder="Digite o código, referência ou código de barras" 
+                <input type="text" name="termo" class="form-control"
+                       placeholder="Digite o código, referência ou código de barras"
                        value="<?= htmlspecialchars($termo) ?>">
             </div>
             <div class="col-md-2">
                 <div class="form-check mt-2">
-                    <input class="form-check-input" type="checkbox" id="parcial" name="parcial" value="1" 
-                           >
+                    <input class="form-check-input" type="checkbox" id="parcial" name="parcial" value="1"
+                           <?= $parcial ? 'checked' : '' ?>>
                     <label class="form-check-label" for="parcial">
                         Busca parcial
                     </label>
@@ -22,14 +38,14 @@
             </div>
         </div>
     </form>
-    
+
     <?php if (!empty($termo)): ?>
         <div class="alert alert-info">
             Resultados da busca por: <strong><?= htmlspecialchars($termo) ?></strong>
             <?= count($produtos) ?> produto(s) encontrado(s)
         </div>
     <?php endif; ?>
-    
+
     <?php if (!empty($produtos)): ?>
         <div class="table-responsive">
             <table class="table table-striped table-hover">
@@ -54,8 +70,19 @@
                             <td><?= htmlspecialchars($produto['CODIGOBARRA'] ?? '') ?></td>
                             <td>R$ <?= number_format($produto['PRECO'] ?? 0, 2, ',', '.') ?></td>
                             <td>
-                                <a href="produto/editar/<?= htmlspecialchars($produto['PRODUTO'] ?? '') ?>" 
-                                   class="btn btn-sm btn-primary">Editar</a>
+                                <!-- Botão Editar modificado para acionar o modal -->
+                                <button type="button" class="btn btn-sm btn-primary btn-editar-produto"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalEditarProduto"
+                                        data-id="<?= htmlspecialchars($produto['PRODUTO'] ?? '') ?>"
+                                        data-codigo="<?= htmlspecialchars($produto['PRODUTO'] ?? '') ?>"
+                                        data-descricao="<?= htmlspecialchars($produto['DESCRICAO'] ?? '') ?>"
+                                        data-referencia="<?= htmlspecialchars($produto['REFERENCIA'] ?? '') ?>"
+                                        data-referencia2="<?= htmlspecialchars($produto['REFERENCIA2'] ?? '') ?>"
+                                        data-codigobarra="<?= htmlspecialchars($produto['CODIGOBARRA'] ?? '') ?>"
+                                        data-preco="<?= htmlspecialchars($produto['PRECO'] ?? 0) ?>">
+                                    Editar
+                                </button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -179,8 +206,9 @@ document.addEventListener('DOMContentLoaded', function () {
             //    .then(response => response.json())
             //    .then(data => { console.log('Sucesso:', data); bootstrap.Modal.getInstance(modalEditarProduto).hide(); })
             //    .catch((error) => { console.error('Erro:', error); });
-
-            alert('Lógica de salvar ainda não implementada. Verifique o console.');
+              console.log(form);
+            // Exibe mensagem de sucesso (para demonstração)
+           // alert('Lógica de salvar ainda não implementada. Verifique o console.');
             // bootstrap.Modal.getInstance(modalEditarProduto).hide(); // Para fechar o modal após salvar
         });
     }
