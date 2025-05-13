@@ -32,16 +32,15 @@
        //    \utils\Tokens::geraTokenCSRF();
             $router = new Core\Router;
             
-            $uri = parse_url($_SERVER['QUERY_STRING'])['path'];
+            $uri = $_GET['uri'] ?? '';
 
             $method = $_SERVER["REQUEST_METHOD"];
             
             require '../src/core/routes.php';
          
-
+              //dd($uri);
             $router->router($uri,$method );
      
-
          
 
 

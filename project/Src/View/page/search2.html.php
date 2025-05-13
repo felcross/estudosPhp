@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -17,27 +17,20 @@
 
 
 
-    <form action="<?= $_SERVER['PHP_SELF']?>" method="POST" class="mb-4">
+    <form action="<?= $_SERVER['PHP_SELF']?>" method="GET" class="mb-4">
         <div class="row g-3">
             <div class="col-md-6">
                 <input type="text" name="termo" class="form-control"
                        placeholder="Digite o código, referência ou código de barras"
                        value="<?= htmlspecialchars($termo) ?>">
             </div>
-            <div class="col-md-2">
-                <div class="form-check mt-2">
-                    <input class="form-check-input" type="checkbox" id="parcial" name="parcial" value="1"
-                           <?= $parcial ? 'checked' : '' ?>>
-                    <label class="form-check-label" for="parcial">
-                        Busca parcial
-                    </label>
-                </div>
-            </div>
+      
             <div class="col-md-4">
                 <button type="submit" class="btn btn-primary">Buscar</button>
             </div>
         </div>
     </form>
+
 
     <?php if (!empty($termo)): ?>
         <div class="alert alert-info">
@@ -105,7 +98,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="formEditarProduto">
+                <form  action="<?= $_SERVER['PHP_SELF']?>" method="POST" id="formEditarProduto">
                     <!-- Campo oculto para o ID do produto, se for diferente do código visível -->
                     <input type="hidden" id="modalProdutoId" name="produto_id">
 
@@ -147,6 +140,7 @@
 
 <!-- Bootstrap JS Bundle (Popper.js incluído) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -200,16 +194,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log(pair[0]+ ': '+ pair[1]);
             }
 
-            // Aqui você implementaria a lógica para enviar os dados para o servidor
-            // (por exemplo, usando fetch ou XMLHttpRequest para uma requisição AJAX)
-            // Ex: fetch('url_para_salvar.php', { method: 'POST', body: formData })
-            //    .then(response => response.json())
-            //    .then(data => { console.log('Sucesso:', data); bootstrap.Modal.getInstance(modalEditarProduto).hide(); })
-            //    .catch((error) => { console.error('Erro:', error); });
+        //   fetch(window.location.href, { method: 'PUT', body: formData })
+        //         .then(response => response.json())
+        //         .then(data => { console.log('Sucesso:', data); bootstrap.Modal.getInstance(modalEditarProduto).hide(); })
+        //     .catch((error) => { console.error('Erro:', error); });
               console.log(form);
             // Exibe mensagem de sucesso (para demonstração)
            // alert('Lógica de salvar ainda não implementada. Verifique o console.');
-            // bootstrap.Modal.getInstance(modalEditarProduto).hide(); // Para fechar o modal após salvar
+          //  bootstrap.Modal.getInstance(modalEditarProduto).hide(); // Para fechar o modal após salvar
         });
     }
 });
