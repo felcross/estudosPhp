@@ -18,7 +18,7 @@
 
 
 
-        <form action= '<?= $_SERVER['PHP_SELF'] ?>' method="GET" class="mb-4">
+        <form action="index.php?uri=&" method="GET" class="mb-4">
             <div class="row g-3">
                 <div class="col-md-6">
                     <input type="text" name="termo" class="form-control"
@@ -99,7 +99,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" id="formEditarProduto">
+                    <form  method="POST" id="formEditarProduto">
                         <!-- Campo oculto para o ID do produto, se for diferente do código visível -->
                         <input type="hidden" id="modalProdutoId" name="produto_id">
 
@@ -184,24 +184,51 @@
             }
 
 
-                 $(document).on("click", '#btnSalvarAlteracoes', function (e) {
-                        e.preventDefault();
+              // Replace your current AJAX code with this:
+$(document).ready(function() {
+    // Existing modal code remains the same...
 
-                        let formDataObj = {};
-                        $('#formEditarProduto').find('input').each(function (index, element) {
-                            formDataObj[element.id] = $(element).val();
-                        });
-                        formDataObj['PUT'] = true;
-
-                        $.post(window.location.href,
-                            formDataObj,
-                            function (data) {
-                              console.log(formDataObj);
-                            }
-                        ).fail(function (xhr, status, error) {
-                            alert('Erro na requisição: ' + error);
-                        });
-                    });
+    // Fix the AJAX submission
+    $(document).on("click", '#btnSalvarAlteracoes', function (e) {
+        e.preventDefault();
+        
+        // Create a proper object with the form data
+        let formData = {
+            'PUT': true,
+            'produto_id': $('#modalProdutoId').val(),
+            'codigo_produto': $('#modalCodigo').val(),
+            'descricao': $('#modalDescricao').val(),
+            'referencia': $('#modalReferencia').val(),
+            'referencia2': $('#modalReferencia2').val(),
+            'codigobarra': $('#modalCodigoBarras').val(),
+            'preco': $('#modalPreco').val()
+        };
+        
+        // Send the AJAX request with proper content type and data format
+        $.ajax({
+            url: 'index.php?uri=',
+            type: 'POST',
+            dataType: 'json',
+            data: formData,
+            success: function(response) {
+                // Handle successful response
+                if(response.success) {
+                    alert(response.message);
+                    $('#modalEditarProduto').modal('hide');
+                    // Optionally reload the page to show updated data
+                    window.location.reload();
+                } else {
+                    alert('Erro ao atualizar o produto: ' + (response.message || 'Erro desconhecido'));
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Erro na requisição AJAX:', error);
+                console.error('Resposta do servidor:', xhr.responseText);
+                alert('Erro na requisição. Verifique o console para mais detalhes.');
+            }
+        });
+    });
+});
 
 
 

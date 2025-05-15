@@ -1,4 +1,26 @@
 <!-- Tabela de Produtos -->
+ <div class="container my-5">
+        <h1 class="mb-4">Busca de Produtos</h1>
+
+
+
+        <form action="index.php?uri=&" method="GET" class="mb-4">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <input type="text" name="termo" class="form-control"
+                        placeholder="Digite o código, referência ou código de barras"
+                        value="<?= htmlspecialchars($termo) ?>">
+                </div>
+
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+                </div>
+            </div>
+        </form>
+
+
+
+
 <div class="table-responsive mt-4">
     <table class="table table-striped table-bordered">
         <thead class="table-dark">
@@ -169,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function () {
             btnSalvar.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Salvando...';
 
             // Enviar dados para o controller PHP
-            fetch(window.location.href, {
+            fetch('index.php?uri=', {
                 method: 'POST',
                 body: formData
             })

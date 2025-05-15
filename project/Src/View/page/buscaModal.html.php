@@ -1,7 +1,7 @@
 <div class="container my-5">
     <h1 class="mb-4">Busca de Produtos</h1>
     
-    <form action="<?= $_SERVER['PHP_SELF']?>" method="POST" class="mb-4">
+    <form method="POST" class="mb-4">
         <div class="row g-3">
             <div class="col-md-6">
                 <input type="text" name="termo" class="form-control" 
