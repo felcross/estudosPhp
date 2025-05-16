@@ -1,0 +1,12 @@
+[
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "16-05-2025 08:04:28",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    }
+]

@@ -1,74 +1,87 @@
-// $(document).ready(function () {
-
-//     $(document).on("click", "#buscar", function (e) {
-
-//         e.preventDefault();
-
-//         var termo = $("input[name='termo']").val();
-
-
-//         $.post('../public/index.php?', {
-//             termo: termo,
-//             token: $('#token').val(),
-//             ajax: true // Adicionar um indicador que é uma requisição AJAX
-
-//         },
-//             function (data) {
-//                 console.log(termo);
-//             },
-
-//         );
-
-
-//     })
-// });
-
-
-// $(document).ready(function(){
-//     $('#buscar').on('click', function(e){
-//       e.preventDefault();
-  
-//       const termo = $("input[name='termo']").val();
-//       const token = $('#token').val();
-//       const parcial = $("input[name='buscaParcial']").is(':checked') ? 1 : 0;
-  
-//       $.ajax({
-//         url: '../public/index.php?product/search',
-//         method: 'POST',
-//         dataType: 'json',
-//         data: {
-//           termo: termo,
-//           token: token,
-//           buscaParcial: parcial,
-//           ajax: true
-//         },
-//         success: function(produtos){
-//           // limpa e renderiza cards ou lista
-//           let html = '';
-//           if (produtos.length === 0) {
-//             html = '<p>Nenhum produto encontrado.</p>';
-//           } else {
-//             produtos.forEach(p => {
-//               html += `
-//                 <div class="card mb-2">
-//                   <div class="card-body">
-//                     <h5 class="card-title">${p.nome}</h5>
-//                     <p class="card-text">Código: ${p.codigo}</p>
-//                     <!-- ajuste conforme o retorno da sua API -->
-//                   </div>
-//                 </div>
-//               `;
-//             });
-//           }
-//           $('#resultados').html(html);
-//         },
-//         error: function(xhr){
-//           console.error('Erro AJAX:', xhr.responseText);
-//         }
-//       });
-//     });
-//  });
-  
 
 
 
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    var modalEditarProduto = document.getElementById('modalEditarProduto');
+    if (modalEditarProduto) {
+        modalEditarProduto.addEventListener('show.bs.modal', function (event) {
+            // Botão que acionou o modal
+            var button = event.relatedTarget;
+
+            // Extrai informações dos atributos data-*
+            var produtoId = button.getAttribute('data-id'); // O ID original do produto
+            var codigo = button.getAttribute('data-codigo');
+            var descricao = button.getAttribute('data-descricao');
+            var referencia = button.getAttribute('data-referencia');
+            var referencia2 = button.getAttribute('data-referencia2');
+            var codigobarra = button.getAttribute('data-codigobarra');
+            var preco = button.getAttribute('data-preco');
+
+            // Atualiza o conteúdo do modal
+            var modalTitle = modalEditarProduto.querySelector('.modal-title');
+            var modalProdutoIdInput = modalEditarProduto.querySelector('#modalProdutoId');
+            var modalCodigoInput = modalEditarProduto.querySelector('#modalCodigo');
+            var modalDescricaoInput = modalEditarProduto.querySelector('#modalDescricao');
+            var modalReferenciaInput = modalEditarProduto.querySelector('#modalReferencia');
+            var modalReferencia2Input = modalEditarProduto.querySelector('#modalReferencia2');
+            var modalCodigoBarrasInput = modalEditarProduto.querySelector('#modalCodigoBarras');
+            var modalPrecoInput = modalEditarProduto.querySelector('#modalPreco');
+
+            modalTitle.textContent = 'Editar Produto: ' + codigo;
+            if (modalProdutoIdInput) modalProdutoIdInput.value = produtoId; // ID para submissão
+            if (modalCodigoInput) modalCodigoInput.value = codigo;
+            if (modalDescricaoInput) modalDescricaoInput.value = descricao;
+            if (modalReferenciaInput) modalReferenciaInput.value = referencia;
+            if (modalReferencia2Input) modalReferencia2Input.value = referencia2;
+            if (modalCodigoBarrasInput) modalCodigoBarrasInput.value = codigobarra;
+            if (modalPrecoInput) modalPrecoInput.value = parseFloat(preco).toFixed(2);
+
+
+        });
+    }
+
+
+    // Replace your current AJAX code with this:
+    $(document).ready(function () {
+        // Existing modal code remains the same...
+
+        // Fix the AJAX submission
+        $(document).on("click", '#btnSalvarAlteracoes', function (e) {
+            e.preventDefault();
+
+            // Create a proper object with the form data
+            let formData = {
+                'PUT': true,
+                'produto_id': $('#modalProdutoId').val(),
+                'codigo_produto': $('#modalCodigo').val(),
+                'descricao': $('#modalDescricao').val(),
+                'referencia': $('#modalReferencia').val(),
+                'referencia2': $('#modalReferencia2').val(),
+                'codigobarra': $('#modalCodigoBarras').val(),
+                'preco': $('#modalPreco').val()
+            };
+
+            // Send the AJAX request with proper content type and data format
+
+
+            $.post(window.location.href, {
+                ...formData,
+                token: $('#token').val(),
+               // action: 'product'
+            },
+                function (data) {
+                    console.log(data);
+                }
+
+            );
+
+
+
+        });
+    });
+
+
+
+});

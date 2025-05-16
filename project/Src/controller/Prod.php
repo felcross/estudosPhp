@@ -26,7 +26,7 @@ class ProdutoController
     
    
     
-    View::render('page/home.html.php', [
+    View::render('page/search.html.php', [
         'produtos' => $produtos,
         'termo' => $termo,
     ]);

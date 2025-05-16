@@ -2,15 +2,25 @@
 
 namespace src\controller;
 
+
 use Core\View;
 use model\ProdutoApi;
 
+
 // Controller
 
-$produtoApi = new ProdutoApi();
+class ProdutoController {
+    private $produtoApi;
     
+    public function __construct() {
+        $this->produtoApi = new ProdutoApi();
+    }
+    
+     
+     // Fix your controller code:
 
-
+public function buscar()
+{
     // Handle AJAX request first
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['PUT'])) {
         // Process the AJAX update request
@@ -23,7 +33,7 @@ $produtoApi = new ProdutoApi();
         $preco = $_POST['preco'] ?? null;
        
         if ($produtoId) {
-            $resultado = $produtoApi->atualizarProduto($produtoId, [
+            $resultado = $this->produtoApi->atualizarProduto($produtoId, [
                 'codigo' => $codigo,
                 'descricao' => $descricao,
                 'referencia' => $referencia,
@@ -43,27 +53,31 @@ $produtoApi = new ProdutoApi();
             exit;
         }
     }
- 
 
-
-  // Normal page load flow continues here
+    // Normal page load flow continues here
     $termo = $_GET['termo'] ?? '';
     $produtos = [];
     
     if (!empty($termo)) {
-        $produtos = $produtoApi->buscarTodos($termo, true, limite: 15);
+        $produtos = $this->produtoApi->buscarTodos($termo, true, limite: 15);
     }
 
     View::render('page/search2.html.php', [
         'produtos' => $produtos,
         'termo' => $termo,
-    ]);
-  
-        
+    ],js:'product');
+}
+   
 
 
 
+}
 
+    
+$productController = new ProdutoController;
+$productController->buscar();
+    
+    
 
 
 

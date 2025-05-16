@@ -99,7 +99,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form  method="POST" id="formEditarProduto">
+                    <form   method="POST" id="formEditarProduto">
                         <!-- Campo oculto para o ID do produto, se for diferente do código visível -->
                         <input type="hidden" id="modalProdutoId" name="produto_id">
 
@@ -142,102 +142,6 @@
     <!-- Bootstrap JS Bundle (Popper.js incluído) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var modalEditarProduto = document.getElementById('modalEditarProduto');
-            if (modalEditarProduto) {
-                modalEditarProduto.addEventListener('show.bs.modal', function (event) {
-                    // Botão que acionou o modal
-                    var button = event.relatedTarget;
-
-                    // Extrai informações dos atributos data-*
-                    var produtoId = button.getAttribute('data-id'); // O ID original do produto
-                    var codigo = button.getAttribute('data-codigo');
-                    var descricao = button.getAttribute('data-descricao');
-                    var referencia = button.getAttribute('data-referencia');
-                    var referencia2 = button.getAttribute('data-referencia2');
-                    var codigobarra = button.getAttribute('data-codigobarra');
-                    var preco = button.getAttribute('data-preco');
-
-                    // Atualiza o conteúdo do modal
-                    var modalTitle = modalEditarProduto.querySelector('.modal-title');
-                    var modalProdutoIdInput = modalEditarProduto.querySelector('#modalProdutoId');
-                    var modalCodigoInput = modalEditarProduto.querySelector('#modalCodigo');
-                    var modalDescricaoInput = modalEditarProduto.querySelector('#modalDescricao');
-                    var modalReferenciaInput = modalEditarProduto.querySelector('#modalReferencia');
-                    var modalReferencia2Input = modalEditarProduto.querySelector('#modalReferencia2');
-                    var modalCodigoBarrasInput = modalEditarProduto.querySelector('#modalCodigoBarras');
-                    var modalPrecoInput = modalEditarProduto.querySelector('#modalPreco');
-
-                    modalTitle.textContent = 'Editar Produto: ' + codigo;
-                    if (modalProdutoIdInput) modalProdutoIdInput.value = produtoId; // ID para submissão
-                    if (modalCodigoInput) modalCodigoInput.value = codigo;
-                    if (modalDescricaoInput) modalDescricaoInput.value = descricao;
-                    if (modalReferenciaInput) modalReferenciaInput.value = referencia;
-                    if (modalReferencia2Input) modalReferencia2Input.value = referencia2;
-                    if (modalCodigoBarrasInput) modalCodigoBarrasInput.value = codigobarra;
-                    if (modalPrecoInput) modalPrecoInput.value = parseFloat(preco).toFixed(2);
-
-            
-                });
-            }
-
-
-              // Replace your current AJAX code with this:
-$(document).ready(function() {
-    // Existing modal code remains the same...
-
-    // Fix the AJAX submission
-    $(document).on("click", '#btnSalvarAlteracoes', function (e) {
-        e.preventDefault();
-        
-        // Create a proper object with the form data
-        let formData = {
-            'PUT': true,
-            'produto_id': $('#modalProdutoId').val(),
-            'codigo_produto': $('#modalCodigo').val(),
-            'descricao': $('#modalDescricao').val(),
-            'referencia': $('#modalReferencia').val(),
-            'referencia2': $('#modalReferencia2').val(),
-            'codigobarra': $('#modalCodigoBarras').val(),
-            'preco': $('#modalPreco').val()
-        };
-        
-        // Send the AJAX request with proper content type and data format
-        $.ajax({
-            url: 'index.php?uri=',
-            type: 'POST',
-            dataType: 'json',
-            data: formData,
-            success: function(response) {
-                // Handle successful response
-                if(response.success) {
-                    alert(response.message);
-                    $('#modalEditarProduto').modal('hide');
-                    // Optionally reload the page to show updated data
-                    window.location.reload();
-                } else {
-                    alert('Erro ao atualizar o produto: ' + (response.message || 'Erro desconhecido'));
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('Erro na requisição AJAX:', error);
-                console.error('Resposta do servidor:', xhr.responseText);
-                alert('Erro na requisição. Verifique o console para mais detalhes.');
-            }
-        });
-    });
-});
-
-
-
-
-
-            // Lógica para o botão "Salvar Alterações" (exemplo)
-     
-        });
-    </script>
 
 </body>
 
