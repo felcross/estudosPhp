@@ -1,8 +1,3 @@
-
-
-
-
-
 document.addEventListener('DOMContentLoaded', function () {
     var modalEditarProduto = document.getElementById('modalEditarProduto');
     if (modalEditarProduto) {
@@ -54,8 +49,8 @@ document.addEventListener('DOMContentLoaded', function () {
             // Create a proper object with the form data
             let formData = {
                 'PUT': true,
-                'produto_id': $('#modalProdutoId').val(),
-                'codigo_produto': $('#modalCodigo').val(),
+                'produto_id': $('#modalProdutoId').val(), 
+                'codigo_produto': $('#modalCodigo').val(), 
                 'descricao': $('#modalDescricao').val(),
                 'referencia': $('#modalReferencia').val(),
                 'referencia2': $('#modalReferencia2').val(),

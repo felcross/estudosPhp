@@ -1,303 +1,182 @@
-<!-- Tabela de Produtos -->
- <div class="container my-5">
-        <h1 class="mb-4">Busca de Produtos</h1>
+<!DOCTYPE html>
+<html lang="pt-br">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca e Edição de Produtos</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Estilos adicionais, se necessário */
+        body {
+            padding-top: 20px; /* Espaço para mensagens flash fixas */
+        }
+        .flash-message-container {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1055; /* Acima do modal */
+            min-width: 300px;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+    </style>
+</head>
 
+<body>
+    <div class="flash-message-container" id="flashMessageContainer">
+        <!-- Mensagens flash (PHP ou JS) serão inseridas aqui -->
+        <?php
+        // Exemplo de como você poderia ter uma mensagem flash vinda do PHP
+        // session_start(); // Se estiver usando sessões
+        // if (isset($_SESSION['flash_message'])) {
+        //     echo '<div class="alert alert-' . $_SESSION['flash_type'] . ' alert-dismissible fade show" role="alert">';
+        //     echo $_SESSION['flash_message'];
+        //     echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+        //     echo '</div>';
+        //     unset($_SESSION['flash_message']);
+        //     unset($_SESSION['flash_type']);
+        // }
+        ?>
+    </div>
 
+    <div class="container my-5">
+        <h1 class="mb-4">Busca e Edição de Produtos</h1>
+
+        <!-- Formulário de Busca -->
         <form action="index.php?uri=&" method="GET" class="mb-4">
+            <!-- Se você usa uma variável 'uri' no seu roteamento, descomente e ajuste: -->
+            <!-- <input type="hidden" name="uri" value="sua/rota/de/busca"> -->
             <div class="row g-3">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <input type="text" name="termo" class="form-control"
-                        placeholder="Digite o código, referência ou código de barras"
-                        value="<?= htmlspecialchars($termo) ?>">
+                        placeholder="Digite o código, descrição ou código de barras"
+                        value="<?= htmlspecialchars($termo ?? '') ?>">
                 </div>
-
                 <div class="col-md-4">
-                    <button type="submit" class="btn btn-primary">Buscar</button>
+                    <button type="submit" class="btn btn-primary w-100">Buscar</button>
                 </div>
             </div>
         </form>
 
-
-
-
-<div class="table-responsive mt-4">
-    <table class="table table-striped table-bordered">
-        <thead class="table-dark">
-            <tr>
-                <th>Código</th>
-                <th>Descrição</th>
-                <th>Referência</th>
-                <th>Referência 2</th>
-                <th>Código de Barras</th>
-                <th>Preço</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (empty($produtos)): ?>
-                <tr>
-                    <td colspan="7" class="text-center">Nenhum produto encontrado.</td>
-                </tr>
-            <?php else: ?>
-                <?php foreach ($produtos as $produto): ?>
-                    <tr data-id="<?= htmlspecialchars($produto['PRODUTO']) ?>">
-                        <td><?= htmlspecialchars($produto['PRODUTO']) ?></td>
-                        <td data-campo="descricao"><?= htmlspecialchars($produto['NOME']) ?></td>
-                        <td data-campo="referencia"><?= htmlspecialchars($produto['REFERENCIA'] ?? '') ?></td>
-                        <td data-campo="referencia2"><?= htmlspecialchars($produto['REFERENCIA2'] ?? '') ?></td>
-                        <td data-campo="codigobarra"><?= htmlspecialchars($produto['CODIGOBARRA'] ?? '') ?></td>
-                        <td data-campo="preco">R$ <?= number_format(($produto['PRECO_VENDA'] ?? 0), 2, ',', '.') ?></td>
-                        <td>
-                            <button type="button" 
-                                    class="btn btn-primary btn-sm" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#modalEditarProduto"
-                                    data-id="<?= htmlspecialchars($produto['PRODUTO']) ?>"
-                                    data-codigo="<?= htmlspecialchars($produto['PRODUTO']) ?>"
-                                    data-descricao="<?= htmlspecialchars($produto['NOME']) ?>"
-                                    data-referencia="<?= htmlspecialchars($produto['REFERENCIA'] ?? '') ?>"
-                                    data-referencia2="<?= htmlspecialchars($produto['REFERENCIA2'] ?? '') ?>"
-                                    data-codigobarra="<?= htmlspecialchars($produto['CODIGOBARRA'] ?? '') ?>"
-                                    data-preco="<?= $produto['PRECO_VENDA'] ?? 0 ?>">
-                                <i class="bi bi-pencil-square"></i> Editar
-                            </button>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </tbody>
-    </table>
-</div>
-
-<!-- Inclui o Modal para Editar Produto -->
-<div class="modal fade" id="modalEditarProduto" tabindex="-1" aria-labelledby="modalEditarProdutoLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalEditarProdutoLabel">Editar Produto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        <!-- Feedback da Busca -->
+        <?php if (!empty($termo)): ?>
+            <div class="alert alert-info">
+                Resultados da busca por: <strong><?= htmlspecialchars($termo) ?></strong>.
+                <?php if (isset($produtos) && is_array($produtos)): ?>
+                    <?= count($produtos) ?> produto(s) encontrado(s).
+                <?php endif; ?>
             </div>
-            <div class="modal-body">
-                <form id="formEditarProduto">
-                    <!-- Campo oculto para ID do produto (usado na API) -->
-                    <input type="hidden" id="modalProdutoId" name="modalProdutoId">
-                    
-                    <div class="mb-3">
-                        <label for="modalCodigo" class="form-label">Código</label>
-                        <input type="text" class="form-control" id="modalCodigo" name="modalCodigo" readonly>
-                        <small class="text-muted">O código do produto não pode ser alterado.</small>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="modalDescricao" class="form-label">Descrição</label>
-                        <input type="text" class="form-control" id="modalDescricao" name="modalDescricao" required>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="modalReferencia" class="form-label">Referência</label>
-                        <input type="text" class="form-control" id="modalReferencia" name="modalReferencia">
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="modalReferencia2" class="form-label">Referência 2</label>
-                        <input type="text" class="form-control" id="modalReferencia2" name="modalReferencia2">
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="modalCodigoBarras" class="form-label">Código de Barras</label>
-                        <input type="text" class="form-control" id="modalCodigoBarras" name="modalCodigoBarras">
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="modalPreco" class="form-label">Preço</label>
-                        <div class="input-group">
-                            <span class="input-group-text">R$</span>
-                            <input type="text" class="form-control" id="modalPreco" name="modalPreco" 
-                                   pattern="^\d+(\,\d{1,2})?$" placeholder="0,00">
+        <?php endif; ?>
+
+        <!-- Tabela de Produtos -->
+        <?php if (!empty($produtos) && is_array($produtos)): ?>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Cód. Interno</th>
+                            <th>Descrição</th>
+                            <th>Cód. Barras</th>
+                            <th>Qtd. Máx. Arm.</th>
+                            <th>Local</th>
+                            <th>Local 2</th>
+                            <th>Local 3</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($produtos as $index => $produto): ?>
+                            <tr id="produto-row-<?= $index ?>">
+                                <td class="cell-produto-codigo"><?= htmlspecialchars($produto['PRODUTO'] ?? '') ?></td>
+                                <td class="cell-produto-descricao"><?= htmlspecialchars($produto['DESCRICAO'] ?? 'N/A') ?></td>
+                                <td class="cell-produto-codigobarra"><?= htmlspecialchars($produto['CODIGOBARRA'] ?? '') ?></td>
+                                <td class="cell-produto-qtd_max_armazenagem"><?= htmlspecialchars($produto['QTD_MAX_ARMAZENAGEM'] ?? 0) ?></td>
+                                <td class="cell-produto-local"><?= htmlspecialchars($produto['LOCAL'] ?? '') ?></td>
+                                <td class="cell-produto-local2"><?= htmlspecialchars($produto['LOCAL2'] ?? '') ?></td>
+                                <td class="cell-produto-local3"><?= htmlspecialchars($produto['LOCAL3'] ?? '') ?></td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-primary btn-editar-produto"
+                                        data-bs-toggle="modal" data-bs-target="#modalEditarProduto"
+                                        data-row-index="<?= $index ?>"
+                                        data-id_produto="<?= htmlspecialchars($produto['PRODUTO'] ?? '') ?>"
+                                        data-descricao="<?= htmlspecialchars($produto['DESCRICAO'] ?? 'N/A') ?>"
+                                        data-codigobarra="<?= htmlspecialchars($produto['CODIGOBARRA'] ?? '') ?>"
+                                        data-qtd_max_armazenagem="<?= htmlspecialchars($produto['QTD_MAX_ARMAZENAGEM'] ?? 0) ?>"
+                                        data-local="<?= htmlspecialchars($produto['LOCAL'] ?? '') ?>"
+                                        data-local2="<?= htmlspecialchars($produto['LOCAL2'] ?? '') ?>"
+                                        data-local3="<?= htmlspecialchars($produto['LOCAL3'] ?? '') ?>">
+                                        Editar
+                                    </button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php elseif (!empty($termo)): ?>
+            <div class="alert alert-warning">
+                Nenhum produto encontrado com o termo de busca.
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <!-- Modal Editar Produto -->
+    <div class="modal fade" id="modalEditarProduto" tabindex="-1" aria-labelledby="modalEditarProdutoLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditarProdutoLabel">Editar Produto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditarProduto" method="POST"> <!-- Removido action, será tratado por JS -->
+                        <input type="hidden" id="modalIdProduto" name="id_produto">
+                        <input type="hidden" id="modalRowIndex" name="row_index">
+
+                        <div class="mb-3">
+                            <label for="modalCodigoInterno" class="form-label">Código Interno (Produto)</label>
+                            <input type="text" class="form-control" id="modalCodigoInterno" name="codigo_interno" readonly>
                         </div>
-                        <small class="text-muted">Use vírgula como separador decimal (ex: 10,50)</small>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="btnSalvarAlteracoes">Salvar Alterações</button>
+                        <div class="mb-3">
+                            <label for="modalDescricao" class="form-label">Descrição</label>
+                            <input type="text" class="form-control" id="modalDescricao" name="descricao" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="modalCodigoBarras" class="form-label">Código de Barras</label>
+                            <input type="text" class="form-control" id="modalCodigoBarras" name="CODIGOBARRA">
+                        </div>
+                        <div class="mb-3">
+                            <label for="modalQtdMaxArmazenagem" class="form-label">Qtd. Máx. Armazenagem</label>
+                            <input type="number" class="form-control" id="modalQtdMaxArmazenagem" name="QTD_MAX_ARMAZENAGEM" min="0" value="0" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="modalLocal" class="form-label">Local</label>
+                                <input type="text" class="form-control" id="modalLocal" name="LOCAL">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="modalLocal2" class="form-label">Local 2</label>
+                                <input type="text" class="form-control" id="modalLocal2" name="LOCAL2">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="modalLocal3" class="form-label">Local 3</label>
+                                <input type="text" class="form-control" id="modalLocal3" name="LOCAL3">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" id="btnSalvarAlteracoes">Salvar Alterações</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    var modalEditarProduto = document.getElementById('modalEditarProduto');
-    var bootstrapModalInstance; // Guardar a instância do modal do Bootstrap
-
-    if (modalEditarProduto) {
-        bootstrapModalInstance = new bootstrap.Modal(modalEditarProduto); // Inicializa a instância do modal
-
-        modalEditarProduto.addEventListener('show.bs.modal', function (event) {
-            var button = event.relatedTarget;
-            var produtoId = button.getAttribute('data-id'); // ID original para identificar na API
-            var codigo = button.getAttribute('data-codigo');
-            var descricao = button.getAttribute('data-descricao');
-            var referencia = button.getAttribute('data-referencia');
-            var referencia2 = button.getAttribute('data-referencia2');
-            var codigobarra = button.getAttribute('data-codigobarra');
-            var preco = button.getAttribute('data-preco');
-
-            var modalTitle = modalEditarProduto.querySelector('.modal-title');
-            var modalProdutoIdInput = modalEditarProduto.querySelector('#modalProdutoId');
-            var modalCodigoInput = modalEditarProduto.querySelector('#modalCodigo');
-            var modalDescricaoInput = modalEditarProduto.querySelector('#modalDescricao');
-            var modalReferenciaInput = modalEditarProduto.querySelector('#modalReferencia');
-            var modalReferencia2Input = modalEditarProduto.querySelector('#modalReferencia2');
-            var modalCodigoBarrasInput = modalEditarProduto.querySelector('#modalCodigoBarras');
-            var modalPrecoInput = modalEditarProduto.querySelector('#modalPreco');
-
-            modalTitle.textContent = 'Editar Produto: ' + codigo;
-            if (modalProdutoIdInput) modalProdutoIdInput.value = produtoId; // Usado para enviar à API qual produto atualizar
-            if (modalCodigoInput) modalCodigoInput.value = codigo; // Código visível, pode ou não ser editável/enviado
-            if (modalDescricaoInput) modalDescricaoInput.value = descricao;
-            if (modalReferenciaInput) modalReferenciaInput.value = referencia;
-            if (modalReferencia2Input) modalReferencia2Input.value = referencia2;
-            if (modalCodigoBarrasInput) modalCodigoBarrasInput.value = codigobarra;
-            if (modalPrecoInput) modalPrecoInput.value = precoFormatado(preco);
-        });
-    }
-
-    // Função para formatar o preço para exibição
-    function precoFormatado(valor) {
-        if (!valor) return "0,00";
-        // Converte para número e formata com 2 casas decimais
-        return parseFloat(valor).toFixed(2).replace('.', ',');
-    }
-
-    var btnSalvar = document.getElementById('btnSalvarAlteracoes');
-    if (btnSalvar) {
-        btnSalvar.addEventListener('click', function() {
-            var form = document.getElementById('formEditarProduto');
-            
-            // Verificação de validação básica
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
-            
-            var formData = new FormData(form);
-
-            // Adicionar feedback visual de carregamento
-            btnSalvar.disabled = true;
-            btnSalvar.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Salvando...';
-
-            // Enviar dados para o controller PHP
-            fetch('index.php?uri=', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                return response.json(); // Converte a resposta para JSON
-            })
-            .then(data => {
-                console.log('Resposta do servidor:', data);
-                
-                if (data.success) {
-                    // Mostra mensagem de sucesso
-                    exibirAlerta('success', 'Produto atualizado com sucesso!');
-                    
-                    // Fecha o modal
-                    if (bootstrapModalInstance) {
-                        bootstrapModalInstance.hide();
-                    }
-                    
-                    // Atualiza a linha na tabela (se aplicável)
-                    atualizarLinhaProduto(formData.get('modalProdutoId'), data.data);
-                } else {
-                    // Mostra mensagem de erro
-                    exibirAlerta('danger', 'Erro ao salvar: ' + (data.message || 'Ocorreu um erro desconhecido.'));
-                    console.error("Detalhes do erro:", data.details);
-                }
-            })
-            .catch((error) => {
-                console.error('Erro na requisição fetch:', error);
-                exibirAlerta('danger', 'Erro de comunicação: ' + error.message);
-            })
-            .finally(() => {
-                // Restaura o botão
-                btnSalvar.disabled = false;
-                btnSalvar.innerHTML = 'Salvar Alterações';
-            });
-        });
-    }
     
-    // Função para mostrar alertas na página
-    function exibirAlerta(tipo, mensagem) {
-        // Cria o elemento de alerta
-        var alertEl = document.createElement('div');
-        alertEl.className = 'alert alert-' + tipo + ' alert-dismissible fade show';
-        alertEl.setAttribute('role', 'alert');
-        alertEl.innerHTML = mensagem + 
-            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>';
-        
-        // Insere o alerta no topo da página
-        var container = document.querySelector('.container') || document.body;
-        container.insertBefore(alertEl, container.firstChild);
-        
-        // Configura para desaparecer após 5 segundos
-        setTimeout(function() {
-            alertEl.classList.remove('show');
-            setTimeout(function() {
-                alertEl.remove();
-            }, 150);
-        }, 5000);
-    }
-    
-    // Função para atualizar uma linha na tabela de produtos
-    function atualizarLinhaProduto(produtoId, dados) {
-        var linhaProduto = document.querySelector('tr[data-id="' + produtoId + '"]');
-        if (!linhaProduto) return; // Se não encontrar a linha, não faz nada
-        
-        // Atualiza os dados na linha
-        if (dados.NOME) {
-            var colDescricao = linhaProduto.querySelector('td[data-campo="descricao"]');
-            if (colDescricao) colDescricao.textContent = dados.NOME;
-        }
-        
-        if (dados.REFERENCIA) {
-            var colReferencia = linhaProduto.querySelector('td[data-campo="referencia"]');
-            if (colReferencia) colReferencia.textContent = dados.REFERENCIA;
-        }
-        
-        if (dados.REFERENCIA2) {
-            var colReferencia2 = linhaProduto.querySelector('td[data-campo="referencia2"]');
-            if (colReferencia2) colReferencia2.textContent = dados.REFERENCIA2;
-        }
-        
-        if (dados.CODIGOBARRA) {
-            var colCodigoBarra = linhaProduto.querySelector('td[data-campo="codigobarra"]');
-            if (colCodigoBarra) colCodigoBarra.textContent = dados.CODIGOBARRA;
-        }
-        
-        if (dados.PRECO_VENDA) {
-            var colPreco = linhaProduto.querySelector('td[data-campo="preco"]');
-            if (colPreco) colPreco.textContent = 'R$ ' + precoFormatado(dados.PRECO_VENDA);
-        }
-        
-        // Atualiza também os atributos data- do botão de editar
-        var btnEditar = linhaProduto.querySelector('button[data-id="' + produtoId + '"]');
-        if (btnEditar) {
-            if (dados.NOME) btnEditar.setAttribute('data-descricao', dados.NOME);
-            if (dados.REFERENCIA) btnEditar.setAttribute('data-referencia', dados.REFERENCIA);
-            if (dados.REFERENCIA2) btnEditar.setAttribute('data-referencia2', dados.REFERENCIA2);
-            if (dados.CODIGOBARRA) btnEditar.setAttribute('data-codigobarra', dados.CODIGOBARRA);
-            if (dados.PRECO_VENDA) btnEditar.setAttribute('data-preco', dados.PRECO_VENDA);
-        }
-        
-        // Destaca brevemente a linha atualizada
-        linhaProduto.classList.add('table-success');
-        setTimeout(function() {
-            linhaProduto.classList.remove('table-success');
-        }, 3000);
-    }
-});
-</script>
+</body>
+</html>

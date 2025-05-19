@@ -13,7 +13,7 @@ class View
         extract($attributes);
         
 
-       // print (self::layout()['header']);
+     //   print (self::layout()['header']);
         file_exists(views . $path) && include views . $path;
        // print (self::layout()['footer']);
 

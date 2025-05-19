@@ -187,20 +187,174 @@ class ProdutoApi extends TokensControl {
     public function buscarTodos(string $termo, bool $buscaParcial = true, ?int $limite = null): array
     {
         return $this->buscarProdutos($termo, $termo, $termo, $termo, $buscaParcial, $limite);
-    }
-    
-    /**
-     * Busca produto por código de barras
-     * 
-     * @param string $codBarra Código de barras a ser pesquisado
-     * @param bool $buscaParcial Se true, busca por correspondência parcial
-     * @return array|null Produto encontrado ou null
-     */
-    public function buscarPorCodigoBarras(string $codBarra, bool $buscaParcial = false): ?array
+    }  
+
+        public function atualizarProduto(string $produtoId, array $dadosAtualizacao): array
     {
-        $resultado = $this->buscarProdutos('', '', '', $codBarra, $buscaParcial, 1);
-        return !empty($resultado) ? $resultado[0] : null;
+        // Validar se o ID do produto foi informado
+        if (empty($produtoId)) {
+            return [
+                'status' => false,
+                'mensagem' => 'Código do produto (ID) é obrigatório para atualização.'
+            ];
+        }
+
+        // Validar se há dados para atualizar
+        if (empty($dadosAtualizacao)) {
+            return [
+                'status' => false,
+                'mensagem' => 'Nenhum dado fornecido para atualização.'
+            ];
+        }
+
+        try {
+            // Os $dadosAtualizacao agora vêm diretamente do controller
+            // com os campos que o usuário pode modificar no modal.
+            // A API Emauto deve lidar com a mesclagem ou atualização parcial.
+
+            $dadosParaEnviar = [];
+            // Sanitizar os dados recebidos para garantir segurança
+            foreach ($dadosAtualizacao as $campo => $valor) {
+                // Apenas sanitiza strings. Números e booleanos podem precisar de validação/conversão específica
+                // que pode ser feita no controller ou aqui, se necessário.
+                if (is_string($valor)) {
+                    $dadosParaEnviar[$campo] = Sanitizantes::filtro($valor);
+                } else {
+                    $dadosParaEnviar[$campo] = $valor; // Mantém números, booleanos, etc.
+                }
+            }
+
+            // Garantir que QTD_MAX_ARMAZENAGEM seja um inteiro se estiver presente
+            if (isset($dadosParaEnviar['QTD_MAX_ARMAZENAGEM'])) {
+                $dadosParaEnviar['QTD_MAX_ARMAZENAGEM'] = (int)$dadosParaEnviar['QTD_MAX_ARMAZENAGEM'];
+            }
+
+            // Preparar os dados para o PUT
+            // A API Emauto espera um objeto JSON, não um array de objetos.
+            $dadosJson = json_encode($dadosParaEnviar);
+
+            // Construir o endpoint para o produto específico
+            // A URL da API Emauto para PUT em um produto específico pode ser diferente
+            // Verifique se é realmente (id) ou algo como /produtos/id
+            $endpoint = "(" . urlencode($produtoId) . ")"; // Mantendo sua formatação original
+
+            // Fazer a requisição à API Emauto
+            // Certifique-se que apiProdutos está definido corretamente
+            $this->apiServiceEmauto->set(
+                apiProdutos . $endpoint, // Ex: 'http://api.emauto.com/produtos/(ID_DO_PRODUTO)'
+                'PUT',
+                $dadosJson,
+                false, // useLineCounts: false
+            //   'application/json' // contentType: 'application/json' É IMPORTANTE para PUT/POST com JSON
+            );
+
+            // Obter o resultado
+            $statusCode = $this->apiServiceEmauto->getStatus();
+            $conteudo = $this->apiServiceEmauto->getConteudo();
+
+            // Verificar se a requisição foi bem-sucedida (geralmente 200 OK, 201 Created, 204 No Content para PUT/DELETE)
+            if ($statusCode >= 200 && $statusCode <= 204) { // Ajustado para incluir 204
+                return [
+                    'status' => true,
+                    'mensagem' => 'Produto atualizado com sucesso via Emauto.',
+                    'codigo' => $statusCode,
+                    'resposta_api' => $conteudo // Opcional: retornar a resposta da API
+                ];
+            } else {
+                // Tentar decodificar o conteúdo se for JSON, para melhor log/mensagem de erro
+                $detalhesErroApi = $conteudo;
+                $jsonDecodificado = json_decode($conteudo, true);
+                if (json_last_error() === JSON_ERROR_NONE && is_array($jsonDecodificado)) {
+                    $detalhesErroApi = $jsonDecodificado;
+                }
+
+                Erros::salva("ProdutosErro - Falha ao atualizar produto no EMAUTO", [
+                    'produtoId' => $produtoId,
+                    'dadosEnviados' => $dadosParaEnviar,
+                    'statusCode' => $statusCode,
+                    'respostaApi' => $detalhesErroApi
+                ]);
+
+                return [
+                    'status' => false,
+                    'mensagem' => 'Erro ao atualizar produto na API Emauto.',
+                    'detalhes' => $detalhesErroApi, // Retorna a resposta da API para depuração
+                    'codigo' => $statusCode
+                ];
+            }
+        } catch (\Throwable $th) {
+            Erros::salva("ProdutosErro - Exceção ao tentar atualizar produto no EMAUTO", [
+                'produtoId' => $produtoId,
+                'dadosAtualizacaoBrutos' => $dadosAtualizacao, // Dados antes da sanitização/transformação
+                'erro' => $th->getMessage(),
+                'trace' => $th->getTraceAsString()
+            ]);
+
+            return [
+                'status' => false,
+                'mensagem' => 'Ocorreu uma exceção interna ao tentar atualizar o produto.',
+                'detalhes' => $th->getMessage()
+            ];
+        }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * Atualiza os dados de um produto no sistema EMAUTO
@@ -209,108 +363,102 @@ class ProdutoApi extends TokensControl {
  * @param array $dadosAtualizacao Array contendo os campos a serem atualizados
  * @return array Resultado da operação com status e mensagem
  */
-public function atualizarProduto(string $produto, array $dadosAtualizacao): array
-{
-    // Validar se o produto foi informado
-    if (empty($produto)) {
-        return [
-            'status' => false,
-            'mensagem' => 'Código do produto é obrigatório'
-        ];
-    }
+// public function atualizarProduto(string $produto, array $dadosAtualizacao): array
+// {
+//     // Validar se o produto foi informado
+//     if (empty($produto)) {
+//         return [
+//             'status' => false,
+//             'mensagem' => 'Código do produto é obrigatório'
+//         ];
+//     }
     
-    try {
-        // Primeiro, buscar o produto atual para garantir que temos todos os campos obrigatórios
-        $produtoAtual = $this->buscarProdutos(produto: $produto, buscaParcial: false);
+//     try {
+      
         
-        if (empty($produtoAtual)) {
-            return [
-                'status' => false,
-                'mensagem' => 'Produto não encontrado'
-            ];
-        }
+//         // Definir todos os campos obrigatórios com seus valores atuais ou vazios
+//         $camposObrigatorios = [
+//             'PRODUTO' => $produto['PRODUTO'] ?? '',
+//             'NOME' => $produto['NOME'] ?? '',
+//             'DT_COMPRA' => $produto['DT_COMPRA'] ?? null,
+//             'DT_VENDA' => $produto['DT_VENDA'] ?? null,
+//             'SERVICO' => $produto['SERVICO'] ?? '',
+//             'ATIVO' => $produto['ATIVO'] ?? '',
+//             'USAR_MARGEM_CURVA' => $produto['USAR_MARGEM_CURVA'] ?? '',
+//             'MARGEM_CURVA' => $produto['MARGEM_CURVA'] ?? 0,
+//             'ETIQUETA' => $produto['ETIQUETA'] ?? '',
+//             'COMPRA' => $produto['COMPRA'] ?? '',
+//             'QTD_MAXIMA' => $produto['QTD_MAXIMA'] ?? 0,
+//             'QTD_GARANTIA' => $produto['QTD_GARANTIA'] ?? 0,
+//             'TRANCAR' => $produto['TRANCAR'] ?? '',
+//             'WEB' => $produto['WEB'] ?? '',
+//             'VENDA_COM_OFERTA' => $produto['VENDA_COM_OFERTA'] ?? ''
+//         ];
         
-        // Usar o primeiro resultado (deve ser único pois fizemos busca exata)
-        $produtoAtual = $produtoAtual[0];
+//         // Mesclar os dados atualizados com os campos obrigatórios
+//         $dadosCompletos = array_merge($camposObrigatorios, $dadosAtualizacao);
         
-        // Definir todos os campos obrigatórios com seus valores atuais ou vazios
-        $camposObrigatorios = [
-            'PRODUTO' => $produtoAtual['PRODUTO'] ?? '',
-            'NOME' => $produtoAtual['NOME'] ?? '',
-            'DT_COMPRA' => $produtoAtual['DT_COMPRA'] ?? null,
-            'DT_VENDA' => $produtoAtual['DT_VENDA'] ?? null,
-            'SERVICO' => $produtoAtual['SERVICO'] ?? '',
-            'ATIVO' => $produtoAtual['ATIVO'] ?? '',
-            'USAR_MARGEM_CURVA' => $produtoAtual['USAR_MARGEM_CURVA'] ?? '',
-            'MARGEM_CURVA' => $produtoAtual['MARGEM_CURVA'] ?? 0,
-            'ETIQUETA' => $produtoAtual['ETIQUETA'] ?? '',
-            'COMPRA' => $produtoAtual['COMPRA'] ?? '',
-            'QTD_MAXIMA' => $produtoAtual['QTD_MAXIMA'] ?? 0,
-            'QTD_GARANTIA' => $produtoAtual['QTD_GARANTIA'] ?? 0,
-            'TRANCAR' => $produtoAtual['TRANCAR'] ?? '',
-            'WEB' => $produtoAtual['WEB'] ?? '',
-            'VENDA_COM_OFERTA' => $produtoAtual['VENDA_COM_OFERTA'] ?? ''
-        ];
+//         // Sanitizar os dados para garantir segurança
+//         foreach ($dadosCompletos as $campo => $valor) {
+//             if (is_string($valor)) {
+//                 $dadosCompletos[$campo] = Sanitizantes::filtro($valor);
+//             }
+//         }
         
-        // Mesclar os dados atualizados com os campos obrigatórios
-        $dadosCompletos = array_merge($camposObrigatorios, $dadosAtualizacao);
+//         // Preparar os dados para o PUT
+//         $dadosJson = json_encode($dadosCompletos);
         
-        // Sanitizar os dados para garantir segurança
-        foreach ($dadosCompletos as $campo => $valor) {
-            if (is_string($valor)) {
-                $dadosCompletos[$campo] = Sanitizantes::filtro($valor);
-            }
-        }
+//         // Construir o endpoint para o produto específico
+//         $endpoint = "(" . urlencode($produto) . ")";
         
-        // Preparar os dados para o PUT
-        $dadosJson = json_encode($dadosCompletos);
+//         // Fazer a requisição à API
+//         $this->apiServiceEmauto->set(
+//             apiProdutos . $endpoint,
+//             'PUT',
+//             $dadosJson,
+//             useLineCounts: false,
+//            // contentType: 'application/json'
+//         );
         
-        // Construir o endpoint para o produto específico
-        $endpoint = "(" . urlencode($produto) . ")";
+//         // Obter o resultado
+//         $statusCode = $this->apiServiceEmauto->getStatus();
+//         $conteudo = $this->apiServiceEmauto->getConteudo();
         
-        // Fazer a requisição à API
-        $this->apiServiceEmauto->set(
-            apiProdutos . $endpoint,
-            'PUT',
-            $dadosJson,
-            useLineCounts: false,
-           // contentType: 'application/json'
-        );
+//         // Verificar se a requisição foi bem-sucedida
+//          //  Erros::salva("TESTE",$conteudo );
         
-        // Obter o resultado
-        $statusCode = $this->apiServiceEmauto->getStatus();
-        $conteudo = $this->apiServiceEmauto->getConteudo();
+
+//         if ($statusCode < 200 || $statusCode > 204) {
+
+
+//             return [
+//                 'status' => false,
+//                 'mensagem' => 'Erro ao atualizar produto',
+//                 'detalhes' => $conteudo,
+//                 'codigo' => $statusCode
+//             ];
+//         }
         
-        // Verificar se a requisição foi bem-sucedida
-        if ($statusCode < 200 || $statusCode > 204) {
-            return [
-                'status' => false,
-                'mensagem' => 'Erro ao atualizar produto',
-                'detalhes' => $conteudo,
-                'codigo' => $statusCode
-            ];
-        }
+//         return [
+//             'status' => true,
+//             'mensagem' => 'Produto atualizado com sucesso',
+//             'codigo' => $statusCode
+//         ];
         
-        return [
-            'status' => true,
-            'mensagem' => 'Produto atualizado com sucesso',
-            'codigo' => $statusCode
-        ];
+//     } catch (\Throwable $th) {
+//         Erros::salva("ProdutosErro - Erro ao atualizar produto no EMAUTO", [
+//             'produto' => $produto,
+//             'dadosAtualizacao' => $dadosAtualizacao,
+//             'erro' => $th->getMessage()
+//         ]);
         
-    } catch (\Throwable $th) {
-        Erros::salva("ProdutosErro - Erro ao atualizar produto no EMAUTO", [
-            'produto' => $produto,
-            'dadosAtualizacao' => $dadosAtualizacao,
-            'erro' => $th->getMessage()
-        ]);
-        
-        return [
-            'status' => false,
-            'mensagem' => 'Ocorreu um erro ao atualizar o produto',
-            'detalhes' => $th->getMessage()
-        ];
-    }
-}
+//         return [
+//             'status' => false,
+//             'mensagem' => 'Ocorreu um erro ao atualizar o produto',
+//             'detalhes' => $th->getMessage()
+//         ];
+//     }
+// }
 
 
 }
