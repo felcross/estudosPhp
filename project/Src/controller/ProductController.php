@@ -16,118 +16,105 @@ class ProdutoController
 
     public function __construct()
     {
-        $this->produtoApi = new ProdutoApi(); // Supondo que ProdutoApi não precise de args ou use defaults
+        $this->produtoApi = new ProdutoApi(); 
     }
 
-    // Este método agora é chamado primeiro dentro de buscar()
-    // e lida exclusivamente com a lógica de atualização via POST AJAX.
     public function processarAtualizacaoAjax()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['PUT'])) {
-            header('Content-Type: application/json'); // Sempre retorne JSON para AJAX
+            //header('Content-Type: application/json');
 
-            $produtoId = $_POST['id_produto'] ?? null; // Do input hidden #modalIdProduto
+       //   dd($_POST);
 
-            // Novos campos do formulário do modal (conforme seu JS)
-            // As chaves do $_POST devem corresponder aos 'name' dos inputs no modal
-            // e ao que o JavaScript está enviando.
+            // O ID do produto vem do input hidden #modalIdProduto com name="id_produto"
+            $produtoId = $_POST['produto_id'] ?? null;
+
+            // Campos do formulário do modal. As chaves de $_POST correspondem
+            // aos 'name' dos inputs no modal e às chaves do formData no JS.
             $descricao = $_POST['descricao'] ?? null;
-            $codigoBarra = $_POST['CODIGOBARRA'] ?? null; // JS envia 'CODIGOBARRA'
-            $qtdMaxArmazenagem = $_POST['QTD_MAX_ARMAZENAGEM'] ?? null; // JS envia 'QTD_MAX_ARMAZENAGEM'
-            $local = $_POST['LOCAL'] ?? null; // JS envia 'LOCAL'
-            $local2 = $_POST['LOCAL2'] ?? null; // JS envia 'LOCAL2'
-            $local3 = $_POST['LOCAL3'] ?? null; // JS envia 'LOCAL3'
+            $codigoBarra = $_POST['codigobarra'] ?? null;
+            $qtdMaxArmazenagem = $_POST['qtd_max_armazenagem'] ?? null;
+            $local = $_POST['local'] ?? null;
+            $local2 = $_POST['local2'] ?? null;
+            $local3 = $_POST['local3'] ?? null;
 
             if (!$produtoId) {
-                echo json_encode(['success' => false, 'message' => 'ID do produto não fornecido PROD.']);
+                echo json_encode(['success' => false, 'message' => 'ID do produto não fornecido para atualização.']);
                 exit;
             }
 
-            // Montar o array de dados para atualização
-            // As chaves aqui devem corresponder ao que a API Emauto espera.
-            // Se a API Emauto espera DESCRICAO, CODIGOBARRA (maiúsculas), mantenha assim.
             $dadosParaAtualizar = [];
 
-            // Adicione apenas os campos que foram enviados e são permitidos para atualização
+        
+     
             if ($descricao !== null) {
-                $dadosParaAtualizar['DESCRICAO'] = $descricao; // Ex: se a API espera 'DESCRICAO'
+                $dadosParaAtualizar['descricao'] = $descricao;
             }
             if ($codigoBarra !== null) {
-                $dadosParaAtualizar['CODIGOBARRA'] = $codigoBarra;
+                $dadosParaAtualizar['codigobarra'] = $codigoBarra;
             }
             if ($qtdMaxArmazenagem !== null) {
-                // O Model fará o (int) cast, mas pode ser bom validar se é numérico aqui
-                $dadosParaAtualizar['QTD_MAX_ARMAZENAGEM'] = $qtdMaxArmazenagem;
+                $dadosParaAtualizar['qtd_max_armazenagem'] = (int)$qtdMaxArmazenagem; // Cast para int
             }
             if ($local !== null) {
-                $dadosParaAtualizar['LOCAL'] = $local;
+                $dadosParaAtualizar['local'] = $local;
             }
             if ($local2 !== null) {
-                $dadosParaAtualizar['LOCAL2'] = $local2;
+                $dadosParaAtualizar['local2'] = $local2;
             }
             if ($local3 !== null) {
-                $dadosParaAtualizar['LOCAL3'] = $local3;
+                $dadosParaAtualizar['local3'] = $local3;
             }
 
-            // Adicione outros campos que sua API Emauto possa aceitar e que venham do form
-            // Por exemplo, se 'REFERENCIA' ainda é um campo editável e enviado pelo JS:
-            // if (isset($_POST['referencia'])) $dadosParaAtualizar['REFERENCIA'] = $_POST['referencia'];
+          //  dd($dadosParaAtualizar);
 
             if (empty($dadosParaAtualizar)) {
                  echo json_encode(['success' => false, 'message' => 'Nenhum dado válido para atualização foi fornecido.']);
                  exit;
             }
 
-
-            $resultado = $this->produtoApi->atualizarProduto($produtoId, $dadosParaAtualizar);
-
-            // dd($resultado); // Remova ou comente para produção
-
-            if ($resultado['status']) {
-                echo json_encode(['success' => true, 'message' => $resultado['mensagem'], 'data' => $resultado]);
+            // Aqui, $produtoId é o valor de $produto['PRODUTO'] que foi enviado
+            $resultado = $this->produtoApi->atualizarProduto($produtoId, $dadosParaAtualizar );
+           
+            var_dump($resultado);
+            if (isset($resultado['status']) && $resultado['status']) { // Verifique se 'status' existe antes de acessá-lo
+                echo json_encode(['success' => true, 'message' => $resultado['mensagem'] ?? 'Produto atualizado com sucesso!', 'data' => $resultado]);
             } else {
-                // Para erros, você pode querer enviar um código de status HTTP diferente
-                // http_response_code(400); // Bad Request, se for erro de validação do cliente
-                // http_response_code(500); // Internal Server Error, se for erro da API Emauto ou do seu sistema
+                http_response_code('Falha!!' . 400); // Ou 500, dependendo da natureza do erro
                 echo json_encode([
                     'success' => false,
-                    'message' => $resultado['mensagem'],
+                    'message' => $resultado['mensagem'] ?? 'Falha ao atualizar o produto.',
                     'details' => $resultado['detalhes'] ?? null,
                     'api_status_code' => $resultado['codigo'] ?? null
                 ]);
             }
-            exit; // Crucial: Impede que o restante da renderização da página HTML ocorra
+            exit;
         }
     }
 
     public function buscar()
     {
-        // Chama o método para processar a atualização AJAX PRIMEIRO.
-        // Se for uma requisição de atualização, ele fará o 'exit' e não continuará.
         $this->processarAtualizacaoAjax();
 
-        // Fluxo normal de carregamento da página para busca (GET)
-        $termo = isset($_GET['termo']) ? Sanitizantes::filtro($_GET['termo']) : ''; // Sanitizar termo de busca
+        $termo = isset($_GET['termo']) ? filter_input(INPUT_GET, 'termo', FILTER_SANITIZE_SPECIAL_CHARS) : ''; // Sanitizar
         $produtos = [];
 
         if (!empty($termo)) {
-            // Supondo que buscarTodos lide com a sanitização interna ou que o termo já está seguro
-            $produtos = $this->produtoApi->buscarTodos($termo, true, 15); // limite: 15
+            $produtos = $this->produtoApi->buscarTodos($termo, true, 15);
         }
 
-        // Supondo que 'View' é sua classe para renderizar templates
-        // e 'product' é um arquivo JS específico para esta view.
-        View::render('page/search2.html.php', [
+       
+        View::render('page/teste.html.php', [ 
             'produtos' => $produtos,
             'termo' => $termo,
-        ], 'product'); // js:'product'
+        ], 'Product'); 
     }
 }
 
-// Roteamento básico (geralmente em um arquivo de rotas ou index.php)
- $productController = new ProdutoController();
- $productController->buscar(); // Este método agora lida com POST para atualização ou GET para busca
 
+
+ $productController = new ProdutoController();
+ $productController->buscar();
 
 
 

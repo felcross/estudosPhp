@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
@@ -7,40 +6,10 @@
     <title>Busca e Edição de Produtos</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        /* Estilos adicionais, se necessário */
-        body {
-            padding-top: 20px; /* Espaço para mensagens flash fixas */
-        }
-        .flash-message-container {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            z-index: 1055; /* Acima do modal */
-            min-width: 300px;
-        }
-        .table th, .table td {
-            vertical-align: middle;
-        }
-    </style>
+ 
 </head>
 
-<body>
-    <div class="flash-message-container" id="flashMessageContainer">
-        <!-- Mensagens flash (PHP ou JS) serão inseridas aqui -->
-        <?php
-        // Exemplo de como você poderia ter uma mensagem flash vinda do PHP
-        // session_start(); // Se estiver usando sessões
-        // if (isset($_SESSION['flash_message'])) {
-        //     echo '<div class="alert alert-' . $_SESSION['flash_type'] . ' alert-dismissible fade show" role="alert">';
-        //     echo $_SESSION['flash_message'];
-        //     echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
-        //     echo '</div>';
-        //     unset($_SESSION['flash_message']);
-        //     unset($_SESSION['flash_type']);
-        // }
-        ?>
-    </div>
+<body> 
 
     <div class="container my-5">
         <h1 class="mb-4">Busca e Edição de Produtos</h1>
@@ -98,16 +67,17 @@
                                 <td class="cell-produto-local2"><?= htmlspecialchars($produto['LOCAL2'] ?? '') ?></td>
                                 <td class="cell-produto-local3"><?= htmlspecialchars($produto['LOCAL3'] ?? '') ?></td>
                                 <td>
+                                      
                                     <button type="button" class="btn btn-sm btn-primary btn-editar-produto"
                                         data-bs-toggle="modal" data-bs-target="#modalEditarProduto"
                                         data-row-index="<?= $index ?>"
                                         data-id_produto="<?= htmlspecialchars($produto['PRODUTO'] ?? '') ?>"
-                                        data-descricao="<?= htmlspecialchars($produto['DESCRICAO'] ?? 'N/A') ?>"
+                                        data-descricao="<?=htmlspecialchars($produto['DESCRICAO'] ?? 'N/A') ?>" 
                                         data-codigobarra="<?= htmlspecialchars($produto['CODIGOBARRA'] ?? '') ?>"
                                         data-qtd_max_armazenagem="<?= htmlspecialchars($produto['QTD_MAX_ARMAZENAGEM'] ?? 0) ?>"
                                         data-local="<?= htmlspecialchars($produto['LOCAL'] ?? '') ?>"
                                         data-local2="<?= htmlspecialchars($produto['LOCAL2'] ?? '') ?>"
-                                        data-local3="<?= htmlspecialchars($produto['LOCAL3'] ?? '') ?>">
+                                        data-local3="<?= htmlspecialchars($produto['LOCAL3'] ?? '') ?>"> 
                                         Editar
                                     </button>
                                 </td>
@@ -133,7 +103,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="formEditarProduto" method="POST"> <!-- Removido action, será tratado por JS -->
+                    <form  id="formEditarProduto" method="POST"> <!-- Removido action, será tratado por JS -->
                         <input type="hidden" id="modalIdProduto" name="id_produto">
                         <input type="hidden" id="modalRowIndex" name="row_index">
 
@@ -167,15 +137,22 @@
                                 <input type="text" class="form-control" id="modalLocal3" name="LOCAL3">
                             </div>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
+
+                         <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                     <button type="button" class="btn btn-primary" id="btnSalvarAlteracoes">Salvar Alterações</button>
                 </div>
+                    </form>
+                </div>
+             
             </div>
         </div>
     </div>
+
+       <!-- Bootstrap JS Bundle (Popper.js incluído) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+
 
     
 </body>

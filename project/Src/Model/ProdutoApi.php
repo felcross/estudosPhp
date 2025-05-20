@@ -189,114 +189,234 @@ class ProdutoApi extends TokensControl {
         return $this->buscarProdutos($termo, $termo, $termo, $termo, $buscaParcial, $limite);
     }  
 
-        public function atualizarProduto(string $produtoId, array $dadosAtualizacao): array
+
+    /**
+     * Atualiza um produto na API Emauto.
+     *
+     * @param string $idProdutoParaApi O ID/código do produto (valor do campo chave 'PRODUTO').
+     * @param array|null $dadosPayloadCompleto O payload completo com todos os campos para a API.
+     * @return array Resultado da operação.
+     */
+   public function atualizarProduto(string $idProdutoParaApi, ?array $dadosAlteradosPeloUsuario): array
     {
-        // Validar se o ID do produto foi informado
-        if (empty($produtoId)) {
-            return [
-                'status' => false,
-                'mensagem' => 'Código do produto (ID) é obrigatório para atualização.'
-            ];
+        if (empty($idProdutoParaApi)) {
+            return ['status' => false, 'mensagem' => 'Código do produto (ID) é obrigatório para atualização.'];
         }
 
-        // Validar se há dados para atualizar
-        if (empty($dadosAtualizacao)) {
-            return [
-                'status' => false,
-                'mensagem' => 'Nenhum dado fornecido para atualização.'
-            ];
+        // Se $dadosAlteradosPeloUsuario for null ou vazio, ainda podemos prosseguir se a intenção
+        // for, por exemplo, revalidar/reenviar os dados originais (embora incomum para um PUT).
+        // Por segurança, vamos assumir que se está chamando atualizar, algo mudou ou precisa ser enviado.
+        if ($dadosAlteradosPeloUsuario === null) { // Permitir array vazio se a intenção for reenviar tudo
+             $dadosAlteradosPeloUsuario = [];
         }
+
 
         try {
-            // Os $dadosAtualizacao agora vêm diretamente do controller
-            // com os campos que o usuário pode modificar no modal.
-            // A API Emauto deve lidar com a mesclagem ou atualização parcial.
+            // 1. BUSCAR OS DADOS COMPLETOS DO PRODUTO EXISTENTE
+            //    Use o seu método que já faz isso.
+            $produtoOriginalCompleto = $this->buscarTodos($idProdutoParaApi);
 
-            $dadosParaEnviar = [];
-            // Sanitizar os dados recebidos para garantir segurança
-            foreach ($dadosAtualizacao as $campo => $valor) {
-                // Apenas sanitiza strings. Números e booleanos podem precisar de validação/conversão específica
-                // que pode ser feita no controller ou aqui, se necessário.
-                if (is_string($valor)) {
-                    $dadosParaEnviar[$campo] = Sanitizantes::filtro($valor);
-                } else {
-                    $dadosParaEnviar[$campo] = $valor; // Mantém números, booleanos, etc.
+            if ($produtoOriginalCompleto === null) {
+                return [
+                    'status' => false,
+                    'mensagem' => "Produto original com ID '{$idProdutoParaApi}' não encontrado para carregar dados base.",
+                    'codigo' => 404
+                ];
+            }
+
+            // 2. FAZER O MERGE: Dados originais + alterações do usuário
+            //    Os valores em $dadosAlteradosPeloUsuario sobrescreverão os de $produtoOriginalCompleto.
+            $payloadFinalParaApi = array_merge($produtoOriginalCompleto, $dadosAlteradosPeloUsuario);
+
+            // Garante que o campo 'PRODUTO' (chave principal da API) esteja correto e presente.
+            // O merge já deve ter cuidado disso se $produtoOriginalCompleto['PRODUTO'] estiver correto.
+            $payloadFinalParaApi['PRODUTO'] = $idProdutoParaApi;
+
+
+            // Lista de campos obrigatórios e seus tipos esperados pela API Emauto
+            $camposRequeridosComTipos = [
+                'PRODUTO'           => 'string', 'NOME'              => 'string',
+                'DT_COMPRA'         => 'string', 'DT_VENDA'          => 'string',
+                'SERVICO'           => 'string', 'ATIVO'             => 'string',
+                'USAR_MARGEM_CURVA' => 'string', 'MARGEM_CURVA'      => 'number', // Alterado de 'integer' para 'number' para flexibilidade
+                'ETIQUETA'          => 'string', 'COMPRA'            => 'string',
+                'QTD_MAXIMA'        => 'number', 'QTD_GARANTIA'      => 'number',
+                'TRANCAR'           => 'string', 'WEB'               => 'string',
+                'VENDA_COM_OFERTA'  => 'string'
+            ];
+            
+            // Verificar se todos os campos obrigatórios estão presentes no $payloadFinalParaApi (APÓS O MERGE)
+            $camposAusentes = [];
+            foreach (array_keys($camposRequeridosComTipos) as $campoReq) {
+                // A API pode aceitar null para alguns campos obrigatórios, mas geralmente não.
+                // Se a API não aceitar NULL para campos obrigatórios, a verificação seria:
+                // if (!isset($payloadFinalParaApi[$campoReq])) {
+                // Ou, se strings vazias não são permitidas para campos string obrigatórios:
+                if (!array_key_exists($campoReq, $payloadFinalParaApi) || 
+                    ($payloadFinalParaApi[$campoReq] === null && !in_array($campoReq, ['MARGEM_CURVA', 'QTD_MAXIMA', 'QTD_GARANTIA'])) // Permite null para números se a API aceitar
+                   ) {
+                    $camposAusentes[] = $campoReq;
                 }
             }
+            
+            if (!empty($camposAusentes)) {
+                // Para depuração, mostre o payload que está sendo verificado:
+                // error_log("Payload antes da falha de campos ausentes: " . print_r($payloadFinalParaApi, true));
+                return [
+                    'status' => false,
+                    'mensagem' => 'Campos obrigatórios ausentes ou nulos indevidamente no payload final para a API.',
+                    'campos_ausentes' => $camposAusentes,
+                    'payload_verificado' => $payloadFinalParaApi // Para depuração
+                ];
+            }
+            
+            // Sanitizar e ajustar tipos dos dados FINAIS para envio.
+            $dadosSanitizadosParaApi = [];
+            foreach ($payloadFinalParaApi as $campo => $valor) {
+                // Se um campo não é esperado pela API, ele pode ser ignorado ou causar erro.
+                // Idealmente, filtraríamos para enviar apenas campos conhecidos pela API.
+                // Por ora, vamos processar todos os campos presentes em $payloadFinalParaApi.
 
-            // Garantir que QTD_MAX_ARMAZENAGEM seja um inteiro se estiver presente
-            if (isset($dadosParaEnviar['QTD_MAX_ARMAZENAGEM'])) {
-                $dadosParaEnviar['QTD_MAX_ARMAZENAGEM'] = (int)$dadosParaEnviar['QTD_MAX_ARMAZENAGEM'];
+                $tipoEsperado = 'string'; // Default
+                if (isset($camposRequeridosComTipos[$campo])) {
+                    $tipoEsperado = $camposRequeridosComTipos[$campo];
+                } elseif (is_numeric($valor) && !is_string($valor)) {
+                    $tipoEsperado = 'number';
+                }
+                // Adicione aqui o tratamento para outros campos opcionais que sua API aceita,
+                // como DESCRICAO, CODIGOBARRA, QTD_MAX_ARMAZENAGEM, LOCAL, LOCAL2, LOCAL3
+                // e defina seus $tipoEsperado.
+                // Ex: if ($campo === 'DESCRICAO') $tipoEsperado = 'string';
+                //     if ($campo === 'QTD_MAX_ARMAZENAGEM') $tipoEsperado = 'number';
+
+
+                if ($valor === null) {
+                    // Permitir null se o campo não for um dos que verificamos acima como estritamente não nulo
+                    // ou se o $tipoEsperado permitir (ex: alguns campos numéricos opcionais).
+                    if (in_array($campoReq, ['MARGEM_CURVA', 'QTD_MAXIMA', 'QTD_GARANTIA']) || !isset($camposRequeridosComTipos[$campo])) {
+                        $dadosSanitizadosParaApi[$campo] = null;
+                    } else {
+                         // Se for um campo obrigatório string que não pode ser null:
+                        $dadosSanitizadosParaApi[$campo] = ''; // Ou tratar como erro se string vazia não for permitida.
+                    }
+                    continue;
+                }
+
+                switch ($tipoEsperado) {
+                    case 'string':
+                        $dadosSanitizadosParaApi[$campo] = Sanitizantes::filtro((string)$valor);
+                        if (in_array($campo, ['SERVICO', 'ATIVO', 'USAR_MARGEM_CURVA', 'ETIQUETA', 'COMPRA', 'TRANCAR', 'WEB', 'VENDA_COM_OFERTA'])) {
+                            $valSN = strtoupper(substr(trim($dadosSanitizadosParaApi[$campo]), 0, 1));
+                            if (in_array($valSN, ['S', 'V', '1', 'Y', 'T'])) $dadosSanitizadosParaApi[$campo] = 'S';
+                            elseif (in_array($valSN, ['N', 'F', '0'])) $dadosSanitizadosParaApi[$campo] = 'N';
+                            else $dadosSanitizadosParaApi[$campo] = (isset($produtoOriginalCompleto[$campo]) ? $produtoOriginalCompleto[$campo] : 'N'); // Default para original ou 'N'
+                        }
+                        if ($campo === 'PRODUTO' && strlen($dadosSanitizadosParaApi[$campo]) > 15) $dadosSanitizadosParaApi[$campo] = substr($dadosSanitizadosParaApi[$campo], 0, 15);
+                        if ($campo === 'NOME' && strlen($dadosSanitizadosParaApi[$campo]) > 50) $dadosSanitizadosParaApi[$campo] = substr($dadosSanitizadosParaApi[$campo], 0, 50);
+                        // Para DT_COMPRA e DT_VENDA, garanta o formato esperado pela API (ex: ISO8601)
+                        // if ($campo === 'DT_COMPRA' || $campo === 'DT_VENDA') {
+                        //     try {
+                        //         $date = new \DateTime($valor);
+                        //         $dadosSanitizadosParaApi[$campo] = $date->format('Y-m-d\TH:i:s'); // Exemplo, ajuste o formato
+                        //     } catch (\Exception $e) {
+                        //         // Tratar data inválida, talvez usar o valor original ou retornar erro
+                        //         $dadosSanitizadosParaApi[$campo] = $produtoOriginalCompleto[$campo] ?? null;
+                        //     }
+                        // }
+                        break;
+                    case 'number': // Para integer ou float
+                        if (is_numeric($valor)) {
+                            // Se o campo específico deve ser int (ex: QTD_MAXIMA, QTD_GARANTIA)
+                            if (in_array($campo, ['MARGEM_CURVA', 'QTD_MAXIMA', 'QTD_GARANTIA', 'QTD_MAX_ARMAZENAGEM'])) { // Adicionado QTD_MAX_ARMAZENAGEM
+                                $dadosSanitizadosParaApi[$campo] = (int)$valor;
+                            } else { // Assume float para outros 'number'
+                                $dadosSanitizadosParaApi[$campo] = (float)str_replace(',', '.', (string)$valor);
+                            }
+                        } else {
+                             // Se não for numérico, mas é esperado como número. Usar valor original ou um default.
+                            $dadosSanitizadosParaApi[$campo] = isset($produtoOriginalCompleto[$campo]) && is_numeric($produtoOriginalCompleto[$campo]) ? $produtoOriginalCompleto[$campo] : 0;
+                            if ($valor === null && in_array($campo, ['MARGEM_CURVA', 'QTD_MAXIMA', 'QTD_GARANTIA'])) {
+                                $dadosSanitizadosParaApi[$campo] = null; // Permite null se a API aceitar
+                            }
+                        }
+                        break;
+                    default: // Para outros campos não listados (ex: DESCRICAO, CODIGOBARRA, LOCAL etc.)
+                        // Assume que são strings se não especificado
+                         $dadosSanitizadosParaApi[$campo] = Sanitizantes::filtro((string)$valor);
+                        break;
+                }
+            }
+            // GARANTIR que os campos do seu modal (que não são obrigatórios pela API, mas você edita)
+            // estejam no payload final, devidamente sanitizados, mesmo que não estejam em $camposRequeridosComTipos.
+            // O loop foreach ($payloadFinalParaApi as $campo => $valor) já deve cuidar disso
+            // se você adicionar os tipos deles na lógica do switch ou antes.
+
+            // Exemplo para QTD_MAX_ARMAZENAGEM (se não foi tratado acima e é do seu modal):
+            if (isset($payloadFinalParaApi['QTD_MAX_ARMAZENAGEM']) && !isset($dadosSanitizadosParaApi['QTD_MAX_ARMAZENAGEM'])) {
+                 if(is_numeric($payloadFinalParaApi['QTD_MAX_ARMAZENAGEM'])){
+                    $dadosSanitizadosParaApi['QTD_MAX_ARMAZENAGEM'] = (int)$payloadFinalParaApi['QTD_MAX_ARMAZENAGEM'];
+                 } else {
+                    $dadosSanitizadosParaApi['QTD_MAX_ARMAZENAGEM'] = isset($produtoOriginalCompleto['QTD_MAX_ARMAZENAGEM']) && is_numeric($produtoOriginalCompleto['QTD_MAX_ARMAZENAGEM']) ? (int)$produtoOriginalCompleto['QTD_MAX_ARMAZENAGEM'] : 0;
+                 }
+            }
+            // Faça o mesmo para DESCRICAO, CODIGOBARRA, LOCAL, LOCAL2, LOCAL3 se necessário
+
+            // var_dump("Payload Final para API:", $dadosSanitizadosParaApi); // Para depuração ANTES de enviar
+
+            $dadosJson = json_encode($dadosSanitizadosParaApi);
+            // Restante do código para enviar para API e tratar resposta...
+            // (código da resposta anterior)
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                Erros::salva("ProdutosErroJSONEncode", ['id' => $idProdutoParaApi, 'data' => $dadosSanitizadosParaApi, 'error' => json_last_error_msg()]);
+                return ['status' => false, 'mensagem' => 'Erro interno ao preparar dados para a API (JSON).', 'detalhes' => json_last_error_msg()];
             }
 
-            // Preparar os dados para o PUT
-            // A API Emauto espera um objeto JSON, não um array de objetos.
-            $dadosJson = json_encode($dadosParaEnviar);
+            $endpointUrlBase = defined('apiProdutos') ? apiProdutos : 'Produtos';
+            $endpoint = $endpointUrlBase . "('" . urlencode($idProdutoParaApi) . "')";
 
-            // Construir o endpoint para o produto específico
-            // A URL da API Emauto para PUT em um produto específico pode ser diferente
-            // Verifique se é realmente (id) ou algo como /produtos/id
-            $endpoint = "(" . urlencode($produtoId) . ")"; // Mantendo sua formatação original
+            $this->apiServiceEmauto->set($endpoint, 'PUT', $dadosJson, false, true);
 
-            // Fazer a requisição à API Emauto
-            // Certifique-se que apiProdutos está definido corretamente
-            $this->apiServiceEmauto->set(
-                apiProdutos . $endpoint, // Ex: 'http://api.emauto.com/produtos/(ID_DO_PRODUTO)'
-                'PUT',
-                $dadosJson,
-                false, // useLineCounts: false
-            //   'application/json' // contentType: 'application/json' É IMPORTANTE para PUT/POST com JSON
-            );
-
-            // Obter o resultado
             $statusCode = $this->apiServiceEmauto->getStatus();
             $conteudo = $this->apiServiceEmauto->getConteudo();
 
-            // Verificar se a requisição foi bem-sucedida (geralmente 200 OK, 201 Created, 204 No Content para PUT/DELETE)
-            if ($statusCode >= 200 && $statusCode <= 204) { // Ajustado para incluir 204
+            if ($statusCode >= 200 && $statusCode <= 204) {
                 return [
                     'status' => true,
                     'mensagem' => 'Produto atualizado com sucesso via Emauto.',
                     'codigo' => $statusCode,
-                    'resposta_api' => $conteudo // Opcional: retornar a resposta da API
+                    'resposta_api' => ($statusCode == 204 ? null : json_decode($conteudo, true))
                 ];
             } else {
-                // Tentar decodificar o conteúdo se for JSON, para melhor log/mensagem de erro
                 $detalhesErroApi = $conteudo;
-                $jsonDecodificado = json_decode($conteudo, true);
-                if (json_last_error() === JSON_ERROR_NONE && is_array($jsonDecodificado)) {
-                    $detalhesErroApi = $jsonDecodificado;
+                if (($jsonDec = json_decode($conteudo, true)) && json_last_error() === JSON_ERROR_NONE) {
+                    $detalhesErroApi = $jsonDec;
                 }
-
-                Erros::salva("ProdutosErro - Falha ao atualizar produto no EMAUTO", [
-                    'produtoId' => $produtoId,
-                    'dadosEnviados' => $dadosParaEnviar,
-                    'statusCode' => $statusCode,
-                    'respostaApi' => $detalhesErroApi
+                Erros::salva("ProdutosErroAPIUpdate", [
+                    'id' => $idProdutoParaApi, 'endpoint' => $endpoint, 'payload_sent' => $dadosJson,
+                    'status' => $statusCode, 'response' => $detalhesErroApi
                 ]);
-
                 return [
-                    'status' => false,
-                    'mensagem' => 'Erro ao atualizar produto na API Emauto.',
-                    'detalhes' => $detalhesErroApi, // Retorna a resposta da API para depuração
-                    'codigo' => $statusCode
+                    'status' => false, 'mensagem' => 'Erro ao atualizar produto na API Emauto.',
+                    'detalhes' => $detalhesErroApi, 'codigo' => $statusCode, 'payload_enviado' => $dadosSanitizadosParaApi // Para depuração
                 ];
             }
-        } catch (\Throwable $th) {
-            Erros::salva("ProdutosErro - Exceção ao tentar atualizar produto no EMAUTO", [
-                'produtoId' => $produtoId,
-                'dadosAtualizacaoBrutos' => $dadosAtualizacao, // Dados antes da sanitização/transformação
-                'erro' => $th->getMessage(),
-                'trace' => $th->getTraceAsString()
-            ]);
 
+        } catch (\Throwable $th) {
+            Erros::salva("ProdutosExceptionUpdate", [
+                'id' => $idProdutoParaApi, 'data_alterada_usuario' => $dadosAlteradosPeloUsuario,
+                'error' => $th->getMessage(), 'trace' => $th->getTraceAsString()
+            ]);
             return [
-                'status' => false,
-                'mensagem' => 'Ocorreu uma exceção interna ao tentar atualizar o produto.',
+                'status' => false, 'mensagem' => 'Exceção interna ao tentar atualizar produto.',
                 'detalhes' => $th->getMessage()
             ];
         }
     }
+}
+  
+  
+
 
 
 
@@ -461,4 +581,4 @@ class ProdutoApi extends TokensControl {
 // }
 
 
-}
+
