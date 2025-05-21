@@ -24,14 +24,14 @@ class ProdutoController
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['PUT'])) {
             //header('Content-Type: application/json');
 
-       //   dd($_POST);
+          //dd($_POST);
 
             // O ID do produto vem do input hidden #modalIdProduto com name="id_produto"
             $produtoId = $_POST['produto_id'] ?? null;
 
             // Campos do formulário do modal. As chaves de $_POST correspondem
             // aos 'name' dos inputs no modal e às chaves do formData no JS.
-            $descricao = $_POST['descricao'] ?? null;
+          
             $codigoBarra = $_POST['codigobarra'] ?? null;
             $qtdMaxArmazenagem = $_POST['qtd_max_armazenagem'] ?? null;
             $local = $_POST['local'] ?? null;
@@ -47,23 +47,21 @@ class ProdutoController
 
         
      
-            if ($descricao !== null) {
-                $dadosParaAtualizar['descricao'] = $descricao;
-            }
+          
             if ($codigoBarra !== null) {
-                $dadosParaAtualizar['codigobarra'] = $codigoBarra;
+                $dadosParaAtualizar['CODIGOBARRA'] = $codigoBarra;
             }
             if ($qtdMaxArmazenagem !== null) {
-                $dadosParaAtualizar['qtd_max_armazenagem'] = (int)$qtdMaxArmazenagem; // Cast para int
+                $dadosParaAtualizar['QTD_MAX_ARMAZENAGEM'] = (int)$qtdMaxArmazenagem; // Cast para int
             }
             if ($local !== null) {
-                $dadosParaAtualizar['local'] = $local;
+                $dadosParaAtualizar['LOCAL'] = $local;
             }
             if ($local2 !== null) {
-                $dadosParaAtualizar['local2'] = $local2;
+                $dadosParaAtualizar['LOCAL2'] = $local2;
             }
             if ($local3 !== null) {
-                $dadosParaAtualizar['local3'] = $local3;
+                $dadosParaAtualizar['LOCAL3'] = $local3;
             }
 
           //  dd($dadosParaAtualizar);
@@ -77,10 +75,11 @@ class ProdutoController
             $resultado = $this->produtoApi->atualizarProduto($produtoId, $dadosParaAtualizar );
            
             var_dump($resultado);
+
             if (isset($resultado['status']) && $resultado['status']) { // Verifique se 'status' existe antes de acessá-lo
                 echo json_encode(['success' => true, 'message' => $resultado['mensagem'] ?? 'Produto atualizado com sucesso!', 'data' => $resultado]);
             } else {
-                http_response_code('Falha!!' . 400); // Ou 500, dependendo da natureza do erro
+                http_response_code( 400); // Ou 500, dependendo da natureza do erro
                 echo json_encode([
                     'success' => false,
                     'message' => $resultado['mensagem'] ?? 'Falha ao atualizar o produto.',
@@ -100,7 +99,9 @@ class ProdutoController
         $produtos = [];
 
         if (!empty($termo)) {
-            $produtos = $this->produtoApi->buscarTodos($termo, true, 15);
+            $produtos = $this->produtoApi->buscarTodos($termo, true, 1);
+
+            dd($produtos);
         }
 
        

@@ -1,0 +1,594 @@
+[
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "21-05-2025 08:12:39",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "DEBUG_JSON",
+        "Horário": "21-05-2025 10:42:08",
+        "Erro": {
+            "dados": {
+                "PRODUTO": "020301129B",
+                "NOME": "",
+                "DT_COMPRA": null,
+                "DT_VENDA": null,
+                "SERVICO": "",
+                "ATIVO": "",
+                "USAR_MARGEM_CURVA": "",
+                "MARGEM_CURVA": 0,
+                "ETIQUETA": "",
+                "COMPRA": "",
+                "QTD_MAXIMA": 0,
+                "QTD_GARANTIA": 0,
+                "TRANCAR": "",
+                "WEB": "",
+                "VENDA_COM_OFERTA": "",
+                "descricao": "NA",
+                "codigobarra": "A9",
+                "qtd_max_armazenagem": 3,
+                "local": "CK7",
+                "local2": "",
+                "local3": ""
+            },
+            "json": "{\"PRODUTO\":\"020301129B\",\"NOME\":\"\",\"DT_COMPRA\":null,\"DT_VENDA\":null,\"SERVICO\":\"\",\"ATIVO\":\"\",\"USAR_MARGEM_CURVA\":\"\",\"MARGEM_CURVA\":0,\"ETIQUETA\":\"\",\"COMPRA\":\"\",\"QTD_MAXIMA\":0,\"QTD_GARANTIA\":0,\"TRANCAR\":\"\",\"WEB\":\"\",\"VENDA_COM_OFERTA\":\"\",\"descricao\":\"NA\",\"codigobarra\":\"A9\",\"qtd_max_armazenagem\":3,\"local\":\"CK7\",\"local2\":\"\",\"local3\":\"\"}"
+        }
+    },
+    {
+        "Referente": "DEBUG_JSON",
+        "Horário": "21-05-2025 10:48:12",
+        "Erro": {
+            "dados": {
+                "PRODUTO": "020301129B",
+                "NOME": "",
+                "DT_COMPRA": null,
+                "DT_VENDA": null,
+                "SERVICO": "",
+                "ATIVO": "",
+                "USAR_MARGEM_CURVA": "",
+                "MARGEM_CURVA": 0,
+                "ETIQUETA": "",
+                "COMPRA": "",
+                "QTD_MAXIMA": 0,
+                "QTD_GARANTIA": 0,
+                "TRANCAR": "",
+                "WEB": "",
+                "VENDA_COM_OFERTA": "",
+                "descricao": "Teste",
+                "codigobarra": "A99",
+                "qtd_max_armazenagem": 4,
+                "local": "CK7",
+                "local2": "L2",
+                "local3": "hgbf"
+            },
+            "json": "{\"PRODUTO\":\"020301129B\",\"NOME\":\"\",\"DT_COMPRA\":null,\"DT_VENDA\":null,\"SERVICO\":\"\",\"ATIVO\":\"\",\"USAR_MARGEM_CURVA\":\"\",\"MARGEM_CURVA\":0,\"ETIQUETA\":\"\",\"COMPRA\":\"\",\"QTD_MAXIMA\":0,\"QTD_GARANTIA\":0,\"TRANCAR\":\"\",\"WEB\":\"\",\"VENDA_COM_OFERTA\":\"\",\"descricao\":\"Teste\",\"codigobarra\":\"A99\",\"qtd_max_armazenagem\":4,\"local\":\"CK7\",\"local2\":\"L2\",\"local3\":\"hgbf\"}"
+        }
+    },
+    {
+        "Referente": "DEBUG_JSON",
+        "Horário": "21-05-2025 11:14:10",
+        "Erro": {
+            "dados": {
+                "PRODUTO": "020301129B",
+                "NOME": "",
+                "DT_COMPRA": null,
+                "DT_VENDA": null,
+                "SERVICO": "",
+                "ATIVO": "",
+                "USAR_MARGEM_CURVA": "",
+                "MARGEM_CURVA": 0,
+                "ETIQUETA": "",
+                "COMPRA": "",
+                "QTD_MAXIMA": 0,
+                "QTD_GARANTIA": 0,
+                "TRANCAR": "",
+                "WEB": "",
+                "VENDA_COM_OFERTA": "",
+                "descricao": "NAeeee",
+                "codigobarra": "A9",
+                "qtd_max_armazenagem": 3,
+                "local": "CK7",
+                "local2": "eee",
+                "local3": "eeee"
+            },
+            "json": "{\"PRODUTO\":\"020301129B\",\"NOME\":\"\",\"DT_COMPRA\":null,\"DT_VENDA\":null,\"SERVICO\":\"\",\"ATIVO\":\"\",\"USAR_MARGEM_CURVA\":\"\",\"MARGEM_CURVA\":0,\"ETIQUETA\":\"\",\"COMPRA\":\"\",\"QTD_MAXIMA\":0,\"QTD_GARANTIA\":0,\"TRANCAR\":\"\",\"WEB\":\"\",\"VENDA_COM_OFERTA\":\"\",\"descricao\":\"NAeeee\",\"codigobarra\":\"A9\",\"qtd_max_armazenagem\":3,\"local\":\"CK7\",\"local2\":\"eee\",\"local3\":\"eeee\"}"
+        }
+    },
+    {
+        "Referente": "DEBUG_JSON",
+        "Horário": "21-05-2025 11:35:40",
+        "Erro": {
+            "dados": {
+                "PRODUTO": "020301129B",
+                "NOME": "",
+                "SERVICO": "",
+                "ATIVO": "",
+                "USAR_MARGEM_CURVA": "",
+                "MARGEM_CURVA": 0,
+                "ETIQUETA": "",
+                "COMPRA": "",
+                "QTD_MAXIMA": 0,
+                "QTD_GARANTIA": 0,
+                "TRANCAR": "",
+                "WEB": "",
+                "VENDA_COM_OFERTA": "",
+                "CODIGOBARRA": "A9",
+                "QTD_MAX_ARMAZENAGEM": 0,
+                "LOCAL": "CK7",
+                "LOCAL2": "L2",
+                "LOCAL3": "eeee"
+            },
+            "json": "{\"PRODUTO\":\"020301129B\",\"NOME\":\"\",\"SERVICO\":\"\",\"ATIVO\":\"\",\"USAR_MARGEM_CURVA\":\"\",\"MARGEM_CURVA\":0,\"ETIQUETA\":\"\",\"COMPRA\":\"\",\"QTD_MAXIMA\":0,\"QTD_GARANTIA\":0,\"TRANCAR\":\"\",\"WEB\":\"\",\"VENDA_COM_OFERTA\":\"\",\"CODIGOBARRA\":\"A9\",\"QTD_MAX_ARMAZENAGEM\":0,\"LOCAL\":\"CK7\",\"LOCAL2\":\"L2\",\"LOCAL3\":\"eeee\"}"
+        }
+    },
+    {
+        "Referente": "DEBUG_JSON",
+        "Horário": "21-05-2025 11:38:06",
+        "Erro": {
+            "dados": {
+                "PRODUTO": "020301129B",
+                "NOME": "",
+                "SERVICO": "",
+                "ATIVO": "",
+                "USAR_MARGEM_CURVA": "",
+                "MARGEM_CURVA": 0,
+                "ETIQUETA": "",
+                "COMPRA": "",
+                "QTD_MAXIMA": 0,
+                "QTD_GARANTIA": 0,
+                "TRANCAR": "",
+                "WEB": "",
+                "VENDA_COM_OFERTA": "",
+                "CODIGOBARRA": "A9",
+                "QTD_MAX_ARMAZENAGEM": 0,
+                "LOCAL": "CK7",
+                "LOCAL2": "L2",
+                "LOCAL3": ""
+            },
+            "json": "{\"PRODUTO\":\"020301129B\",\"NOME\":\"\",\"SERVICO\":\"\",\"ATIVO\":\"\",\"USAR_MARGEM_CURVA\":\"\",\"MARGEM_CURVA\":0,\"ETIQUETA\":\"\",\"COMPRA\":\"\",\"QTD_MAXIMA\":0,\"QTD_GARANTIA\":0,\"TRANCAR\":\"\",\"WEB\":\"\",\"VENDA_COM_OFERTA\":\"\",\"CODIGOBARRA\":\"A9\",\"QTD_MAX_ARMAZENAGEM\":0,\"LOCAL\":\"CK7\",\"LOCAL2\":\"L2\",\"LOCAL3\":\"\"}"
+        }
+    },
+    {
+        "Referente": "DEBUG_JSON",
+        "Horário": "21-05-2025 11:39:29",
+        "Erro": {
+            "dados": {
+                "PRODUTO": "020301129B",
+                "NOME": "",
+                "SERVICO": "",
+                "ATIVO": "",
+                "USAR_MARGEM_CURVA": "",
+                "MARGEM_CURVA": 0,
+                "ETIQUETA": "",
+                "COMPRA": "",
+                "QTD_MAXIMA": 0,
+                "QTD_GARANTIA": 0,
+                "TRANCAR": "",
+                "WEB": "",
+                "VENDA_COM_OFERTA": "",
+                "CODIGOBARRA": "A9",
+                "QTD_MAX_ARMAZENAGEM": 3,
+                "LOCAL": "CK7",
+                "LOCAL2": "",
+                "LOCAL3": ""
+            },
+            "json": "{\"PRODUTO\":\"020301129B\",\"NOME\":\"\",\"SERVICO\":\"\",\"ATIVO\":\"\",\"USAR_MARGEM_CURVA\":\"\",\"MARGEM_CURVA\":0,\"ETIQUETA\":\"\",\"COMPRA\":\"\",\"QTD_MAXIMA\":0,\"QTD_GARANTIA\":0,\"TRANCAR\":\"\",\"WEB\":\"\",\"VENDA_COM_OFERTA\":\"\",\"CODIGOBARRA\":\"A9\",\"QTD_MAX_ARMAZENAGEM\":3,\"LOCAL\":\"CK7\",\"LOCAL2\":\"\",\"LOCAL3\":\"\"}"
+        }
+    },
+    {
+        "Referente": "DEBUG_JSON",
+        "Horário": "21-05-2025 11:42:23",
+        "Erro": {
+            "dados": {
+                "PRODUTO": "020301129B",
+                "NOME": "",
+                "SERVICO": "",
+                "ATIVO": "",
+                "USAR_MARGEM_CURVA": "",
+                "MARGEM_CURVA": 0,
+                "ETIQUETA": "",
+                "COMPRA": "",
+                "QTD_MAXIMA": 0,
+                "QTD_GARANTIA": 0,
+                "TRANCAR": "",
+                "WEB": "",
+                "VENDA_COM_OFERTA": "",
+                "CODIGOBARRA": "A9",
+                "QTD_MAX_ARMAZENAGEM": 0,
+                "LOCAL": "CK7",
+                "LOCAL2": "",
+                "LOCAL3": ""
+            },
+            "json": "{\"PRODUTO\":\"020301129B\",\"NOME\":\"\",\"SERVICO\":\"\",\"ATIVO\":\"\",\"USAR_MARGEM_CURVA\":\"\",\"MARGEM_CURVA\":0,\"ETIQUETA\":\"\",\"COMPRA\":\"\",\"QTD_MAXIMA\":0,\"QTD_GARANTIA\":0,\"TRANCAR\":\"\",\"WEB\":\"\",\"VENDA_COM_OFERTA\":\"\",\"CODIGOBARRA\":\"A9\",\"QTD_MAX_ARMAZENAGEM\":0,\"LOCAL\":\"CK7\",\"LOCAL2\":\"\",\"LOCAL3\":\"\"}"
+        }
+    },
+    {
+        "Referente": "DEBUG_JSON",
+        "Horário": "21-05-2025 11:45:08",
+        "Erro": {
+            "dados": {
+                "PRODUTO": "020301129B",
+                "NOME": "",
+                "DT_COMPRA": "",
+                "DT_VENDA": "",
+                "SERVICO": "",
+                "ATIVO": "",
+                "USAR_MARGEM_CURVA": "",
+                "MARGEM_CURVA": 0,
+                "ETIQUETA": "",
+                "COMPRA": "",
+                "QTD_MAXIMA": 0,
+                "QTD_GARANTIA": 0,
+                "TRANCAR": "",
+                "WEB": "",
+                "VENDA_COM_OFERTA": "",
+                "CODIGOBARRA": "A9",
+                "QTD_MAX_ARMAZENAGEM": 0,
+                "LOCAL": "CK7",
+                "LOCAL2": "L2",
+                "LOCAL3": "hgbf"
+            },
+            "json": "{\"PRODUTO\":\"020301129B\",\"NOME\":\"\",\"DT_COMPRA\":\"\",\"DT_VENDA\":\"\",\"SERVICO\":\"\",\"ATIVO\":\"\",\"USAR_MARGEM_CURVA\":\"\",\"MARGEM_CURVA\":0,\"ETIQUETA\":\"\",\"COMPRA\":\"\",\"QTD_MAXIMA\":0,\"QTD_GARANTIA\":0,\"TRANCAR\":\"\",\"WEB\":\"\",\"VENDA_COM_OFERTA\":\"\",\"CODIGOBARRA\":\"A9\",\"QTD_MAX_ARMAZENAGEM\":0,\"LOCAL\":\"CK7\",\"LOCAL2\":\"L2\",\"LOCAL3\":\"hgbf\"}"
+        }
+    },
+    {
+        "Referente": "DEBUG_JSON",
+        "Horário": "21-05-2025 11:49:46",
+        "Erro": {
+            "dados": {
+                "PRODUTO": "020301129B",
+                "NOME": "",
+                "DT_COMPRA": "",
+                "DT_VENDA": "",
+                "SERVICO": "",
+                "ATIVO": "",
+                "USAR_MARGEM_CURVA": "",
+                "MARGEM_CURVA": 0,
+                "ETIQUETA": "",
+                "COMPRA": "",
+                "QTD_MAXIMA": 0,
+                "QTD_GARANTIA": 0,
+                "TRANCAR": "",
+                "WEB": "",
+                "VENDA_COM_OFERTA": "",
+                "CODIGOBARRA": "A9",
+                "QTD_MAX_ARMAZENAGEM": 0,
+                "LOCAL": "CK7",
+                "LOCAL2": "L2",
+                "LOCAL3": "hgbf"
+            },
+            "json": "{\"PRODUTO\":\"020301129B\",\"NOME\":\"\",\"DT_COMPRA\":\"\",\"DT_VENDA\":\"\",\"SERVICO\":\"\",\"ATIVO\":\"\",\"USAR_MARGEM_CURVA\":\"\",\"MARGEM_CURVA\":0,\"ETIQUETA\":\"\",\"COMPRA\":\"\",\"QTD_MAXIMA\":0,\"QTD_GARANTIA\":0,\"TRANCAR\":\"\",\"WEB\":\"\",\"VENDA_COM_OFERTA\":\"\",\"CODIGOBARRA\":\"A9\",\"QTD_MAX_ARMAZENAGEM\":0,\"LOCAL\":\"CK7\",\"LOCAL2\":\"L2\",\"LOCAL3\":\"hgbf\"}"
+        }
+    },
+    {
+        "Referente": "RESPOSTA_API",
+        "Horário": "21-05-2025 11:49:46",
+        "Erro": {
+            "status": 500,
+            "conteudo": {
+                "error": {
+                    "code": "InvalidStateException",
+                    "message": "Expected BeginObject but was DoubleQuoted at path $"
+                }
+            }
+        }
+    },
+    {
+        "Referente": "DEBUG_JSON",
+        "Horário": "21-05-2025 13:08:44",
+        "Erro": {
+            "dados": {
+                "CODIGOBARRA": "A9",
+                "QTD_MAX_ARMAZENAGEM": 3,
+                "LOCAL": "CK7",
+                "LOCAL2": "",
+                "LOCAL3": ""
+            },
+            "json": "{\"CODIGOBARRA\":\"A9\",\"QTD_MAX_ARMAZENAGEM\":3,\"LOCAL\":\"CK7\",\"LOCAL2\":\"\",\"LOCAL3\":\"\"}"
+        }
+    },
+    {
+        "Referente": "RESPOSTA_API",
+        "Horário": "21-05-2025 13:08:44",
+        "Erro": {
+            "status": 500,
+            "conteudo": {
+                "error": {
+                    "code": "InvalidStateException",
+                    "message": "Expected BeginObject but was DoubleQuoted at path $"
+                }
+            }
+        }
+    },
+    {
+        "Referente": "DEBUG_JSON",
+        "Horário": "21-05-2025 13:19:34",
+        "Erro": {
+            "dados": {
+                "PRODUTO": "020301129B",
+                "NOME": "",
+                "DT_COMPRA": "",
+                "DT_VENDA": "",
+                "SERVICO": "",
+                "ATIVO": "",
+                "USAR_MARGEM_CURVA": "",
+                "MARGEM_CURVA": 0,
+                "ETIQUETA": "",
+                "COMPRA": "",
+                "QTD_MAXIMA": 0,
+                "QTD_GARANTIA": 0,
+                "TRANCAR": "",
+                "WEB": "",
+                "VENDA_COM_OFERTA": "",
+                "CODIGOBARRA": "A9",
+                "QTD_MAX_ARMAZENAGEM": 4,
+                "LOCAL": "CK7",
+                "LOCAL2": "",
+                "LOCAL3": ""
+            },
+            "json": "{\"PRODUTO\":\"020301129B\",\"NOME\":\"\",\"DT_COMPRA\":\"\",\"DT_VENDA\":\"\",\"SERVICO\":\"\",\"ATIVO\":\"\",\"USAR_MARGEM_CURVA\":\"\",\"MARGEM_CURVA\":0,\"ETIQUETA\":\"\",\"COMPRA\":\"\",\"QTD_MAXIMA\":0,\"QTD_GARANTIA\":0,\"TRANCAR\":\"\",\"WEB\":\"\",\"VENDA_COM_OFERTA\":\"\",\"CODIGOBARRA\":\"A9\",\"QTD_MAX_ARMAZENAGEM\":4,\"LOCAL\":\"CK7\",\"LOCAL2\":\"\",\"LOCAL3\":\"\"}"
+        }
+    },
+    {
+        "Referente": "RESPOSTA_API",
+        "Horário": "21-05-2025 13:19:36",
+        "Erro": {
+            "status": 500,
+            "conteudo": "http:\/\/166.0.186.208:2002\/\/emsoft\/emauto\/Produto(020301129B)"
+        }
+    },
+    {
+        "Referente": "DEBUG_JSON",
+        "Horário": "21-05-2025 13:21:00",
+        "Erro": {
+            "dados": {
+                "PRODUTO": "020301129B",
+                "NOME": "",
+                "DT_COMPRA": "",
+                "DT_VENDA": "",
+                "SERVICO": "",
+                "ATIVO": "",
+                "USAR_MARGEM_CURVA": "",
+                "MARGEM_CURVA": 0,
+                "ETIQUETA": "",
+                "COMPRA": "",
+                "QTD_MAXIMA": 0,
+                "QTD_GARANTIA": 0,
+                "TRANCAR": "",
+                "WEB": "",
+                "VENDA_COM_OFERTA": "",
+                "CODIGOBARRA": "A9",
+                "QTD_MAX_ARMAZENAGEM": 4,
+                "LOCAL": "CK7",
+                "LOCAL2": "",
+                "LOCAL3": ""
+            },
+            "json": "{\"PRODUTO\":\"020301129B\",\"NOME\":\"\",\"DT_COMPRA\":\"\",\"DT_VENDA\":\"\",\"SERVICO\":\"\",\"ATIVO\":\"\",\"USAR_MARGEM_CURVA\":\"\",\"MARGEM_CURVA\":0,\"ETIQUETA\":\"\",\"COMPRA\":\"\",\"QTD_MAXIMA\":0,\"QTD_GARANTIA\":0,\"TRANCAR\":\"\",\"WEB\":\"\",\"VENDA_COM_OFERTA\":\"\",\"CODIGOBARRA\":\"A9\",\"QTD_MAX_ARMAZENAGEM\":4,\"LOCAL\":\"CK7\",\"LOCAL2\":\"\",\"LOCAL3\":\"\"}"
+        }
+    },
+    {
+        "Referente": "RESPOSTA_API",
+        "Horário": "21-05-2025 13:21:01",
+        "Erro": {
+            "status": 500,
+            "conteudo": {
+                "error": {
+                    "code": "IBNativeException",
+                    "message": "[FireDAC][Phys][FB]validation error for column \"EST\".\"GRUPO\", value \"*** null ***\""
+                }
+            },
+            "Url": "http:\/\/166.0.186.208:2002\/\/emsoft\/emauto\/Produto(020301129B)"
+        }
+    },
+    {
+        "Referente": "DEBUG_JSON",
+        "Horário": "21-05-2025 13:32:44",
+        "Erro": {
+            "dados": {
+                "PRODUTO": "020301129B",
+                "NOME": "",
+                "DT_COMPRA": "",
+                "DT_VENDA": "",
+                "SERVICO": "",
+                "ATIVO": "",
+                "USAR_MARGEM_CURVA": "",
+                "MARGEM_CURVA": 0,
+                "ETIQUETA": "",
+                "COMPRA": "",
+                "QTD_MAXIMA": 0,
+                "QTD_GARANTIA": 0,
+                "TRANCAR": "",
+                "WEB": "",
+                "VENDA_COM_OFERTA": "",
+                "GRUPO": 2058,
+                "CODIGOBARRA": "A9",
+                "QTD_MAX_ARMAZENAGEM": 2,
+                "LOCAL": "CK7",
+                "LOCAL2": "L2",
+                "LOCAL3": "eeee"
+            },
+            "json": "{\"PRODUTO\":\"020301129B\",\"NOME\":\"\",\"DT_COMPRA\":\"\",\"DT_VENDA\":\"\",\"SERVICO\":\"\",\"ATIVO\":\"\",\"USAR_MARGEM_CURVA\":\"\",\"MARGEM_CURVA\":0,\"ETIQUETA\":\"\",\"COMPRA\":\"\",\"QTD_MAXIMA\":0,\"QTD_GARANTIA\":0,\"TRANCAR\":\"\",\"WEB\":\"\",\"VENDA_COM_OFERTA\":\"\",\"GRUPO\":2058,\"CODIGOBARRA\":\"A9\",\"QTD_MAX_ARMAZENAGEM\":2,\"LOCAL\":\"CK7\",\"LOCAL2\":\"L2\",\"LOCAL3\":\"eeee\"}"
+        }
+    },
+    {
+        "Referente": "RESPOSTA_API",
+        "Horário": "21-05-2025 13:32:45",
+        "Erro": {
+            "status": 500,
+            "conteudo": {
+                "error": {
+                    "code": "InvalidStateException",
+                    "message": "Expected BeginObject but was Int64 at path $.GRUPO"
+                }
+            },
+            "Url": "http:\/\/166.0.186.208:2002\/\/emsoft\/emauto\/Produto(020301129B)"
+        }
+    },
+    {
+        "Referente": "DEBUG_JSON",
+        "Horário": "21-05-2025 13:37:57",
+        "Erro": {
+            "dados": {
+                "PRODUTO": "020301129B",
+                "NOME": "",
+                "DT_COMPRA": "",
+                "DT_VENDA": "",
+                "SERVICO": "",
+                "ATIVO": "",
+                "USAR_MARGEM_CURVA": "",
+                "MARGEM_CURVA": 0,
+                "ETIQUETA": "",
+                "COMPRA": "",
+                "QTD_MAXIMA": 0,
+                "QTD_GARANTIA": 0,
+                "TRANCAR": "",
+                "WEB": "",
+                "VENDA_COM_OFERTA": "",
+                "GRUPO": {
+                    "GRUPO": 2058
+                },
+                "CODIGOBARRA": "A9",
+                "QTD_MAX_ARMAZENAGEM": 3,
+                "LOCAL": "CK7",
+                "LOCAL2": "L2",
+                "LOCAL3": "eeee"
+            },
+            "json": "{\"PRODUTO\":\"020301129B\",\"NOME\":\"\",\"DT_COMPRA\":\"\",\"DT_VENDA\":\"\",\"SERVICO\":\"\",\"ATIVO\":\"\",\"USAR_MARGEM_CURVA\":\"\",\"MARGEM_CURVA\":0,\"ETIQUETA\":\"\",\"COMPRA\":\"\",\"QTD_MAXIMA\":0,\"QTD_GARANTIA\":0,\"TRANCAR\":\"\",\"WEB\":\"\",\"VENDA_COM_OFERTA\":\"\",\"GRUPO\":{\"GRUPO\":2058},\"CODIGOBARRA\":\"A9\",\"QTD_MAX_ARMAZENAGEM\":3,\"LOCAL\":\"CK7\",\"LOCAL2\":\"L2\",\"LOCAL3\":\"eeee\"}"
+        }
+    },
+    {
+        "Referente": "RESPOSTA_API",
+        "Horário": "21-05-2025 13:37:58",
+        "Erro": {
+            "status": 500,
+            "conteudo": {
+                "error": {
+                    "code": "IBNativeException",
+                    "message": "[FireDAC][Phys][FB]validation error for column \"EST\".\"FORNECEDOR\", value \"*** null ***\""
+                }
+            },
+            "Url": "http:\/\/166.0.186.208:2002\/\/emsoft\/emauto\/Produto(020301129B)"
+        }
+    },
+    {
+        "Referente": "DEBUG_JSON",
+        "Horário": "21-05-2025 14:43:43",
+        "Erro": {
+            "dados": {
+                "PRODUTO": "020301129B",
+                "NOME": "",
+                "DT_COMPRA": "",
+                "DT_VENDA": "",
+                "SERVICO": "",
+                "ATIVO": "",
+                "USAR_MARGEM_CURVA": "",
+                "MARGEM_CURVA": 0,
+                "ETIQUETA": "",
+                "COMPRA": "",
+                "QTD_MAXIMA": 0,
+                "QTD_GARANTIA": 0,
+                "TRANCAR": "",
+                "WEB": "",
+                "VENDA_COM_OFERTA": "",
+                "GRUPO": {
+                    "GRUPO": 2058
+                },
+                "UNIDADE": {
+                    "UNIDADE": "020301129B"
+                },
+                "NCM": {
+                    "NCM": "020301129B"
+                },
+                "FABRICANTE": {
+                    "FABRICANTE": "020301129B"
+                },
+                "FORNECEDOR": {
+                    "FORNECEDOR": "020301129B"
+                },
+                "CODIGOBARRA": "A9",
+                "QTD_MAX_ARMAZENAGEM": 2,
+                "LOCAL": "CK7",
+                "LOCAL2": "L2",
+                "LOCAL3": "eeee"
+            },
+            "json": "{\"PRODUTO\":\"020301129B\",\"NOME\":\"\",\"DT_COMPRA\":\"\",\"DT_VENDA\":\"\",\"SERVICO\":\"\",\"ATIVO\":\"\",\"USAR_MARGEM_CURVA\":\"\",\"MARGEM_CURVA\":0,\"ETIQUETA\":\"\",\"COMPRA\":\"\",\"QTD_MAXIMA\":0,\"QTD_GARANTIA\":0,\"TRANCAR\":\"\",\"WEB\":\"\",\"VENDA_COM_OFERTA\":\"\",\"GRUPO\":{\"GRUPO\":2058},\"UNIDADE\":{\"UNIDADE\":\"020301129B\"},\"NCM\":{\"NCM\":\"020301129B\"},\"FABRICANTE\":{\"FABRICANTE\":\"020301129B\"},\"FORNECEDOR\":{\"FORNECEDOR\":\"020301129B\"},\"CODIGOBARRA\":\"A9\",\"QTD_MAX_ARMAZENAGEM\":2,\"LOCAL\":\"CK7\",\"LOCAL2\":\"L2\",\"LOCAL3\":\"eeee\"}"
+        }
+    },
+    {
+        "Referente": "RESPOSTA_API",
+        "Horário": "21-05-2025 14:43:43",
+        "Erro": {
+            "status": 500,
+            "conteudo": {
+                "error": {
+                    "code": "ConvertFromJsonError",
+                    "message": "Invalid Integer JSON value at $.FABRICANTE.FABRICANTE"
+                }
+            },
+            "Url": "http:\/\/166.0.186.208:2002\/\/emsoft\/emauto\/Produto(020301129B)"
+        }
+    },
+    {
+        "Referente": "DEBUG_JSON",
+        "Horário": "21-05-2025 15:16:32",
+        "Erro": {
+            "dados": {
+                "PRODUTO": "020301129B",
+                "NOME": "",
+                "DT_COMPRA": "",
+                "DT_VENDA": "",
+                "SERVICO": "",
+                "ATIVO": "",
+                "USAR_MARGEM_CURVA": "",
+                "MARGEM_CURVA": 0,
+                "ETIQUETA": "",
+                "COMPRA": "",
+                "QTD_MAXIMA": 0,
+                "QTD_GARANTIA": 0,
+                "TRANCAR": "",
+                "WEB": "",
+                "VENDA_COM_OFERTA": "",
+                "GRUPO": {
+                    "GRUPO": 2058
+                },
+                "UNIDADE": {
+                    "ID": "UN"
+                },
+                "NCM": {
+                    "NCM": "8708.9990"
+                },
+                "FABRICANTE": {
+                    "FABRICANTE": 2198
+                },
+                "FORNECEDOR": {
+                    "FORNECEDOR": 1
+                },
+                "CODIGOBARRA": "A9",
+                "QTD_MAX_ARMAZENAGEM": 3,
+                "LOCAL": "CK7",
+                "LOCAL2": "L2",
+                "LOCAL3": "hgbf"
+            },
+            "json": "{\"PRODUTO\":\"020301129B\",\"NOME\":\"\",\"DT_COMPRA\":\"\",\"DT_VENDA\":\"\",\"SERVICO\":\"\",\"ATIVO\":\"\",\"USAR_MARGEM_CURVA\":\"\",\"MARGEM_CURVA\":0,\"ETIQUETA\":\"\",\"COMPRA\":\"\",\"QTD_MAXIMA\":0,\"QTD_GARANTIA\":0,\"TRANCAR\":\"\",\"WEB\":\"\",\"VENDA_COM_OFERTA\":\"\",\"GRUPO\":{\"GRUPO\":2058},\"UNIDADE\":{\"ID\":\"UN\"},\"NCM\":{\"NCM\":\"8708.9990\"},\"FABRICANTE\":{\"FABRICANTE\":2198},\"FORNECEDOR\":{\"FORNECEDOR\":1},\"CODIGOBARRA\":\"A9\",\"QTD_MAX_ARMAZENAGEM\":3,\"LOCAL\":\"CK7\",\"LOCAL2\":\"L2\",\"LOCAL3\":\"hgbf\"}"
+        }
+    },
+    {
+        "Referente": "RESPOSTA_API",
+        "Horário": "21-05-2025 15:16:34",
+        "Erro": {
+            "status": 500,
+            "conteudo": {
+                "error": {
+                    "code": "IBNativeException",
+                    "message": "[FireDAC][Phys][FB]validation error for column \"EST\".\"COMPRA\", value \" \""
+                }
+            },
+            "Url": "http:\/\/166.0.186.208:2002\/\/emsoft\/emauto\/Produto(020301129B)"
+        }
+    }
+]

@@ -47,7 +47,7 @@
                     <thead>
                         <tr>
                             <th>Cód. Interno</th>
-                            <th>Descrição</th>
+                           
                             <th>Cód. Barras</th>
                             <th>Qtd. Máx. Arm.</th>
                             <th>Local</th>
@@ -60,7 +60,7 @@
                         <?php foreach ($produtos as $index => $produto): ?>
                             <tr id="produto-row-<?= $index ?>">
                                 <td class="cell-produto-codigo"><?= htmlspecialchars($produto['PRODUTO'] ?? '') ?></td>
-                                <td class="cell-produto-descricao"><?= htmlspecialchars($produto['DESCRICAO'] ?? 'N/A') ?></td>
+
                                 <td class="cell-produto-codigobarra"><?= htmlspecialchars($produto['CODIGOBARRA'] ?? '') ?></td>
                                 <td class="cell-produto-qtd_max_armazenagem"><?= htmlspecialchars($produto['QTD_MAX_ARMAZENAGEM'] ?? 0) ?></td>
                                 <td class="cell-produto-local"><?= htmlspecialchars($produto['LOCAL'] ?? '') ?></td>
@@ -72,7 +72,7 @@
                                         data-bs-toggle="modal" data-bs-target="#modalEditarProduto"
                                         data-row-index="<?= $index ?>"
                                         data-id_produto="<?= htmlspecialchars($produto['PRODUTO'] ?? '') ?>"
-                                        data-descricao="<?=htmlspecialchars($produto['DESCRICAO'] ?? 'N/A') ?>" 
+                                    
                                         data-codigobarra="<?= htmlspecialchars($produto['CODIGOBARRA'] ?? '') ?>"
                                         data-qtd_max_armazenagem="<?= htmlspecialchars($produto['QTD_MAX_ARMAZENAGEM'] ?? 0) ?>"
                                         data-local="<?= htmlspecialchars($produto['LOCAL'] ?? '') ?>"
@@ -109,12 +109,9 @@
 
                         <div class="mb-3">
                             <label for="modalCodigoInterno" class="form-label">Código Interno (Produto)</label>
-                            <input type="text" class="form-control" id="modalCodigoInterno" name="codigo_interno" readonly>
+                            <input type="text" class="form-control" id="modalCodigoInterno" name="id_produto" readonly>
                         </div>
-                        <div class="mb-3">
-                            <label for="modalDescricao" class="form-label">Descrição</label>
-                            <input type="text" class="form-control" id="modalDescricao" name="descricao" required>
-                        </div>
+                  
                         <div class="mb-3">
                             <label for="modalCodigoBarras" class="form-label">Código de Barras</label>
                             <input type="text" class="form-control" id="modalCodigoBarras" name="CODIGOBARRA">

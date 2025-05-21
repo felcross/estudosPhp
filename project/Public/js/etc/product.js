@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Extrai informações dos atributos data-* do BOTÃO
             // Mantendo os mesmos nomes de atributos do código original que não funciona
             var produtoId = button.getAttribute('data-id_produto'); // Vem de $produto['PRODUTO']
-            var descricao = button.getAttribute('data-descricao');
+
             var codigobarra = button.getAttribute('data-codigobarra');
             var qtdMaxArmazenagem = button.getAttribute('data-qtd_max_armazenagem');
             var local = button.getAttribute('data-local');
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var modalTitle = modalEditarProduto.querySelector('.modal-title');
             var modalIdProdutoInput = modalEditarProduto.querySelector('#modalIdProduto'); // Hidden input for ID
             var modalCodigoInternoInput = modalEditarProduto.querySelector('#modalCodigoInterno'); // Display only
-            var modalDescricaoInput = modalEditarProduto.querySelector('#modalDescricao');
+
             var modalCodigoBarrasInput = modalEditarProduto.querySelector('#modalCodigoBarras');
             var modalQtdMaxArmazenagemInput = modalEditarProduto.querySelector('#modalQtdMaxArmazenagem');
             var modalLocalInput = modalEditarProduto.querySelector('#modalLocal');
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
             modalTitle.textContent = 'Editar Produto: ' + produtoId; // Usa produtoId que é o código interno
             if (modalIdProdutoInput) modalIdProdutoInput.value = produtoId;
             if (modalCodigoInternoInput) modalCodigoInternoInput.value = produtoId; // Código interno é o próprio ID do produto
-            if (modalDescricaoInput) modalDescricaoInput.value = descricao;
+
             if (modalCodigoBarrasInput) modalCodigoBarrasInput.value = codigobarra;
             if (modalQtdMaxArmazenagemInput) modalQtdMaxArmazenagemInput.value = qtdMaxArmazenagem;
             if (modalLocalInput) modalLocalInput.value = local;
@@ -45,13 +45,13 @@ document.addEventListener('DOMContentLoaded', function () {
             // Monta o objeto formData seguindo o padrão do código que funciona
             let formData = {
                 'PUT': true,
-                'produto_id': $('#modalIdProduto').val(), 
-                'descricao': $('#modalDescricao').val(),
-                'codigobarra': $('#modalCodigoBarras').val(), 
-                'qtd_max_armazenagem': $('#modalQtdMaxArmazenagem').val(), 
-                'local': $('#modalLocal').val(), 
-                'local2': $('#modalLocal2').val(), 
-                'local3': $('#modalLocal3').val() 
+                'produto_id': $('#modalIdProduto').val(),
+
+                'codigobarra': $('#modalCodigoBarras').val(),
+                'qtd_max_armazenagem': $('#modalQtdMaxArmazenagem').val(),
+                'local': $('#modalLocal').val(),
+                'local2': $('#modalLocal2').val(),
+                'local3': $('#modalLocal3').val()
             };
 
             // Mantém a mesma estrutura de envio que funciona
@@ -59,9 +59,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 ...formData,
                 token: $('#token').val(),
             },
-            function (data) {
-                console.log(data);
-            });
+                function (data) {
+                    console.log(data);
+                });
         });
     });
 });
@@ -159,8 +159,8 @@ document.addEventListener('DOMContentLoaded', function () {
 //             // Create a proper object with the form data
 //             let formData = {
 //                 'PUT': true,
-//                 'produto_id': $('#modalProdutoId').val(), 
-//                 'codigo_produto': $('#modalCodigo').val(), 
+//                 'produto_id': $('#modalProdutoId').val(),
+//                 'codigo_produto': $('#modalCodigo').val(),
 //                 'descricao': $('#modalDescricao').val(),
 //                 'referencia': $('#modalReferencia').val(),
 //                 'referencia2': $('#modalReferencia2').val(),

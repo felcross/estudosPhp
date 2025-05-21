@@ -1,170 +1,250 @@
-<body>
-    <!-- Container para alertas -->
-    <div id="alertContainer" class="position-fixed top-0 start-50 translate-middle-x" style="z-index: 1055; width: 100%; max-width: 500px; padding-top: 1rem;"></div>
+<html lang="pt-br">
 
-    <!-- Tabela de Produtos -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca e Edição de Produtos</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+ 
+</head>
+
+<body> 
+
     <div class="container my-5">
-        <h1 class="mb-4">Busca de Produtos</h1>
+        <h1 class="mb-4">Busca e Edição de Produtos</h1>
 
+        <!-- Formulário de Busca -->
         <form action="index.php?uri=&" method="GET" class="mb-4">
+            <!-- Se você usa uma variável 'uri' no seu roteamento, descomente e ajuste: -->
+            <!-- <input type="hidden" name="uri" value="sua/rota/de/busca"> -->
             <div class="row g-3">
                 <div class="col-md-8">
-                    <div class="form-floating">
-                        <input type="text" name="termo" class="form-control" id="searchTerm"
-                            placeholder="Digite o código, descrição ou código de barras"
-                            value="<?= htmlspecialchars($termo ?? '') ?>">
-                        <label for="searchTerm">Digite o código, descrição ou código de barras</label>
-                    </div>
+                    <input type="text" name="termo" class="form-control"
+                        placeholder="Digite o código, descrição ou código de barras"
+                        value="<?= htmlspecialchars($termo ?? '') ?>">
                 </div>
                 <div class="col-md-4">
-                    <button type="submit" class="btn btn-primary h-100 w-100">
-                        <i class="bi bi-search"></i> Buscar
-                    </button>
+                    <button type="submit" class="btn btn-primary w-100">Buscar</button>
                 </div>
             </div>
         </form>
 
-        <div class="table-responsive mt-4">
-            <table class="table table-striped table-hover table-bordered">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Código</th>
-                        <th>Descrição</th>
-                        <th>Qtd. Max. Armazenagem</th>
-                        <th>Local</th>
-                        <th>Local 2</th>
-                        <th>Local 3</th>
-                        <th>Código de Barras</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($produtos)): ?>
+        <!-- Feedback da Busca -->
+        <?php if (!empty($termo)): ?>
+            <div class="alert alert-info">
+                Resultados da busca por: <strong><?= htmlspecialchars($termo) ?></strong>.
+                <?php if (isset($produtos) && is_array($produtos)): ?>
+                    <?= count($produtos) ?> produto(s) encontrado(s).
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+
+        <!-- Tabela de Produtos -->
+        <?php if (!empty($produtos) && is_array($produtos)): ?>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
                         <tr>
-                            <td colspan="8" class="text-center text-muted">
-                                <i class="bi bi-search"></i> Nenhum produto encontrado.
-                            </td>
+                            <th>Cód. Interno</th>
+                            <th>Cód. Barras</th>
+                            <th>Qtd. Máx. Arm.</th>
+                            <th>Local</th>
+                            <th>Local 2</th>
+                            <th>Local 3</th>
+                            <th>Ações</th>
                         </tr>
-                    <?php else: ?>
-                        <?php foreach ($produtos as $produto): ?>
-                            <tr data-id="<?= htmlspecialchars($produto['PRODUTO']) ?>">
-                                <td class="fw-bold"><?= htmlspecialchars($produto['PRODUTO']) ?></td>
-                                <td data-campo="descricao"><?= htmlspecialchars($produto['NOME']) ?></td>
-                                <td data-campo="qtd_max" class="text-center">
-                                    <?= number_format(($produto['QTD_MAX_ARMAZENAGEM'] ?? 0), 0, ',', '.') ?>
-                                </td>
-                                <td data-campo="local"><?= htmlspecialchars($produto['LOCAL'] ?? '') ?></td>
-                                <td data-campo="local2"><?= htmlspecialchars($produto['LOCAL2'] ?? '') ?></td>
-                                <td data-campo="local3"><?= htmlspecialchars($produto['LOCAL3'] ?? '') ?></td>
-                                <td data-campo="codigobarra"><?= htmlspecialchars($produto['CODIGOBARRA'] ?? '') ?></td>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($produtos as $index => $produto): ?>
+                            <tr id="produto-row-<?= $index ?>">
+                                <td class="cell-produto-codigo"><?= htmlspecialchars($produto['PRODUTO'] ?? '') ?></td>
+                                <td class="cell-produto-codigobarra"><?= htmlspecialchars($produto['CODIGOBARRA'] ?? '') ?></td>
+                                <td class="cell-produto-qtd_max_armazenagem"><?= htmlspecialchars($produto['QTD_MAX_ARMAZENAGEM'] ?? 0) ?></td>
+                                <td class="cell-produto-local"><?= htmlspecialchars($produto['LOCAL'] ?? '') ?></td>
+                                <td class="cell-produto-local2"><?= htmlspecialchars($produto['LOCAL2'] ?? '') ?></td>
+                                <td class="cell-produto-local3"><?= htmlspecialchars($produto['LOCAL3'] ?? '') ?></td>
                                 <td>
-                                    <button type="button" 
-                                            class="btn btn-primary btn-sm" 
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#modalEditarProduto"
-                                            data-id="<?= htmlspecialchars($produto['PRODUTO']) ?>"
-                                            data-codigo="<?= htmlspecialchars($produto['PRODUTO']) ?>"
-                                            data-descricao="<?= htmlspecialchars($produto['NOME']) ?>"
-                                            data-qtd-max="<?= $produto['QTD_MAX_ARMAZENAGEM'] ?? 0 ?>"
-                                            data-local="<?= htmlspecialchars($produto['LOCAL'] ?? '') ?>"
-                                            data-local2="<?= htmlspecialchars($produto['LOCAL2'] ?? '') ?>"
-                                            data-local3="<?= htmlspecialchars($produto['LOCAL3'] ?? '') ?>"
-                                            data-codigobarra="<?= htmlspecialchars($produto['CODIGOBARRA'] ?? '') ?>">
-                                        <i class="bi bi-pencil-square"></i> Editar
+                                    <!-- Campos ocultos para armazenar todos os dados do produto -->
+                                    <div class="produto-dados-completos" style="display: none;" 
+                                         id="produto-dados-<?= $index ?>"
+                                         data-produto="<?= htmlspecialchars(json_encode($produto)) ?>">
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-sm btn-primary btn-editar-produto"
+                                        data-bs-toggle="modal" data-bs-target="#modalEditarProduto"
+                                        data-row-index="<?= $index ?>"
+                                        data-id_produto="<?= htmlspecialchars($produto['PRODUTO'] ?? '') ?>"
+                                        data-codigobarra="<?= htmlspecialchars($produto['CODIGOBARRA'] ?? '') ?>"
+                                        data-qtd_max_armazenagem="<?= htmlspecialchars($produto['QTD_MAX_ARMAZENAGEM'] ?? 0) ?>"
+                                        data-local="<?= htmlspecialchars($produto['LOCAL'] ?? '') ?>"
+                                        data-local2="<?= htmlspecialchars($produto['LOCAL2'] ?? '') ?>"
+                                        data-local3="<?= htmlspecialchars($produto['LOCAL3'] ?? '') ?>"> 
+                                        Editar
                                     </button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+                    </tbody>
+                </table>
+            </div>
+        <?php elseif (!empty($termo)): ?>
+            <div class="alert alert-warning">
+                Nenhum produto encontrado com o termo de busca.
+            </div>
+        <?php endif; ?>
     </div>
 
-    <!-- Modal para Editar Produto -->
-    <div class="modal fade" id="modalEditarProduto" tabindex="-1" aria-labelledby="modalEditarProdutoLabel" aria-hidden="true">
+    <!-- Modal Editar Produto -->
+    <div class="modal fade" id="modalEditarProduto" tabindex="-1" aria-labelledby="modalEditarProdutoLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalEditarProdutoLabel">
-                        <i class="bi bi-pencil-square"></i> Editar Produto
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    <h5 class="modal-title" id="modalEditarProdutoLabel">Editar Produto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="formEditarProduto" novalidate>
-                    <div class="modal-body">
-                        <!-- Campo oculto para ID do produto -->
-                        <input type="hidden" id="modalProdutoId" name="modalProdutoId">
+                <div class="modal-body">
+                    <form id="formEditarProduto" method="POST">
+                        <input type="hidden" id="modalIdProduto" name="id_produto">
+                        <input type="hidden" id="modalRowIndex" name="row_index">
                         
+                        <!-- Container para campos ocultos dinamicamente adicionados -->
+                        <div id="camposOcultos"></div>
+
+                        <div class="mb-3">
+                            <label for="modalCodigoInterno" class="form-label">Código Interno (Produto)</label>
+                            <input type="text" class="form-control" id="modalCodigoInterno" name="id_produto" readonly>
+                        </div>
+                  
+                        <div class="mb-3">
+                            <label for="modalCodigoBarras" class="form-label">Código de Barras</label>
+                            <input type="text" class="form-control" id="modalCodigoBarras" name="CODIGOBARRA">
+                        </div>
+                        <div class="mb-3">
+                            <label for="modalQtdMaxArmazenagem" class="form-label">Qtd. Máx. Armazenagem</label>
+                            <input type="number" class="form-control" id="modalQtdMaxArmazenagem" name="QTD_MAX_ARMAZENAGEM" min="0" value="0" required>
+                        </div>
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="modalCodigo" name="modalCodigo" readonly>
-                                    <label for="modalCodigo">Código do Produto</label>
-                                    <div class="form-text">O código do produto não pode ser alterado.</div>
-                                </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="modalLocal" class="form-label">Local</label>
+                                <input type="text" class="form-control" id="modalLocal" name="LOCAL">
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-floating mb-3">
-                                    <input type="number" class="form-control" id="modalQtdMax" name="modalQtdMax" min="0" step="1" required>
-                                    <label for="modalQtdMax">Quantidade Máxima de Armazenagem</label>
-                                    <div class="invalid-feedback">
-                                        Por favor, informe uma quantidade válida.
-                                    </div>
-                                </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="modalLocal2" class="form-label">Local 2</label>
+                                <input type="text" class="form-control" id="modalLocal2" name="LOCAL2">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="modalLocal3" class="form-label">Local 3</label>
+                                <input type="text" class="form-control" id="modalLocal3" name="LOCAL3">
                             </div>
                         </div>
-                        
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="modalDescricao" name="modalDescricao" required>
-                            <label for="modalDescricao">Descrição do Produto</label>
-                            <div class="invalid-feedback">
-                                Por favor, informe a descrição do produto.
-                            </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" class="btn btn-primary" id="btnSalvarAlteracoes">Salvar Alterações</button>
                         </div>
-                        
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="modalLocal" name="modalLocal">
-                                    <label for="modalLocal">Local</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="modalLocal2" name="modalLocal2">
-                                    <label for="modalLocal2">Local 2</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="modalLocal3" name="modalLocal3">
-                                    <label for="modalLocal3">Local 3</label>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="modalCodigoBarras" name="modalCodigoBarras" 
-                                   pattern="[0-9]*" title="Apenas números são permitidos">
-                            <label for="modalCodigoBarras">Código de Barras</label>
-                            <div class="form-text">Apenas números são permitidos.</div>
-                            <div class="invalid-feedback">
-                                Por favor, informe um código de barras válido (apenas números).
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            <i class="bi bi-x-circle"></i> Cancelar
-                        </button>
-                        <button type="submit" class="btn btn-primary" id="btnSalvarAlteracoes">
-                            <i class="bi bi-check-circle"></i> Salvar Alterações
-                        </button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Bootstrap JS Bundle (Popper.js incluído) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script para manipular os dados completos -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Manipulador para o botão Editar
+            const botoesEditar = document.querySelectorAll('.btn-editar-produto');
+            botoesEditar.forEach(botao => {
+                botao.addEventListener('click', function() {
+                    const rowIndex = this.getAttribute('data-row-index');
+                    const dadosCompletosContainer = document.getElementById(`produto-dados-${rowIndex}`);
+                    const dadosCompletos = JSON.parse(dadosCompletosContainer.getAttribute('data-produto'));
+                    
+                    // Preenche os campos visíveis do modal
+                    document.getElementById('modalIdProduto').value = dadosCompletos.PRODUTO || '';
+                    document.getElementById('modalCodigoInterno').value = dadosCompletos.PRODUTO || '';
+                    document.getElementById('modalCodigoBarras').value = dadosCompletos.CODIGOBARRA || '';
+                    document.getElementById('modalQtdMaxArmazenagem').value = dadosCompletos.QTD_MAX_ARMAZENAGEM || 0;
+                    document.getElementById('modalLocal').value = dadosCompletos.LOCAL || '';
+                    document.getElementById('modalLocal2').value = dadosCompletos.LOCAL2 || '';
+                    document.getElementById('modalLocal3').value = dadosCompletos.LOCAL3 || '';
+                    document.getElementById('modalRowIndex').value = rowIndex;
+                    
+                    // Limpa os campos ocultos anteriores
+                    const camposOcultos = document.getElementById('camposOcultos');
+                    camposOcultos.innerHTML = '';
+                    
+                    // Adiciona todos os campos do produto como campos ocultos, exceto os que já estão visíveis
+                    const camposVisiveis = ['PRODUTO', 'CODIGOBARRA', 'QTD_MAX_ARMAZENAGEM', 'LOCAL', 'LOCAL2', 'LOCAL3'];
+                    
+                    for (const [chave, valor] of Object.entries(dadosCompletos)) {
+                        if (!camposVisiveis.includes(chave)) {
+                            const inputOculto = document.createElement('input');
+                            inputOculto.type = 'hidden';
+                            inputOculto.name = chave;
+                            inputOculto.value = valor !== null ? valor : '';
+                            camposOcultos.appendChild(inputOculto);
+                        }
+                    }
+                });
+            });
+            
+            // Manipulador para o botão Salvar Alterações
+            document.getElementById('btnSalvarAlteracoes').addEventListener('click', function() {
+                const formData = new FormData(document.getElementById('formEditarProduto'));
+                const rowIndex = formData.get('row_index');
+                
+                // Aqui você pode implementar o envio via AJAX
+                // Exemplo de como poderia ser:
+                fetch('sua_url_de_atualizacao', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Produto atualizado com sucesso!');
+                        // Atualiza os dados na tabela sem recarregar a página
+                        atualizarLinhaTabela(rowIndex, formData);
+                        // Fecha o modal
+                        const modalInstance = bootstrap.Modal.getInstance(document.getElementById('modalEditarProduto'));
+                        modalInstance.hide();
+                    } else {
+                        alert('Erro ao atualizar o produto: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    alert('Ocorreu um erro ao processar a solicitação.');
+                });
+                
+                // Função para atualizar a linha da tabela com os novos dados
+                function atualizarLinhaTabela(index, formData) {
+                    const row = document.getElementById(`produto-row-${index}`);
+                    if (row) {
+                        // Atualiza os campos visíveis na tabela
+                        row.querySelector('.cell-produto-codigobarra').textContent = formData.get('CODIGOBARRA');
+                        row.querySelector('.cell-produto-qtd_max_armazenagem').textContent = formData.get('QTD_MAX_ARMAZENAGEM');
+                        row.querySelector('.cell-produto-local').textContent = formData.get('LOCAL');
+                        row.querySelector('.cell-produto-local2').textContent = formData.get('LOCAL2');
+                        row.querySelector('.cell-produto-local3').textContent = formData.get('LOCAL3');
+                        
+                        // Atualiza também os dados completos armazenados
+                        const dadosProduto = {};
+                        formData.forEach((valor, chave) => {
+                            dadosProduto[chave] = valor;
+                        });
+                        
+                        const dadosContainer = document.getElementById(`produto-dados-${index}`);
+                        dadosContainer.setAttribute('data-produto', JSON.stringify(dadosProduto));
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
