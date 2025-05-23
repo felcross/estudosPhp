@@ -4,19 +4,21 @@ namespace src\controller;
 
 
 use Core\View;
-use model\ProdutoApi;
+use model\ProdutoApi2;
+use utils\Erros;
 use utils\Sanitizantes;
 use Exception;
 
 // Controller
 
-class ProdutoController
+class Product2
 {
     private $produtoApi;
 
     public function __construct()
     {
-        $this->produtoApi = new ProdutoApi();
+        $this->produtoApi = new ProdutoApi2;
+
     }
 
     public function processarAtualizacaoAjax()
@@ -88,9 +90,9 @@ class ProdutoController
         }
     }
 
-    public function buscar()
+   public function buscar()
     {
-        $this->processarAtualizacaoAjax();
+    $this->processarAtualizacaoAjax();
 
         $termo = isset($_GET['termo']) ? filter_input(INPUT_GET, 'termo', FILTER_SANITIZE_SPECIAL_CHARS) : ''; // Sanitizar
         $produtos = [];
@@ -107,12 +109,68 @@ class ProdutoController
             'termo' => $termo,
         ], 'Product');
     }
+
+    function processarTodosOsProdutos() 
+{
+
+      $termo = isset($_GET['termo']) ? filter_input(INPUT_GET, 'termo', FILTER_SANITIZE_SPECIAL_CHARS) : ''; // Sanitizar
+
+    $pagina = 1;
+    $limitePorPagina = 100; // Buscar de 100 em 100, por exemplo
+
+    echo "Iniciando processamento para: " . $termo . "\n";
+
+    do {
+        echo "Buscando página: " . $pagina . "\n";
+        
+        try {
+            // Chama a função que usa $top e $skip
+            $produtosDaPagina =  $this->produtoApi->buscarTodos($termo, true, $limitePorPagina, $pagina);
+
+            // Se não veio nada, ou deu erro (função retorna []), paramos o loop
+            if (empty($produtosDaPagina)) {
+                echo "Nenhum produto encontrado na página " . $pagina . ". Finalizando.\n";
+                break; 
+            }
+
+            echo "Encontrados " . count($produtosDaPagina) . " produtos. Processando...\n";
+
+            // Processa cada item da página atual
+            foreach ($produtosDaPagina as $item) {
+                // Faça o que você precisa com cada $item
+                // Ex: $this->layoutEstoque($item);
+                // Ex: $this->layoutPrecoUnitario($item);
+                echo " - Processando produto: " . ($item['PRODUTO'] ?? 'N/A') . "\n";
+            }
+
+            // Prepara para buscar a próxima página
+            $pagina++;
+
+        } catch (\Throwable $th) {
+            Erros::salva("ProcessamentoErro - Erro ao buscar página $pagina", ['erro' => $th->getMessage()]);
+            echo "Erro ao buscar página $pagina. Parando.\n";
+            break; // Para o loop em caso de erro grave
+        }
+
+    // Continua enquanto a última busca retornou o número máximo de itens
+    // (Isso sugere que PODE haver mais páginas)
+    } while (count($produtosDaPagina) === $limitePorPagina); 
+
+    echo "Processamento concluído.\n";
+}
+
+// Como usar:
+// $api = new ProdutoAPI(...); // Crie sua instância
+// processarTodosOsProdutos("TERMO_BUSCA", $api);
 }
 
 
 
-$productController = new ProdutoController();
-$productController->buscar();
+
+
+$productController = new Product2();
+//$productController->buscar();
+$productController->processarTodosOsProdutos();
 
 
 

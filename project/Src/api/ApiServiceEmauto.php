@@ -12,7 +12,7 @@ class ApiServiceEmauto
     private array $header;
     private string $url;
     private $conteudo;
-    private string | int $status;
+    private string|int $status;
     private bool $useLineCounts;
 
 
@@ -27,7 +27,7 @@ class ApiServiceEmauto
      * @return void
      */
 
-    public function set(string $endpoint, string $tipoRequisicao, string | array $dados, bool $useLineCounts = true, bool $useJsonEncode = true): void
+    public function set(string $endpoint, string $tipoRequisicao, string|array $dados, bool $useLineCounts = true, bool $useJsonEncode = true): void
     {
 
         $this->defineHeader();
@@ -61,11 +61,11 @@ class ApiServiceEmauto
      * @return void
      */
 
-    private function definirUrl(string $endpoint, string  $tipo, string | array | object $extras = '')
+    private function definirUrl(string $endpoint, string $tipo, string|array|object $extras = '')
     {
         $line = '';
         if ($this->useLineCounts == true) {
-            $line =  '&$inlinecount=allpages';
+            $line = '&$inlinecount=allpages';
         }
 
         $ip = apiEmauto;
@@ -75,12 +75,16 @@ class ApiServiceEmauto
                 $this->url = Sanitizantes::filtroUrl($ip) . $endpoint . "?" . $extras . $line;
                 break;
             case "DELETE":
-                $this->url = Sanitizantes::filtroUrl($ip)  . $endpoint . "($extras)";
+                $this->url = Sanitizantes::filtroUrl($ip) . $endpoint . "($extras)";
                 break;
             case "POST":
                 $this->url = Sanitizantes::filtroUrl($ip) . $endpoint;
+                break;
             case "PUT":
-                $this->url = Sanitizantes::filtroUrl($ip)  . $endpoint;
+                $this->url = Sanitizantes::filtroUrl($ip) . $endpoint;
+                break;
+            case "PATCH":
+                $this->url = Sanitizantes::filtroUrl($ip) . $endpoint;
                 break;
         }
     }
@@ -94,8 +98,8 @@ class ApiServiceEmauto
      * @return void
      */
 
-     
-    private function request(string $tipo, string | array | object $extras, bool $useJsonEncode): void
+
+    private function request(string $tipo, string|array|object $extras, bool $useJsonEncode): void
     {
 
         try {
@@ -107,7 +111,7 @@ class ApiServiceEmauto
             curl_setopt($env, CURLOPT_HTTPHEADER, $this->header);
             curl_setopt($env, CURLOPT_SSL_VERIFYPEER, false);
 
-            if (in_array($tipo, ["POST", "PUT"])) {
+            if (in_array($tipo, ["POST", "PUT", "PATCH"])) {
 
                 $data = $useJsonEncode ? json_encode($extras) : $extras;
                 curl_setopt($env, CURLOPT_POSTFIELDS, $data);

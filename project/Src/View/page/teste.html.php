@@ -6,10 +6,10 @@
     <title>Busca e Edição de Produtos</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
- 
+
 </head>
 
-<body> 
+<body>
 
     <div class="container my-5">
         <h1 class="mb-4">Busca e Edição de Produtos</h1>
@@ -47,7 +47,7 @@
                     <thead>
                         <tr>
                             <th>Cód. Interno</th>
-                           
+
                             <th>Cód. Barras</th>
                             <th>Qtd. Máx. Arm.</th>
                             <th>Local</th>
@@ -62,24 +62,27 @@
                                 <td class="cell-produto-codigo"><?= htmlspecialchars($produto['PRODUTO'] ?? '') ?></td>
 
                                 <td class="cell-produto-codigobarra"><?= htmlspecialchars($produto['CODIGOBARRA'] ?? '') ?></td>
-                                <td class="cell-produto-qtd_max_armazenagem"><?= htmlspecialchars($produto['QTD_MAX_ARMAZENAGEM'] ?? 0) ?></td>
+                                <td class="cell-produto-qtd_max_armazenagem">
+                                    <?= htmlspecialchars($produto['QTD_MAX_ARMAZENAGEM'] ?? 0) ?>
+                                </td>
                                 <td class="cell-produto-local"><?= htmlspecialchars($produto['LOCAL'] ?? '') ?></td>
                                 <td class="cell-produto-local2"><?= htmlspecialchars($produto['LOCAL2'] ?? '') ?></td>
                                 <td class="cell-produto-local3"><?= htmlspecialchars($produto['LOCAL3'] ?? '') ?></td>
                                 <td>
-                                      
+
                                     <button type="button" class="btn btn-sm btn-primary btn-editar-produto"
                                         data-bs-toggle="modal" data-bs-target="#modalEditarProduto"
                                         data-row-index="<?= $index ?>"
                                         data-id_produto="<?= htmlspecialchars($produto['PRODUTO'] ?? '') ?>"
-                                    
                                         data-codigobarra="<?= htmlspecialchars($produto['CODIGOBARRA'] ?? '') ?>"
                                         data-qtd_max_armazenagem="<?= htmlspecialchars($produto['QTD_MAX_ARMAZENAGEM'] ?? 0) ?>"
                                         data-local="<?= htmlspecialchars($produto['LOCAL'] ?? '') ?>"
                                         data-local2="<?= htmlspecialchars($produto['LOCAL2'] ?? '') ?>"
-                                        data-local3="<?= htmlspecialchars($produto['LOCAL3'] ?? '') ?>"> 
-                                        Editar
-                                    </button>
+                                        data-local3="<?= htmlspecialchars($produto['LOCAL3'] ?? '') ?>"
+                                    
+                                  
+                                     >Editar</button>
+                                   
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -103,22 +106,23 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form  id="formEditarProduto" method="POST"> <!-- Removido action, será tratado por JS -->
+                    <form id="formEditarProduto" method="POST"> <!-- Removido action, será tratado por JS -->
                         <input type="hidden" id="modalIdProduto" name="id_produto">
                         <input type="hidden" id="modalRowIndex" name="row_index">
-
+          
                         <div class="mb-3">
                             <label for="modalCodigoInterno" class="form-label">Código Interno (Produto)</label>
                             <input type="text" class="form-control" id="modalCodigoInterno" name="id_produto" readonly>
                         </div>
-                  
+
                         <div class="mb-3">
                             <label for="modalCodigoBarras" class="form-label">Código de Barras</label>
                             <input type="text" class="form-control" id="modalCodigoBarras" name="CODIGOBARRA">
                         </div>
                         <div class="mb-3">
                             <label for="modalQtdMaxArmazenagem" class="form-label">Qtd. Máx. Armazenagem</label>
-                            <input type="number" class="form-control" id="modalQtdMaxArmazenagem" name="QTD_MAX_ARMAZENAGEM" min="0" value="0" required>
+                            <input type="number" class="form-control" id="modalQtdMaxArmazenagem"
+                                name="QTD_MAX_ARMAZENAGEM" min="0" value="0" required>
                         </div>
                         <div class="row">
                             <div class="col-md-4 mb-3">
@@ -135,22 +139,24 @@
                             </div>
                         </div>
 
-                         <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary" id="btnSalvarAlteracoes">Salvar Alterações</button>
-                </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" class="btn btn-primary" id="btnSalvarAlteracoes">Salvar
+                                Alterações</button>
+                        </div>
                     </form>
                 </div>
-             
+
             </div>
         </div>
     </div>
 
-       <!-- Bootstrap JS Bundle (Popper.js incluído) -->
+    <!-- Bootstrap JS Bundle (Popper.js incluído) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 
 
-    
+
 </body>
+
 </html>

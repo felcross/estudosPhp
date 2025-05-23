@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', function () {
             var local2 = button.getAttribute('data-local2');
             var local3 = button.getAttribute('data-local3');
 
+          
+
             // Atualiza o conteúdo do modal - Seleciona os inputs pelos seus IDs
             var modalTitle = modalEditarProduto.querySelector('.modal-title');
             var modalIdProdutoInput = modalEditarProduto.querySelector('#modalIdProduto'); // Hidden input for ID
@@ -24,6 +26,9 @@ document.addEventListener('DOMContentLoaded', function () {
             var modalLocalInput = modalEditarProduto.querySelector('#modalLocal');
             var modalLocal2Input = modalEditarProduto.querySelector('#modalLocal2');
             var modalLocal3Input = modalEditarProduto.querySelector('#modalLocal3');
+
+      
+
 
             modalTitle.textContent = 'Editar Produto: ' + produtoId; // Usa produtoId que é o código interno
             if (modalIdProdutoInput) modalIdProdutoInput.value = produtoId;
@@ -46,12 +51,12 @@ document.addEventListener('DOMContentLoaded', function () {
             let formData = {
                 'PUT': true,
                 'produto_id': $('#modalIdProduto').val(),
-
                 'codigobarra': $('#modalCodigoBarras').val(),
                 'qtd_max_armazenagem': $('#modalQtdMaxArmazenagem').val(),
                 'local': $('#modalLocal').val(),
                 'local2': $('#modalLocal2').val(),
-                'local3': $('#modalLocal3').val()
+                'local3': $('#modalLocal3').val(),
+               
             };
 
             // Mantém a mesma estrutura de envio que funciona

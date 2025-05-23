@@ -15,7 +15,7 @@ use utils\Sanitizantes;
 
 
 
-class ProdutoApi extends TokensControl {
+class ProdutoApi2 extends TokensControl {
     /**
      * Class apiServiceEmauto
      * @var ApiServiceEmauto
@@ -59,7 +59,7 @@ class ProdutoApi extends TokensControl {
      */
     public function setLimiteResultados(int $limite): self
     {
-        $this->limiteResultados = max(1, $limite);
+        $this->limiteResultados = max(2, $limite);
         return $this;
     }
     
@@ -74,122 +74,70 @@ class ProdutoApi extends TokensControl {
      * @param int|null $limite Limite de resultados (null para usar o limite padrão)
      * @return array Array com produtos encontrados ou array vazio se nada for encontrado
      */
-    public function buscarProdutos(string $produto = '', string $ref = '', string $ref2 = '', string $codBarra = '', bool $buscaParcial = true, ?int $limite = null): array
+ public function buscarProdutos(string $produto = '', string $ref = '', string $ref2 = '', string $codBarra = '', bool $buscaParcial = true, int $limite = 15, int $pagina = 1): array
     {
         // Verifica se pelo menos um parâmetro de busca foi fornecido
         if (empty($produto) && empty($ref) && empty($ref2) && empty($codBarra)) {
             return [];
         }
         
-        // Sanitizar todos os parâmetros de busca
+        // ... (Sanitização, Codificação, Operador, Condições - TUDO IGUAL) ...
         $produto = Sanitizantes::filtro($produto);
         $ref = Sanitizantes::filtro($ref);
         $ref2 = Sanitizantes::filtro($ref2);
         $codBarra = Sanitizantes::filtro($codBarra);
-        
-        // Codificar os parâmetros para URL
         $produtoEncoded = urlencode($produto);
         $refEncoded = urlencode($ref);
         $ref2Encoded = urlencode($ref2);
         $codBarraEncoded = urlencode($codBarra);
-        
-        // Definir o operador de comparação com base no tipo de busca
         $operador = $buscaParcial ? "contains" : "eq";
-        
-        // Construir condições de filtro dinamicamente apenas para parâmetros não vazios
         $condicoes = [];
-        
-        if (!empty($produto)) {
-            $condicoes[] = "{$operador}(PRODUTO,%20'{$produtoEncoded}')";
-        }
-        
-        if (!empty($ref)) {
-            $condicoes[] = "{$operador}(REFERENCIA,%20'{$refEncoded}')";
-        }
-        
-        if (!empty($ref2)) {
-            $condicoes[] = "{$operador}(REFERENCIA2,%20'{$ref2Encoded}')";
-        }
-        
-        if (!empty($codBarra)) {
-            $condicoes[] = "{$operador}(CODIGOBARRA,%20'{$codBarraEncoded}')";
-        }
-        
-        // Juntar condições com operador OR
+        if (!empty($produto)) { $condicoes[] = "{$operador}(PRODUTO,%20'{$produtoEncoded}')"; }
+        if (!empty($ref)) { $condicoes[] = "{$operador}(REFERENCIA,%20'{$refEncoded}')"; }
+        if (!empty($ref2)) { $condicoes[] = "{$operador}(REFERENCIA2,%20'{$ref2Encoded}')"; }
+        if (!empty($codBarra)) { $condicoes[] = "{$operador}(CODIGOBARRA,%20'{$codBarraEncoded}')"; }
         $filtroCondicoes = implode('%20or%20', $condicoes);
         
-        // Aplicar limite de resultados (usando o valor passado ou o padrão da classe)
-        $limiteAtual = $limite ?? $this->limiteResultados;
+        // --- AQUI ESTÁ A MUDANÇA ---
+        $limiteAtual = $limite; // Usamos o limite informado (ex: 15)
+        $paginaAtual = max(1, $pagina); // Garante que a página seja no mínimo 1
+        $skip = ($paginaAtual - 1) * $limiteAtual; // Calcula o skip CORRETAMENTE
 
-     
+        // Montar a query completa com $top e $skip
+        $filtro = "%24filter=({$filtroCondicoes})&%24top={$limiteAtual}&%24skip={$skip}&%24expand=GRUPO,UNIDADE,NCM,FABRICANTE,FORNECEDOR";
+        // --- FIM DA MUDANÇA ---
 
-        
-        // Montar a query completa
-        $filtro = "%24filter=({$filtroCondicoes})&%24top={$limiteAtual}";
-
-
-
-       // dd($filtro); 
-        
         try {
-            
-            
             // Fazer a requisição à API
             $this->apiServiceEmauto->set(
-                apiProdutos,
+                apiProdutos, // O endpoint que usa OData
                 'GET',
-                $filtro,
+                $filtro, // A query com $top e $skip
                 useLineCounts: false
             );
             
-            // Obter o resultado
             $resultado = [
                 'status' => $this->apiServiceEmauto->getStatus(),
                 'data' => $this->apiServiceEmauto->getConteudo()['value'] ?? []
             ];
 
-
-            
-            // Verificar se a requisição foi bem-sucedida
             if ($resultado['status'] < 200 || $resultado['status'] > 250 || empty($resultado['data'])) {
                 return [];
             }
             
-           // Processar os resultados
-        foreach ($resultado['data'] as $item) {
-            $produtos[] = $item;
-        }
-        
-        return $produtos;
+            return $resultado['data']; // Retorna SÓ os produtos da página atual
             
         } catch (\Throwable $th) {
-            Erros::salva("ProdutosErro - Erro ao buscar produtos no EMAUTO", [
-                'parametros' => [
-                    'produto' => $produto,
-                    'ref' => $ref,
-                    'ref2' => $ref2,
-                    'codBarra' => $codBarra
-                ],
-                'filtro' => $filtro,
-                'buscaParcial' => $buscaParcial,
-                'erro' => $th->getMessage()
-            ]);
+            Erros::salva("ProdutosErro - Erro ao buscar produtos no EMAUTO", [ /* ... */ ]);
             return [];
         }
     }
-    
-    /**
-     * Busca produtos por texto em múltiplos campos
-     * 
-     * @param string $termo Termo de busca para filtrar produtos em todos os campos
-     * @param bool $buscaParcial Se true, busca por correspondência parcial (contains)
-     * @param int|null $limite Limite de resultados
-     * @return array Array com produtos encontrados
-     */
-    public function buscarTodos(string $termo, bool $buscaParcial = true, ?int $limite = null): array
+
+    // buscarTodos agora usa os novos parâmetros
+    public function buscarTodos(string $termo, bool $buscaParcial = true, int $limite = 15, int $pagina = 1): array
     {
-        return $this->buscarProdutos($termo, $termo, $termo, $termo, $buscaParcial, $limite);
-    }  
+        return $this->buscarProdutos($termo, $termo, $termo, $termo, $buscaParcial, $limite, $pagina);
+    }
 
 
     public function atualizarProduto(string $codigoProduto, array $dadosAtualizacao): array 
@@ -287,6 +235,11 @@ class ProdutoApi extends TokensControl {
         ];
     }
 }
+
+
+
+
+
 
 
 
