@@ -4,43 +4,42 @@ namespace src\controller;
 
 use Core\View;
 use model\ProdutoApi;
+use model\ProdutoApi2;
+
 
 // Controller
 
-class ProdutoController
+class Prod
 {
     private $produtoApi;
 
     public function __construct()
     {
-        $this->produtoApi = new ProdutoApi();
-    }
-  public function buscar()
-{
-    $termo = $_GET['termo'] ?? '';
-    
-    $produtos = [];
-    if (!empty($termo)) {
-        $produtos = $this->produtoApi->buscarTodos($termo, true, limite: 15);
+        $this->produtoApi = new ProdutoApi2();
     }
     
-   
+    public function buscar()
+    {
+        $termo = $_GET['termo'] ?? '';
+        $pagina = max(0, intval($_GET['pagina'] ?? 0));
+        
+        $produtos = [];
+        if (!empty($termo)) {
+            $produtos = $this->produtoApi->buscarProdutosPaginado($termo, $termo, $termo, $termo, true, 15, $pagina);
+        }
     
-    View::render('page/search.html.php', [
-        'produtos' => $produtos,
-        'termo' => $termo,
-    ]);
+
+         View::render('page/teste2.html.php', [
+            'produtos' => $produtos,
+            'termo' => $termo,
+             'pagina' => $pagina
+        ], 'Product');
+    }
 }
-}
-
-
-
-
 
 // Instancia o controller
-$productController = new ProdutoController;
+$productController = new Prod;
 $productController->buscar();
-
 
 
 

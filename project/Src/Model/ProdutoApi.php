@@ -178,14 +178,6 @@ class ProdutoApi extends TokensControl {
         }
     }
     
-    /**
-     * Busca produtos por texto em múltiplos campos
-     * 
-     * @param string $termo Termo de busca para filtrar produtos em todos os campos
-     * @param bool $buscaParcial Se true, busca por correspondência parcial (contains)
-     * @param int|null $limite Limite de resultados
-     * @return array Array com produtos encontrados
-     */
     public function buscarTodos(string $termo, bool $buscaParcial = true, ?int $limite = null): array
     {
         return $this->buscarProdutos($termo, $termo, $termo, $termo, $buscaParcial, $limite);
