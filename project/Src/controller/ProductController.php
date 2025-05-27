@@ -24,7 +24,7 @@ class ProdutoController
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['PUT'])) {
             //header('Content-Type: application/json');
 
-           // dd($_POST);
+            // dd($_POST);
 
             // O ID do produto vem do input hidden #modalIdProduto com name="id_produto"
             $produtoId = $_POST['produto_id'] ?? null;
@@ -37,7 +37,7 @@ class ProdutoController
             $local2 = $_POST['local2'] ?? null;
             $local3 = $_POST['local3'] ?? null;
 
- 
+
 
             if (!$produtoId) {
                 echo json_encode(['success' => false, 'message' => 'ID do produto não fornecido para atualização.']);
@@ -71,8 +71,6 @@ class ProdutoController
             // Aqui, $produtoId é o valor de $produto['PRODUTO'] que foi enviado
             $resultado = $this->produtoApi->atualizarProduto($produtoId, $dadosParaAtualizar);
 
-              var_dump($resultado);
-
             if (isset($resultado['status']) && $resultado['status']) { // Verifique se 'status' existe antes de acessá-lo
                 echo json_encode(['success' => true, 'message' => $resultado['mensagem'] ?? 'Produto atualizado com sucesso!', 'data' => $resultado]);
             } else {
@@ -92,21 +90,26 @@ class ProdutoController
     {
         $this->processarAtualizacaoAjax();
 
-        $termo = isset($_GET['termo']) ? filter_input(INPUT_GET, 'termo', FILTER_SANITIZE_SPECIAL_CHARS) : ''; // Sanitizar
+        $termo = isset($_GET['termo']) ? filter_input(INPUT_GET, 'termo', FILTER_SANITIZE_SPECIAL_CHARS) : '';
         $produtos = [];
+        $pagina = isset($_GET['pagina']) ? (int) $_GET['pagina'] : 0;
+        $limite = 25; 
+
+
+        $pagina = (int) $pagina * (int) $limite;
 
         if (!empty($termo)) {
-            $produtos = $this->produtoApi->buscarTodos($termo, true, 25);
-
-            //dd($produtos);
+            $produtos = $this->produtoApi->buscarTodos($termo, true, limite: $limite, pagina: $pagina);
         }
 
-
-        View::render('page/teste.html.php', [
+        View::render('page/teste3.html.php', [
             'produtos' => $produtos,
             'termo' => $termo,
+            'pagina' => $pagina/25, // Passar a página atual
+            'limite' => $limite   // Passar o limite
         ], 'Product');
     }
+
 }
 
 
