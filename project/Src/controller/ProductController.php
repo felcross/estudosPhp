@@ -107,15 +107,15 @@ class ProdutoController
             'termo' => $termo,
             'pagina' => $pagina/25, // Passar a página atual
             'limite' => $limite   // Passar o limite
-        ], 'Product');
+        ], 'product');
     }
 
 }
 
 
 
-$productController = new ProdutoController();
-$productController->buscar();
+ $productController = new ProdutoController();
+ $productController->buscar();
 
 
 

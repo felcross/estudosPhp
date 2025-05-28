@@ -1,0 +1,17 @@
+[
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "28-05-2025 08:10:51",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "TESTE",
+        "Horário": "28-05-2025 08:10:53",
+        "Erro": "http:\/\/166.0.186.208:2002\/\/emsoft\/emauto\/Produto?%24filter=(contains(PRODUTO,%20'A9')%20or%20contains(REFERENCIA,%20'A9')%20or%20contains(REFERENCIA2,%20'A9')%20or%20contains(CODIGOBARRA,%20'A9'))&%24top=25&%24skip=75"
+    }
+]

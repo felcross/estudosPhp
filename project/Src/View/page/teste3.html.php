@@ -13,7 +13,7 @@
 <div class="container my-5">
     <h1 class="mb-4">Busca e Edição de Produtos</h1>
 
-    <form action="index.php?uri=&" method="GET" class="mb-4">
+    <form type="busc" class="mb-4">
         <div class="row g-3">
             <div class="col-md-8">
                 <input type="text" name="termo" class="form-control"
@@ -103,7 +103,7 @@
                 </li>
 
                 <li class="page-item <?= !$temProxima ? 'disabled' : '' ?>">
-                    <a class="page-link" 
+                    <a type="busc" class="page-link" 
                        href="index.php?uri=&termo=<?= htmlspecialchars($termo) ?>&pagina=<?= $paginaAtual + 1 ?>" 
                        aria-label="Próxima">
                         <span aria-hidden="true">&raquo;</span>

@@ -29,7 +29,7 @@ class Prod
         }
     
 
-         View::render('page/teste2.html.php', [
+         View::render('page/home.html.php', [
             'produtos' => $produtos,
             'termo' => $termo,
              'pagina' => $pagina

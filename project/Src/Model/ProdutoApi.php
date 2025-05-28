@@ -75,7 +75,7 @@ class ProdutoApi extends TokensControl
      * @param int|null $limite Limite de resultados (null para usar o limite padrão)
      * @return array Array com produtos encontrados ou array vazio se nada for encontrado
      */
-    public function buscarProdutos(string $produto = '', string $ref = '', string $ref2 = '', string $codBarra = '', bool $buscaParcial = true, ?int $limite = null, int $pagina): array
+    public function buscarProdutos(string $produto , string $ref, string $ref2 , string $codBarra , bool $buscaParcial, ?int $limite, int $pagina): array
     {
         // Verifica se pelo menos um parâmetro de busca foi fornecido
         if (empty($produto) && empty($ref) && empty($ref2) && empty($codBarra)) {
@@ -142,7 +142,7 @@ class ProdutoApi extends TokensControl
                 false
             );
 
-             Erros::salva('TESTE',$this->apiServiceEmauto->getUrl() );
+            // Erros::salva('TESTE',$this->apiServiceEmauto->getUrl() );
             // Obter o resultado
             return [
                 'status' => $this->apiServiceEmauto->getStatus(),
@@ -195,7 +195,7 @@ class ProdutoApi extends TokensControl
 
     }
 
-    public function buscarTodos(string $termo, bool $buscaParcial = true, ?int $limite = null , int $pagina): array
+    public function buscarTodos(string $termo, bool $buscaParcial , ?int $limite  , int $pagina): array
     {
         return $this->buscarProdutos($termo, $termo, $termo, $termo, $buscaParcial, $limite , $pagina);
     }

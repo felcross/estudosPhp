@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var local2 = button.getAttribute('data-local2');
             var local3 = button.getAttribute('data-local3');
 
-          
+
 
             // Atualiza o conteúdo do modal - Seleciona os inputs pelos seus IDs
             var modalTitle = modalEditarProduto.querySelector('.modal-title');
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var modalLocal2Input = modalEditarProduto.querySelector('#modalLocal2');
             var modalLocal3Input = modalEditarProduto.querySelector('#modalLocal3');
 
-      
+
 
 
             modalTitle.textContent = 'Editar Produto: ' + produtoId; // Usa produtoId que é o código interno
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 'local': $('#modalLocal').val(),
                 'local2': $('#modalLocal2').val(),
                 'local3': $('#modalLocal3').val(),
-               
+
             };
 
             // Mantém a mesma estrutura de envio que funciona
@@ -69,6 +69,39 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         });
     });
+
+
+
+    /////////
+
+    // $(document).on("submit", 'form[type="busc"]', function (i) {
+
+    //     i.preventDefault();
+
+    //     let url = new URLSearchParams(window.location.search);
+
+    //     let v = '?uri=' + url.get('uri') + '&termo=' + $('input[name="termo"]').val();
+
+    //     location.href = v;
+
+    //     const ahref = setInterval(() => {
+
+    //         if ($('a[type="busc"]')) {
+    //             $('a[type="busc"]').attr('href', v);
+    //             clearInterval(ahref);
+    //         }
+
+    //     }, 1000);
+
+
+
+
+
+
+
+    // })
+
+
 });
 
 
