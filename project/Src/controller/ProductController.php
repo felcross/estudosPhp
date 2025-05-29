@@ -1,6 +1,6 @@
 <?php
 
-namespace src\controller;
+namespace controller;
 
 
 use Core\View;
@@ -10,7 +10,7 @@ use Exception;
 
 // Controller
 
-class ProdutoController
+class ProductController
 {
     private $produtoApi;
 
@@ -114,7 +114,7 @@ class ProdutoController
 
 
 
- $productController = new ProdutoController();
+ $productController = new ProductController();
  $productController->buscar();
 
 
