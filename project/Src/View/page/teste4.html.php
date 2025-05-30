@@ -72,7 +72,10 @@
                                         data-qtd_max_armazenagem="<?= htmlspecialchars($produto['QTD_MAX_ARMAZENAGEM'] ?? 0) ?>"
                                         data-local="<?= htmlspecialchars($produto['LOCAL'] ?? '') ?>"
                                         data-local2="<?= htmlspecialchars($produto['LOCAL2'] ?? '') ?>"
-                                        data-local3="<?= htmlspecialchars($produto['LOCAL3'] ?? '') ?>">Editar</button>
+                                        data-local3="<?= htmlspecialchars($produto['LOCAL3'] ?? '') ?>"
+                                        data-referencia="<?= htmlspecialchars($produto['REFERENCIA'] ?? '') ?>"
+                                        data-referencia2="<?= htmlspecialchars($produto['REFERENCIA2'] ?? '') ?>"
+                                        data-nome="<?= htmlspecialchars($produto['NOME'] ?? 'Sem título') ?>">Editar</button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -126,16 +129,30 @@
     <div class="modal-dialog modal-lg">
          <div class="modal-content">
              <div class="modal-header">
-                 <h5 class="modal-title" id="modalEditarProdutoLabel">Editar Produto</h5>
+                 <h5 class="modal-title" id="modalEditarProdutoLabel">Editar Produto - <span id="modalNomeProduto"></span></h5>
                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
              </div>
              <div class="modal-body">
-                 <form id="formEditarProduto" method="POST"> <input type="hidden" id="modalIdProduto" name="id_produto">
+                 <form id="formEditarProduto" method="POST"> 
+                     <input type="hidden" id="modalIdProduto" name="id_produto">
                      <input type="hidden" id="modalRowIndex" name="row_index">
+                     <input type="hidden" id="modalReferencia" name="referencia">
+                     <input type="hidden" id="modalReferencia2" name="referencia2">
+                     <input type="hidden" id="modalNome" name="nome">
          
                      <div class="mb-3">
                          <label for="modalCodigoInterno" class="form-label">Código Interno (Produto)</label>
                          <input type="text" class="form-control" id="modalCodigoInterno" name="id_produto" readonly>
+                     </div>
+
+                     <div class="mb-3">
+                         <label for="modalReferenciaDisplay" class="form-label">Referência</label>
+                         <input type="text" class="form-control" id="modalReferenciaDisplay" name="referencia" readonly>
+                     </div>
+
+                     <div class="mb-3">
+                         <label for="modalReferencia2Display" class="form-label">Referência 2</label>
+                         <input type="text" class="form-control" id="modalReferencia2Display" name="referencia2" readonly>
                      </div>
 
                      <div class="mb-3">
@@ -177,7 +194,8 @@
 
 
 
-
 </body>
+
+
 
 </html>

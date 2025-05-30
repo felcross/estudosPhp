@@ -10,7 +10,7 @@ use Exception;
 
 // Controller
 
-class ProductController
+class ProductController  extends PageControl
 {
     private $produtoApi;
 
@@ -102,9 +102,14 @@ class ProductController
             $produtos = $this->produtoApi->buscarTodos($termo, true, limite: $limite, pagina: $pagina);
         }
 
-        View::render('page/teste3.html.php', [
+         $class = 'ProductController';
+         $method = 'buscar';
+ 
+        View::render('page/teste4.html.php', [
             'produtos' => $produtos,
-            'termo' => $termo,
+            'class' => $class ,
+            'method'=> $method,
+             'termo' => $termo,
             'pagina' => $pagina/25, // Passar a página atual
             'limite' => $limite   // Passar o limite
         ], 'product');
@@ -114,8 +119,6 @@ class ProductController
 
 
 
- $productController = new ProductController();
- $productController->buscar();
 
 
 

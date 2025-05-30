@@ -13,6 +13,11 @@ document.addEventListener('DOMContentLoaded', function () {
             var local = button.getAttribute('data-local');
             var local2 = button.getAttribute('data-local2');
             var local3 = button.getAttribute('data-local3');
+       
+          //hidden
+            var ref = button.getAttribute('data-referencia');
+            var ref2 = button.getAttribute('data-referencia2');
+            var nome = button.getAttribute('data-nome');
 
 
 
@@ -26,6 +31,11 @@ document.addEventListener('DOMContentLoaded', function () {
             var modalLocalInput = modalEditarProduto.querySelector('#modalLocal');
             var modalLocal2Input = modalEditarProduto.querySelector('#modalLocal2');
             var modalLocal3Input = modalEditarProduto.querySelector('#modalLocal3');
+            //hidden
+
+            var modalRef = modalEditarProduto.querySelector('#modalReferencia');
+            var modalRef2 = modalEditarProduto.querySelector('#modalReferencia2');
+            var modalNome = modalEditarProduto.querySelector('#modalNome');
 
 
 
@@ -39,6 +49,10 @@ document.addEventListener('DOMContentLoaded', function () {
             if (modalLocalInput) modalLocalInput.value = local;
             if (modalLocal2Input) modalLocal2Input.value = local2;
             if (modalLocal3Input) modalLocal3Input.value = local3;
+             //hidden
+            if (modalRef) modalRef.value = ref;
+            if (modalRef2) modalRef2.value = ref2;
+            if (modalNome) modalNome.value = nome;
         });
     }
 
