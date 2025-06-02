@@ -5,8 +5,10 @@ namespace controller;
 
 use Core\View;
 use model\ProdutoApi;
+use utils\Erros;
 use utils\Sanitizantes;
 use Exception;
+use utils\Tokens;
 
 // Controller
 
@@ -20,7 +22,14 @@ class ProductController  extends PageControl
     }
 
     public function processarAtualizacaoAjax()
-    {
+    {   
+        
+        //  if(Tokens::verificaTokenCSRF($_POST['token']) == true)
+        //  {
+        //   echo 'Deu certo';  
+        //  }
+
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['PUT'])) {
             //header('Content-Type: application/json');
 
@@ -87,7 +96,15 @@ class ProductController  extends PageControl
     }
 
     public function buscar()
-    {
+    {  
+
+          
+        //  if(Tokens::verificaTokenCSRF($_GET['token']) == true)
+        //  {
+        //    Erros::salva('eu ','token veio');
+        //  }
+
+
         $this->processarAtualizacaoAjax();
 
         $termo = isset($_GET['termo']) ? filter_input(INPUT_GET, 'termo', FILTER_SANITIZE_SPECIAL_CHARS) : '';
@@ -105,7 +122,7 @@ class ProductController  extends PageControl
          $class = 'ProductController';
          $method = 'buscar';
  
-        View::render('page/teste4.html.php', [
+        View::render('page/teste3.html.php', [
             'produtos' => $produtos,
             'class' => $class ,
             'method'=> $method,

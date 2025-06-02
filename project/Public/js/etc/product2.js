@@ -60,7 +60,8 @@ document.addEventListener('DOMContentLoaded', function () {
             if (modalReferencia2Display) modalReferencia2Display.value = ref2 || '';
         });
     }
-// Função para mostrar mensagens flash
+
+    // Função para mostrar mensagens flash
     function showFlashMessage(message, type = 'success') {
         const flashContainer = document.getElementById('flashMessages');
         const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
@@ -90,77 +91,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Função para atualizar a linha da tabela com os novos dados
     function updateTableRow(rowIndex, newData) {
-        console.log('Tentando atualizar linha:', rowIndex, newData);
-        
         const row = document.getElementById(`produto-row-${rowIndex}`);
-        console.log('Linha encontrada:', row);
-        
         if (row) {
-            // Busca pelas células usando diferentes possíveis seletores
-            const cells = row.querySelectorAll('td');
-            console.log('Células encontradas:', cells.length);
+            // Atualiza as células da tabela com os novos valores
+            const codigoBarraCell = row.querySelector('.cell-produto-codigobarra');
+            const qtdMaxCell = row.querySelector('.cell-produto-qtd_max_armazenagem');
+            const localCell = row.querySelector('.cell-produto-local');
+            const local2Cell = row.querySelector('.cell-produto-local2');
+            const local3Cell = row.querySelector('.cell-produto-local3');
             
-            // Tenta diferentes seletores para as células
-            let codigoBarraCell = row.querySelector('.cell-produto-codigobarra') || 
-                                 row.querySelector('[data-field="codigobarra"]') ||
-                                 cells[1]; // assumindo que seja a 2ª coluna
-            
-            let qtdMaxCell = row.querySelector('.cell-produto-qtd_max_armazenagem') || 
-                            row.querySelector('[data-field="qtd_max_armazenagem"]') ||
-                            cells[2]; // assumindo que seja a 3ª coluna
-            
-            let localCell = row.querySelector('.cell-produto-local') || 
-                           row.querySelector('[data-field="local"]') ||
-                           cells[3]; // assumindo que seja a 4ª coluna
-            
-            let local2Cell = row.querySelector('.cell-produto-local2') || 
-                            row.querySelector('[data-field="local2"]') ||
-                            cells[4]; // assumindo que seja a 5ª coluna
-            
-            let local3Cell = row.querySelector('.cell-produto-local3') || 
-                            row.querySelector('[data-field="local3"]') ||
-                            cells[5]; // assumindo que seja a 6ª coluna
-            
-            // Atualiza as células se encontradas
-            if (codigoBarraCell) {
-                codigoBarraCell.textContent = newData.codigobarra;
-                console.log('Código de barras atualizado');
-            }
-            if (qtdMaxCell) {
-                qtdMaxCell.textContent = newData.qtd_max_armazenagem;
-                console.log('Qtd Max atualizada');
-            }
-            if (localCell) {
-                localCell.textContent = newData.local;
-                console.log('Local atualizado');
-            }
-            if (local2Cell) {
-                local2Cell.textContent = newData.local2;
-                console.log('Local2 atualizado');
-            }
-            if (local3Cell) {
-                local3Cell.textContent = newData.local3;
-                console.log('Local3 atualizado');
-            }
+            if (codigoBarraCell) codigoBarraCell.textContent = newData.codigobarra;
+            if (qtdMaxCell) qtdMaxCell.textContent = newData.qtd_max_armazenagem;
+            if (localCell) localCell.textContent = newData.local;
+            if (local2Cell) local2Cell.textContent = newData.local2;
+            if (local3Cell) local3Cell.textContent = newData.local3;
 
             // Atualiza também os data-attributes do botão editar
-            const editButton = row.querySelector('.btn-editar-produto') || row.querySelector('[data-bs-toggle="modal"]');
+            const editButton = row.querySelector('.btn-editar-produto');
             if (editButton) {
                 editButton.setAttribute('data-codigobarra', newData.codigobarra);
                 editButton.setAttribute('data-qtd_max_armazenagem', newData.qtd_max_armazenagem);
                 editButton.setAttribute('data-local', newData.local);
                 editButton.setAttribute('data-local2', newData.local2);
                 editButton.setAttribute('data-local3', newData.local3);
-                console.log('Botão editar atualizado');
             }
-            
-            // Adiciona efeito visual para mostrar que foi atualizado
-            row.style.backgroundColor = '#d4edda';
-            setTimeout(() => {
-                row.style.backgroundColor = '';
-            }, 2000);
-        } else {
-            console.error('Linha não encontrada com ID:', `produto-row-${rowIndex}`);
         }
     }
 
@@ -187,6 +141,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 'local': $('#modalLocal').val(),
                 'local2': $('#modalLocal2').val(),
                 'local3': $('#modalLocal3').val(),
+
+
                 'referencia': $('#modalReferencia').val(),
                 'referencia2': $('#modalReferencia2').val(),
                 'nome': $('#modalNome').val()
@@ -214,6 +170,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                 }
                 
+                // Fecha o modal
+                //$('#modalEditarProduto').modal('hide');
+
                 // CORREÇÃO: Fecha o modal corretamente removendo o backdrop
                 const modalElement = document.getElementById('modalEditarProduto');
                 const modal = bootstrap.Modal.getInstance(modalElement);
@@ -246,4 +205,132 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     });
-    });
+});
+
+
+
+
+
+
+// document.addEventListener('DOMContentLoaded', function () {
+//     var modalEditarProduto = document.getElementById('modalEditarProduto');
+//     if (modalEditarProduto) {
+//         modalEditarProduto.addEventListener('show.bs.modal', function (event) {
+//             var button = event.relatedTarget; // Botão que acionou o modal
+
+//             // Extrai informações dos atributos data-* do BOTÃO
+//             // Mantendo os mesmos nomes de atributos do código original
+//             var produtoId = button.getAttribute('data-id_produto'); // Vem de $produto['PRODUTO']
+//             var codigobarra = button.getAttribute('data-codigobarra');
+//             var qtdMaxArmazenagem = button.getAttribute('data-qtd_max_armazenagem');
+//             var local = button.getAttribute('data-local');
+//             var local2 = button.getAttribute('data-local2');
+//             var local3 = button.getAttribute('data-local3');
+       
+//             // Extrai os valores dos campos hidden (referência, referência2 e nome)
+//             var ref = button.getAttribute('data-referencia');
+//             var ref2 = button.getAttribute('data-referencia2');
+//             var nome = button.getAttribute('data-nome');
+
+//             // Atualiza o conteúdo do modal - Seleciona os inputs pelos seus IDs
+//             var modalTitle = modalEditarProduto.querySelector('.modal-title');
+//             var modalNomeProduto = modalEditarProduto.querySelector('#modalNomeProduto'); // Span para exibir nome no título
+//             var modalIdProdutoInput = modalEditarProduto.querySelector('#modalIdProduto'); // Hidden input for ID
+//             var modalCodigoInternoInput = modalEditarProduto.querySelector('#modalCodigoInterno'); // Display only
+
+//             var modalCodigoBarrasInput = modalEditarProduto.querySelector('#modalCodigoBarras');
+//             var modalQtdMaxArmazenagemInput = modalEditarProduto.querySelector('#modalQtdMaxArmazenagem');
+//             var modalLocalInput = modalEditarProduto.querySelector('#modalLocal');
+//             var modalLocal2Input = modalEditarProduto.querySelector('#modalLocal2');
+//             var modalLocal3Input = modalEditarProduto.querySelector('#modalLocal3');
+
+//             // Campos hidden para envio dos dados
+//             var modalRef = modalEditarProduto.querySelector('#modalReferencia');
+//             var modalRef2 = modalEditarProduto.querySelector('#modalReferencia2');
+//             var modalNome = modalEditarProduto.querySelector('#modalNome');
+
+//             // Campos de exibição readonly para mostrar referências
+//             var modalReferenciaDisplay = modalEditarProduto.querySelector('#modalReferenciaDisplay');
+//             var modalReferencia2Display = modalEditarProduto.querySelector('#modalReferencia2Display');
+
+//             // Atualiza o título do modal com o nome do produto em vez do código
+//             if (modalNomeProduto) {
+//                 modalNomeProduto.textContent = nome || 'Sem título'; // Usa nome do produto
+//             }
+
+//             // Preenche os campos básicos do modal
+//             if (modalIdProdutoInput) modalIdProdutoInput.value = produtoId;
+//             if (modalCodigoInternoInput) modalCodigoInternoInput.value = produtoId; // Código interno é o próprio ID do produto
+//             if (modalCodigoBarrasInput) modalCodigoBarrasInput.value = codigobarra;
+//             if (modalQtdMaxArmazenagemInput) modalQtdMaxArmazenagemInput.value = qtdMaxArmazenagem;
+//             if (modalLocalInput) modalLocalInput.value = local;
+//             if (modalLocal2Input) modalLocal2Input.value = local2;
+//             if (modalLocal3Input) modalLocal3Input.value = local3;
+
+//             // Preenche os campos hidden com os valores das referências e nome
+//             if (modalRef) modalRef.value = ref || ''; // Garante que não seja null/undefined
+//             if (modalRef2) modalRef2.value = ref2 || ''; // Garante que não seja null/undefined
+//             if (modalNome) modalNome.value = nome || 'Sem título'; // Garante que não seja null/undefined
+
+//             // Preenche os campos de exibição readonly para mostrar as referências
+//             if (modalReferenciaDisplay) modalReferenciaDisplay.value = ref || ''; // Campo readonly para exibir referência
+//             if (modalReferencia2Display) modalReferencia2Display.value = ref2 || ''; // Campo readonly para exibir referência2
+//         });
+//     }
+
+//     $(document).ready(function () {
+//         // AJAX submission - Alterado para seguir o padrão do que está funcionando
+//         $(document).on("click", '#btnSalvarAlteracoes', function (e) {
+//             e.preventDefault();
+
+//             // Monta o objeto formData seguindo o padrão do código que funciona
+//             // Inclui também os valores hidden (referência, referência2 e nome) caso sejam necessários no backend
+//             let formData = {
+//                 'PUT': true,
+//                 'produto_id': $('#modalIdProduto').val(),
+//                 'codigobarra': $('#modalCodigoBarras').val(),
+//                 'qtd_max_armazenagem': $('#modalQtdMaxArmazenagem').val(),
+//                 'local': $('#modalLocal').val(),
+//                 'local2': $('#modalLocal2').val(),
+//                 'local3': $('#modalLocal3').val(),
+//                 // Adiciona os campos hidden no envio (caso o backend precise)
+//               //  'referencia': $('#modalReferencia').val(),
+//               //  'referencia2': $('#modalReferencia2').val(),
+//               //  'nome': $('#modalNome').val()
+//             };
+
+//             // Mantém a mesma estrutura de envio que funciona
+//             $.post(window.location.href, {
+//                 ...formData,
+//                 token: $('#token').val(),
+//             },
+//                 function (data) {
+//                     console.log(data);
+//                 });
+//         });
+//     });
+
+//     /////////
+
+//     // $(document).on("submit", 'form[type="busc"]', function (i) {
+
+//     //     i.preventDefault();
+
+//     //     let url = new URLSearchParams(window.location.search);
+
+//     //     let v = '?uri=' + url.get('uri') + '&termo=' + $('input[name="termo"]').val();
+
+//     //     location.href = v;
+
+//     //     const ahref = setInterval(() => {
+
+//     //         if ($('a[type="busc"]')) {
+//     //             $('a[type="busc"]').attr('href', v);
+//     //             clearInterval(ahref);
+//     //         }
+
+//     //     }, 1000);
+
+//     // })
+
+// });
