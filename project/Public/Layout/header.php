@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <script src="../public/js/ext/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+    <script src="../public/js/sass/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
 
 
 

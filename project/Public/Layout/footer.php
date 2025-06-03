@@ -2,7 +2,7 @@
     </main>
    <input type="hidden" id="token" value="<?php echo $_SESSION['TokenCSRF'] ?? ''; ?>">
  
-    <script src="../public/js/ext/bootstrap.bundle.min.js"
+    <script src="../public/js/sass/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 </body>

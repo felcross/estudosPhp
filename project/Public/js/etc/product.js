@@ -90,77 +90,79 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Função para atualizar a linha da tabela com os novos dados
     function updateTableRow(rowIndex, newData) {
-        console.log('Tentando atualizar linha:', rowIndex, newData);
+        console.log('=== DEBUG ATUALIZAÇÃO TABELA ===');
+        console.log('Row Index:', rowIndex);
+        console.log('Novos dados:', newData);
         
-        const row = document.getElementById(`produto-row-${rowIndex}`);
+        const rowId = `produto-row-${rowIndex}`;
+        console.log('Procurando por ID:', rowId);
+        
+        const row = document.getElementById(rowId);
         console.log('Linha encontrada:', row);
         
         if (row) {
-            // Busca pelas células usando diferentes possíveis seletores
-            const cells = row.querySelectorAll('td');
-            console.log('Células encontradas:', cells.length);
+            // Atualiza células baseado na estrutura HTML real
+            const codigoBarraCell = row.querySelector('.cell-produto-codigobarra');
+            const qtdMaxCell = row.querySelector('.cell-produto-qtd_max_armazenagem');
+            const localCell = row.querySelector('.cell-produto-local');
+            const local2Cell = row.querySelector('.cell-produto-local2');
+            const local3Cell = row.querySelector('.cell-produto-local3');
             
-            // Tenta diferentes seletores para as células
-            let codigoBarraCell = row.querySelector('.cell-produto-codigobarra') || 
-                                 row.querySelector('[data-field="codigobarra"]') ||
-                                 cells[1]; // assumindo que seja a 2ª coluna
+            console.log('Células encontradas:');
+            console.log('- Código de barras:', codigoBarraCell);
+            console.log('- Qtd Max:', qtdMaxCell);
+            console.log('- Local:', localCell);
+            console.log('- Local2:', local2Cell);
+            console.log('- Local3:', local3Cell);
             
-            let qtdMaxCell = row.querySelector('.cell-produto-qtd_max_armazenagem') || 
-                            row.querySelector('[data-field="qtd_max_armazenagem"]') ||
-                            cells[2]; // assumindo que seja a 3ª coluna
-            
-            let localCell = row.querySelector('.cell-produto-local') || 
-                           row.querySelector('[data-field="local"]') ||
-                           cells[3]; // assumindo que seja a 4ª coluna
-            
-            let local2Cell = row.querySelector('.cell-produto-local2') || 
-                            row.querySelector('[data-field="local2"]') ||
-                            cells[4]; // assumindo que seja a 5ª coluna
-            
-            let local3Cell = row.querySelector('.cell-produto-local3') || 
-                            row.querySelector('[data-field="local3"]') ||
-                            cells[5]; // assumindo que seja a 6ª coluna
-            
-            // Atualiza as células se encontradas
+            // Atualiza as células
             if (codigoBarraCell) {
-                codigoBarraCell.textContent = newData.codigobarra;
-                console.log('Código de barras atualizado');
+                codigoBarraCell.textContent = newData.CODIGOBARRA || '';
+                console.log('✓ Código de barras atualizado para:', newData.CODIGOBARRA);
             }
             if (qtdMaxCell) {
-                qtdMaxCell.textContent = newData.qtd_max_armazenagem;
-                console.log('Qtd Max atualizada');
+                qtdMaxCell.textContent = newData.QTD_MAX_ARMAZENAGEM || '0';
+                console.log('✓ Qtd Max atualizada para:', newData.QTD_MAX_ARMAZENAGEM);
             }
             if (localCell) {
-                localCell.textContent = newData.local;
-                console.log('Local atualizado');
+                localCell.textContent = newData.LOCAL || '';
+                console.log('✓ Local atualizado para:', newData.LOCAL);
             }
             if (local2Cell) {
-                local2Cell.textContent = newData.local2;
-                console.log('Local2 atualizado');
+                local2Cell.textContent = newData.LOCAL2 || '';
+                console.log('✓ Local2 atualizado para:', newData.LOCAL2);
             }
             if (local3Cell) {
-                local3Cell.textContent = newData.local3;
-                console.log('Local3 atualizado');
+                local3Cell.textContent = newData.LOCAL3 || '';
+                console.log('✓ Local3 atualizado para:', newData.LOCAL3);
             }
 
-            // Atualiza também os data-attributes do botão editar
-            const editButton = row.querySelector('.btn-editar-produto') || row.querySelector('[data-bs-toggle="modal"]');
+            // Atualiza os data-attributes do botão editar
+            const editButton = row.querySelector('.btn-editar-produto');
             if (editButton) {
-                editButton.setAttribute('data-codigobarra', newData.codigobarra);
-                editButton.setAttribute('data-qtd_max_armazenagem', newData.qtd_max_armazenagem);
-                editButton.setAttribute('data-local', newData.local);
-                editButton.setAttribute('data-local2', newData.local2);
-                editButton.setAttribute('data-local3', newData.local3);
-                console.log('Botão editar atualizado');
+                editButton.setAttribute('data-codigobarra', newData.CODIGOBARRA || '');
+                editButton.setAttribute('data-qtd_max_armazenagem', newData.QTD_MAX_ARMAZENAGEM || '0');
+                editButton.setAttribute('data-local', newData.LOCAL || '');
+                editButton.setAttribute('data-local2', newData.LOCAL2 || '');
+                editButton.setAttribute('data-local3', newData.LOCAL3 || '');
+                console.log('✓ Botão editar atualizado');
             }
             
-            // Adiciona efeito visual para mostrar que foi atualizado
+            // Efeito visual - linha fica verde por 2 segundos
             row.style.backgroundColor = '#d4edda';
+            row.style.transition = 'background-color 0.3s ease';
             setTimeout(() => {
                 row.style.backgroundColor = '';
             }, 2000);
+            
+            console.log('=== ATUALIZAÇÃO CONCLUÍDA ===');
         } else {
-            console.error('Linha não encontrada com ID:', `produto-row-${rowIndex}`);
+            console.error('❌ ERRO: Linha não encontrada com ID:', rowId);
+            
+            // Lista todos os IDs de linhas disponíveis para debug
+            const allRows = document.querySelectorAll('[id^="produto-row-"]');
+            console.log('IDs de linhas disponíveis:');
+            allRows.forEach(r => console.log('-', r.id));
         }
     }
 
@@ -204,13 +206,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                 // Atualiza a linha da tabela com os novos dados
                 const rowIndex = $('#modalRowIndex').val();
+                console.log('Row index para atualizar:', rowIndex);
+                
                 if (rowIndex !== undefined && rowIndex !== '') {
                     updateTableRow(rowIndex, {
-                        codigobarra: formData.codigobarra,
-                        qtd_max_armazenagem: formData.qtd_max_armazenagem,
-                        local: formData.local,
-                        local2: formData.local2,
-                        local3: formData.local3
+                        CODIGOBARRA: formData.codigobarra,
+                        QTD_MAX_ARMAZENAGEM: formData.qtd_max_armazenagem,
+                        LOCAL: formData.local,
+                        LOCAL2: formData.local2,
+                        LOCAL3: formData.local3
                     });
                 }
                 

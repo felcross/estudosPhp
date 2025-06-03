@@ -6,21 +6,29 @@
     <title>Busca e Edição de Produtos</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
 <div class="container my-5">
     <h1 class="mb-4">Busca e Edição de Produtos</h1>
 
+    <!-- Área para mensagens flash -->
+    <div id="flashMessages" class="mb-4">
+        <!-- Mensagens flash serão inseridas aqui dinamicamente -->
+    </div>
+
     <form type="busc" class="mb-4">
          <input type="hidden" name="class" value="ProductController">  
          <input type="hidden" name="method" value="buscar">
+         <!-- <input type="hidden" name="token" value="<?= htmlspecialchars($_SESSION['token'] ?? '') ?>"> -->
         <div class="row g-3">
             <div class="col-md-8">
                 <input type="text" name="termo" class="form-control"
                        placeholder="Digite o código, descrição ou código de barras"
                        value="<?= htmlspecialchars($termo ?? '') ?>">
+               
             </div>
             <div class="col-md-4">
                 <button type="submit" class="btn btn-primary w-100">Buscar</button>
@@ -181,8 +189,10 @@
 
                      <div class="modal-footer">
                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                         <button type="button" class="btn btn-primary" id="btnSalvarAlteracoes">Salvar
-                             Alterações</button>
+                         <button type="button" class="btn btn-primary" id="btnSalvarAlteracoes">
+                             <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                             <span class="btn-text">Salvar Alterações</span>
+                         </button>
                      </div>
                  </form>
              </div>
@@ -193,9 +203,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 
-
 </body>
-
-
 
 </html>

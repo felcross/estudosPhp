@@ -6,7 +6,7 @@ body {
 
 
 .con {
-    width: 80%; /* ou qualquer largura desejada */
+    width: 100%; /* ou qualquer largura desejada */
     max-width: 1200px; /* largura máxima */
     margin: 0 auto; /* centraliza horizontalmente */
     padding: 0 15px; /* espaçamento opcional */
