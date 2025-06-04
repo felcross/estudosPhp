@@ -129,7 +129,7 @@ class ProductController  extends PageControl
              'termo' => $termo,
             'pagina' => $pagina/25, // Passar a página atual
             'limite' => $limite   // Passar o limite
-        ], 'product');
+        ], 'product2');
     }
 
 }

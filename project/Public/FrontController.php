@@ -49,7 +49,8 @@ class FrontController
     {
         $this->allowedMethods = [
             'HomeController' => ['index', 'sobre', 'contato'],
-            'ProductController' => ['processarAtualizacaoAjax', 'buscar'],
+            'ProductController' => ['processarAtualizacaoAjax', 'buscar']
+     
 
         ];
     }

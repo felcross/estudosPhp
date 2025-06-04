@@ -30,8 +30,8 @@ class TokensControl
     /**
      * Construtor da classe que inicializa os serviços da API e os tokens de autenticação.
      * 
-     * Este método é responsável por inicializar as propriedades necessárias para comunicação com as APIs da Tecno e Emauto, 
-     * bem como realizar a verificação de conectividade com esses serviços utilizando os métodos `pingOutro()` e `pingEmauto()`.
+     * Este método é responsável por inicializar as propriedades necessárias para comunicação com as APIs Emauto, 
+     * bem como realizar a verificação de conectividade com esses serviços utilizando os métodos `pingEmauto()`.
      * 
      * @return void
      */

@@ -22,9 +22,13 @@ body {
 }
 
 .content {
-    padding: 20px; /* Padding around the content */
-    background-color: #f4f4f4; /* Light gray background */
-    min-height: 400px; /* Minimum height for the content area */
+    width: 100%; /* ou qualquer largura desejada */
+    max-width: 1200px; /* largura máxima */
+    margin: 0 auto; /* centraliza horizontalmente */
+ 
+    
+ 
+   
 }
 
 .footer {
