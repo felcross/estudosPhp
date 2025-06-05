@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var modalRef = modalEditarProduto.querySelector('#modalReferencia');
             var modalRef2 = modalEditarProduto.querySelector('#modalReferencia2');
             var modalNome = modalEditarProduto.querySelector('#modalNome'); // Para o nome do produto no formulário
-            
+
             // Campo hidden para armazenar o índice da linha (ADICIONADO NO PASSO 1)
             var modalRowIndexInput = modalEditarProduto.querySelector('#modalRowIndex');
 
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (modalRef) modalRef.value = ref || '';
             if (modalRef2) modalRef2.value = ref2 || '';
             if (modalNome) modalNome.value = nome || 'Sem título'; // Garante que o nome seja enviado no form
-            
+
             // Preenche o campo hidden com o índice da linha.
             if (modalRowIndexInput) {
                 modalRowIndexInput.value = rowIndex;
@@ -100,9 +100,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         `;
-        
+
         flashContainer.innerHTML = flashHTML; // Substitui qualquer mensagem anterior.
-        
+
         // Remove a mensagem automaticamente após 4 segundos.
         setTimeout(() => {
             const alert = flashContainer.querySelector('.alert');
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 bsAlert.close();
             }
         }, 4000);
-        
+
         // Faz scroll suave para o topo da página para que o usuário veja a mensagem.
         // Útil se a mensagem estiver fora da área visível.
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -128,16 +128,16 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('=== Iniciando atualização da linha da tabela ===');
         console.log('Índice da Linha (Row Index):', rowIndex);
         console.log('Novos Dados:', newData);
-        
+
         // Constrói o ID do elemento da linha (<tr>) com base no índice.
         // Certifique-se de que o ID no HTML da linha seja gerado como "produto-row-X".
         const rowId = `produto-row-${rowIndex}`;
         console.log('Procurando por ID da linha:', rowId);
-        
+
         // Seleciona a linha (TR) pelo seu ID.
         const row = document.getElementById(rowId);
         console.log('Elemento da linha encontrado:', row); // Se for null, o ID está errado ou a linha não existe.
-        
+
         if (row) {
             // Seleciona as células (TD) dentro da linha que precisam ser atualizadas.
             // É importante que as classes CSS nas células sejam consistentes com as usadas aqui.
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const localCell = row.querySelector('.cell-produto-local');
             const local2Cell = row.querySelector('.cell-produto-local2');
             const local3Cell = row.querySelector('.cell-produto-local3');
-            
+
             console.log('Células encontradas para atualização:');
             console.log('- Cód. Interno:', codigoInternoCell);
             console.log('- Cód. Barras:', codigoBarraCell);
@@ -156,8 +156,8 @@ document.addEventListener('DOMContentLoaded', function () {
             // Atualiza o conteúdo de texto de cada célula com os novos dados.
             // Usa `newData.NOME_DA_CHAVE || ''` para evitar 'undefined' se um dado não vier.
             if (codigoInternoCell && newData.PRODUTO !== undefined) { // Se o código do produto (ID) também for retornado
-                 codigoInternoCell.textContent = newData.PRODUTO;
-                 console.log('✓ Cód. Interno atualizado para:', newData.PRODUTO);
+                codigoInternoCell.textContent = newData.PRODUTO;
+                console.log('✓ Cód. Interno atualizado para:', newData.PRODUTO);
             }
             if (codigoBarraCell && newData.CODIGOBARRA !== undefined) {
                 codigoBarraCell.textContent = newData.CODIGOBARRA || '';
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // if (newData.NOME !== undefined) editButton.setAttribute('data-nome', newData.NOME || 'Sem título');
                 console.log('✓ Atributos data-* do botão editar atualizados.');
             }
-            
+
             // Efeito visual para destacar a linha atualizada (opcional).
             // A linha fica com fundo verde claro por 2 segundos.
             row.style.backgroundColor = '#d1e7dd'; // Um verde suave (Bootstrap success background)
@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function () {
             setTimeout(() => {
                 row.style.backgroundColor = ''; // Remove a cor de fundo, voltando ao normal.
             }, 2500); // Mantém por 2.5 segundos
-            
+
             console.log('=== ATUALIZAÇÃO DA LINHA CONCLUÍDA ===');
         } else {
             console.error('❌ ERRO: Linha da tabela não encontrada com ID:', rowId);
@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const btnSalvar = $(this); // O botão que foi clicado.
             const spinner = btnSalvar.find('.spinner-border');
             const btnText = btnSalvar.find('.btn-text');
-            
+
             // Desabilita o botão e mostra o spinner para feedback visual durante o processamento.
             btnSalvar.prop('disabled', true);
             spinner.removeClass('d-none');
@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (response && response.success) {
                         const nomeProduto = formData.nome || 'Produto'; // Usa o nome do formData
                         showFlashMessage(response.message || `"${nomeProduto}" foi atualizado com sucesso!`, 'success');
-                        
+
                         // Verifica se temos um rowIndex válido para atualizar a tabela.
                         if (rowIndex !== undefined && rowIndex !== '') {
                             // Idealmente, 'response.updatedProductData' conteria os dados atualizados
@@ -297,50 +297,40 @@ document.addEventListener('DOMContentLoaded', function () {
                             // se a atualização da linha específica falhar por falta do índice.
                             // Ex: location.reload(); (mas isso recarrega a página inteira)
                         }
-                        
-                        // Fecha o modal do Bootstrap.
-                        // Fecha o modal do Bootstrap.
-const modalElement = document.getElementById('modalEditarProduto');
-const modalInstance = bootstrap.Modal.getInstance(modalElement);
 
-if (modalInstance) {
-    // Adiciona um ouvinte para o evento 'hidden.bs.modal'.
-    // Este evento é disparado DEPOIS que o modal foi completamente escondido (incluindo animações).
-    modalElement.addEventListener('hidden.bs.modal', function onModalHidden() {
-        // IMPORTANTE: Remove o ouvinte de evento para evitar múltiplas execuções
-        // se o mesmo modal for aberto e fechado novamente.
-        modalElement.removeEventListener('hidden.bs.modal', onModalHidden);
+                        // --- INÍCIO DO TRECHO CORRIGIDO ---
+                        // Fecha o modal do Bootstrap e garante a limpeza do backdrop.
 
-        // Tenta remover qualquer backdrop que possa ter ficado para trás.
-        const backdrops = document.querySelectorAll('.modal-backdrop');
-        backdrops.forEach(backdrop => {
-            backdrop.remove();
-            console.log('Backdrop removido.');
-        });
+                        const ModalPrincipal = document.getElementById('modalEditarProduto');
 
-        // Restaura o estado do body, removendo classes e estilos que o Bootstrap adiciona.
-        document.body.classList.remove('modal-open');
-        document.body.style.overflow = ''; // Restaura o overflow padrão
-        document.body.style.paddingRight = ''; // Restaura o padding-right padrão
-        console.log('Estado do body restaurado após fechar modal.');
+                        $('.modal-header>.btn-close').click();
 
-    }, { once: true }); // A opção { once: true } também garante que o listener rode só uma vez.
-                        // Mas para ser explícito e compatível com navegadores mais antigos,
-                        // remover manualmente com removeEventListener dentro da função é mais seguro.
-                        // Se preferir, pode usar { once: true } e remover o removeEventListener de dentro da função.
 
-    modalInstance.hide(); // Aciona o fechamento do modal.
-} else {
-    // Fallback caso a instância do modal não seja encontrada (improvável se ele abriu)
-    // Tenta uma limpeza manual mais direta, similar ao seu setTimeout anterior.
-    console.warn('Instância do modal não encontrada para fechamento via API. Tentando limpeza manual.');
-    const backdrops = document.querySelectorAll('.modal-backdrop');
-    backdrops.forEach(backdrop => backdrop.remove());
-    document.body.classList.remove('modal-open');
-    document.body.style.overflow = '';
-    document.body.style.paddingRight = '';
-}
-                }},
+                        if (ModalPrincipal) {
+                            ModalPrincipal.addEventListener('shown.bs.modal', function () {
+                                // O evento 'shown.bs.modal' é disparado quando o modal está totalmente visível.
+                                // Neste ponto, o backdrop também estará visível e com a classe 'show'.
+
+                                const backdropElement = document.querySelector('.modal-backdrop.fade.show');
+
+                                if (backdropElement) {
+ 
+                                    console.log('Backdrop encontrado:', backdropElement);
+
+                                    // backdropElement.className = 'modal fade';
+                                    console.log('Classes do backdrop alteradas para "modal fade". Novo className:', backdropElement.className);
+                                } else {
+                                    console.log('Elemento .modal-backdrop.fade.show não encontrado quando o modal foi exibido.');
+                                }
+                            });
+                        } else {
+                            console.warn('Elemento do modal principal (ex: #modalEditarProduto) não encontrado. O script não será ativado.');
+                        }
+
+                        // --- FIM DO TRECHO CORRIGIDO ---
+
+                    }
+                },
                 error: function (xhr, status, error) {
                     // Esta função é executada se ocorrer um erro na requisição AJAX (ex: erro de servidor 500, 404, etc.).
                     console.error('Erro na requisição AJAX:', status, error);
@@ -350,10 +340,10 @@ if (modalInstance) {
                         errorMessage = xhr.responseJSON.message; // Usa a mensagem de erro do servidor, se disponível
                     } else if (xhr.responseText) {
                         try {
-                           const parsedError = JSON.parse(xhr.responseText);
-                           if(parsedError && parsedError.message) errorMessage = parsedError.message;
-                        } catch(e) { /* Não é JSON, usa o texto puro se for curto */
-                           if (xhr.responseText.length < 200) errorMessage = xhr.responseText;
+                            const parsedError = JSON.parse(xhr.responseText);
+                            if (parsedError && parsedError.message) errorMessage = parsedError.message;
+                        } catch (e) { /* Não é JSON, usa o texto puro se for curto */
+                            if (xhr.responseText.length < 200) errorMessage = xhr.responseText;
                         }
                     }
                     showFlashMessage(errorMessage, 'error');

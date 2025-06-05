@@ -7,8 +7,8 @@
 
 if (!empty($produtos) && is_array($produtos)): ?>
     <div class="table-responsive">
-        <table class="table table-striped table-hover">
-            <thead>
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-dark">
                 <tr>
                     <th>Cód. Interno</th>
                     <th>Cód. Barras</th>
