@@ -25,8 +25,8 @@ if (!$isAjax) {
 $frontController = new FrontController();
 
 // Configurações adicionais (se necessário)
-// $frontController->addAllowedController('CustomController');
-// $frontController->addAllowedMethods('ProductController', ['novoMetodo', 'outroMetodo']);
+//        $frontController->addAllowedController('ProductController');
+//        $frontController->addAllowedMethods('ProductController', ['processarAtualizacaoAjax','buscar']);
 
 // Executa a requisição (que vai chamar $page->show() internamente)
 $frontController->dispatch();

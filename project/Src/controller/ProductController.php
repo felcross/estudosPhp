@@ -8,27 +8,32 @@ use model\ProdutoApi;
 use utils\Erros;
 use utils\Sanitizantes;
 use Exception;
+use FrontController;
 use utils\Tokens;
+
 
 // Controller
 
-class ProductController  extends PageControl
+class ProductController extends PageControl
 {
     private $produtoApi;
+    private  $frontController;
 
     public function __construct()
     {
         $this->produtoApi = new ProdutoApi();
+        $this->frontController = new FrontController();
+    //    $this->frontController->addAllowedController('ProductController');
+     //   $this->frontController->addAllowedMethods('ProductController', ['processarAtualizacaoAjax','buscar']);
     }
 
-    public function processarAtualizacaoAjax()
-    {   
-        
-        //  if(Tokens::verificaTokenCSRF($_POST['token']) == true)
-        //  {
-        //   echo 'Deu certo';  
-        //  }
 
+
+      
+
+
+    public function processarAtualizacaoAjax()
+    {
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['PUT'])) {
             //header('Content-Type: application/json');
@@ -96,22 +101,15 @@ class ProductController  extends PageControl
     }
 
     public function buscar()
-    {  
-
-          
-        //  if(Tokens::verificaTokenCSRF($_GET['token']) == true)
-        //  {
-        //    Erros::salva('eu ','token veio');
-        //  }
-
+    {
 
         $this->processarAtualizacaoAjax();
 
-        $termo = isset($_GET['termo']) ? filter_input(INPUT_GET, 'termo', FILTER_SANITIZE_SPECIAL_CHARS) : '';
+        $termoBruto = isset($_GET['termo']) ? filter_input(INPUT_GET, 'termo', FILTER_SANITIZE_SPECIAL_CHARS) : '';
         $produtos = [];
-        $pagina = isset($_GET['pagina']) ? (int) $_GET['pagina'] : 0;
-        $limite = 25; 
-
+        $pagina = isset($_GET['pagina']) ? (int) $_GET['pagina'] : 1;
+        $limite = 25;
+        $termo = strtoupper($termoBruto);
 
         $pagina = (int) $pagina * (int) $limite;
 
@@ -119,20 +117,24 @@ class ProductController  extends PageControl
             $produtos = $this->produtoApi->buscarTodos($termo, true, limite: $limite, pagina: $pagina);
         }
 
-         $class = 'ProductController';
-         $method = 'buscar';
- 
+       // $class = 'ProductController';
+       // $method = 'buscar';
+
         View::render('page/teste3.html.php', [
             'produtos' => $produtos,
-            'class' => $class ,
-            'method'=> $method,
-             'termo' => $termo,
-            'pagina' => $pagina/25, // Passar a página atual
+          //  'class' => $class,
+          //  'method' => $method,
+            'termo' => $termo,
+            'pagina' => $pagina / 25, // Passar a página atual
             'limite' => $limite   // Passar o limite
         ], 'product2');
     }
 
+    
+
 }
+
+
 
 
 

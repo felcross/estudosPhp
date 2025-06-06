@@ -16,4 +16,4 @@
 
 
     <main class="content">
-        <div class="container-fluid pt-4"></div>
+        <div class="container-fluid"></div>
