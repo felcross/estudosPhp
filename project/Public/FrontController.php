@@ -38,8 +38,9 @@ class FrontController
     private function setupAllowedControllers(): void
     {
         $this->allowedControllers = [
-            'HomeController',
-            'ProductController'
+          //  'HomeController',
+            'ProductController',
+           
         ];
     }
 
@@ -49,8 +50,9 @@ class FrontController
     private function setupAllowedMethods(): void
     {
         $this->allowedMethods = [
-            'HomeController' => ['index', 'sobre', 'contato'],
-            'ProductController' => ['processarAtualizacaoAjax', 'buscar']
+           // 'HomeController' => ['index', 'sobre', 'contato'],
+            'ProductController' => ['processarAtualizacaoAjax', 'buscar'],
+         
 
 
         ];

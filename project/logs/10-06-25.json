@@ -1,0 +1,212 @@
+[
+    {
+        "Referente": "Login",
+        "Horário": "10-06-2025 14:51:09",
+        "Erro": [
+            "Há um erro ao tentar logar",
+            401
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "10-06-2025 14:51:51",
+        "Erro": [
+            "Há um erro ao tentar logar",
+            401
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "10-06-2025 14:51:58",
+        "Erro": [
+            "Há um erro ao tentar logar",
+            401
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "10-06-2025 14:53:17",
+        "Erro": [
+            "Há um erro ao tentar logar",
+            401
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "10-06-2025 14:54:43",
+        "Erro": [
+            "Há um erro ao tentar logar",
+            401
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "10-06-2025 14:55:26",
+        "Erro": [
+            "Há um erro ao tentar logar",
+            401
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "10-06-2025 14:56:21",
+        "Erro": {
+            "0": {
+                "error": {
+                    "code": "Unauthorized",
+                    "message": "Usuário\/Senha inválida."
+                }
+            },
+            "URL": "http:\/\/166.0.186.208:2002\/\/emsoft\/emauto\/ServiceSistema\/Login"
+        }
+    },
+    {
+        "Referente": "Login",
+        "Horário": "10-06-2025 14:56:21",
+        "Erro": [
+            "Há um erro ao tentar logar",
+            401
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "10-06-2025 14:56:47",
+        "Erro": {
+            "0": {
+                "error": {
+                    "code": "Unauthorized",
+                    "message": "Usuário\/Senha inválida."
+                }
+            },
+            "URL": "http:\/\/166.0.186.208:2002\/\/emsoft\/emauto\/ServiceSistema\/Login"
+        }
+    },
+    {
+        "Referente": "Login",
+        "Horário": "10-06-2025 14:56:47",
+        "Erro": [
+            "Há um erro ao tentar logar",
+            401
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "10-06-2025 14:58:17",
+        "Erro": {
+            "0": {
+                "error": {
+                    "code": "Unauthorized",
+                    "message": "Usuário\/Senha inválida."
+                }
+            },
+            "URL": "http:\/\/166.0.186.208:2002\/\/emsoft\/emauto\/ServiceSistema\/Login",
+            "1": {
+                "usuario": null,
+                "senha": null
+            }
+        }
+    },
+    {
+        "Referente": "Login",
+        "Horário": "10-06-2025 14:58:17",
+        "Erro": [
+            "Há um erro ao tentar logar",
+            401
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "10-06-2025 15:00:03",
+        "Erro": {
+            "0": {
+                "error": {
+                    "code": "Unauthorized",
+                    "message": "Usuário\/Senha inválida."
+                }
+            },
+            "URL": "http:\/\/166.0.186.208:2002\/\/emsoft\/emauto\/ServiceSistema\/Login",
+            "1": {
+                "usuario": null,
+                "senha": null
+            }
+        }
+    },
+    {
+        "Referente": "Login",
+        "Horário": "10-06-2025 15:00:03",
+        "Erro": [
+            "Há um erro ao tentar logar",
+            401
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "10-06-2025 15:00:39",
+        "Erro": {
+            "0": {
+                "error": {
+                    "code": "Unauthorized",
+                    "message": "Usuário\/Senha inválida."
+                }
+            },
+            "URL": "http:\/\/166.0.186.208:2002\/\/emsoft\/emauto\/ServiceSistema\/Login",
+            "1": {
+                "usuario": null,
+                "senha": null
+            }
+        }
+    },
+    {
+        "Referente": "Login",
+        "Horário": "10-06-2025 15:00:39",
+        "Erro": [
+            "Há um erro ao tentar logar",
+            401
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "10-06-2025 15:01:11",
+        "Erro": [
+            [
+                null,
+                null
+            ]
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "10-06-2025 15:01:11",
+        "Erro": [
+            "Há um erro ao tentar logar",
+            401
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "10-06-2025 15:02:45",
+        "Erro": [
+            [
+                "edson",
+                "CHICOSFT"
+            ]
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "10-06-2025 15:02:45",
+        "Erro": [
+            "Há um erro ao tentar logar",
+            401
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "10-06-2025 15:04:17",
+        "Erro": [
+            {
+                "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJVc3VhcmlvIjoiRURTT04iLCJNYXN0ZXIiOnRydWUsIkxpYmVyYSI6dHJ1ZSwiTml2ZWxMaWJlcmEiOiIxIiwiVmFsaWRhZGUiOiIxMFwvMDZcLzIwMjUiLCJpc3MiOiJFTUF1dG8gWERhdGEgU2VydmVyIn0.XW-5FKTUwXbIS4wRy1ZiAyJ7LeMG2YCeAYs-y1GR6JE"
+            }
+        ]
+    }
+]

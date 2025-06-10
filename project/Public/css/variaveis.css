@@ -1,0 +1,24 @@
+:root {
+    --corAzulPadraoSistema: #245693;
+
+    --corAzulPadraoSistemaLetras: #1c5394;
+
+    --corLaranjaPadraoSistema: #eb7c13;
+    
+    --corPadraoMenu: #144f97;
+
+    --corCardsTextos: rgba(88, 88, 88, 0.75);
+
+    --fontePadraoSistemaTextos:  'Open sans', sans-serif;
+
+    --fontePadraoSistemaTituloBemVindo: "Fira Sans", sans-serif;
+
+    --corBordaTranslucida: rgba(0, 0, 0, 0.175);
+
+    --corLaranjaTrsTabs: #fff1e2;
+
+    --corRoxaPadraoSistema: #343351;
+
+    --corAmareloTitulos: #e7a76c;
+
+}

@@ -10,6 +10,7 @@ use Core\View;
 use utils\Erros;
 use utils\DadosINI;
 use utils\Sanitizantes;
+use model\ProdutoDTO;
 
 
 
@@ -197,7 +198,16 @@ class ProdutoApi extends TokensControl
 
     public function buscarTodos(string $termo, bool $buscaParcial , ?int $limite  , int $pagina): array
     {
-        return $this->buscarProdutos($termo, $termo, $termo, $termo, $buscaParcial, $limite , $pagina);
+         $dadosApi = $this->buscarProdutos($termo, $termo, $termo, $termo, $buscaParcial, $limite , $pagina);
+
+          // Converter array de dados em array de DTOs
+    $produtos = [];
+
+    foreach ($dadosApi as $item) {
+        $produtos[] = new ProdutoDTO($item);
+    }
+    
+    return $produtos;
     }
 
 
@@ -297,135 +307,28 @@ class ProdutoApi extends TokensControl
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // public function atualizarProduto(string $produto, array $dadosAtualizacao): array
-// {
-//     // Validar se o produto foi informado
-//     if (empty($produto)) {
-//         return [
-//             'status' => false,
-//             'mensagem' => 'Código do produto é obrigatório'
-//         ];
-//     }
-
-    //     try {
-
-
-    //         // Definir todos os campos obrigatórios com seus valores atuais ou vazios
-//         $camposObrigatorios = [
-//             'PRODUTO' => $produto['PRODUTO'] ?? '',
-//             'NOME' => $produto['NOME'] ?? '',
-//             'DT_COMPRA' => $produto['DT_COMPRA'] ?? null,
-//             'DT_VENDA' => $produto['DT_VENDA'] ?? null,
-//             'SERVICO' => $produto['SERVICO'] ?? '',
-//             'ATIVO' => $produto['ATIVO'] ?? '',
-//             'USAR_MARGEM_CURVA' => $produto['USAR_MARGEM_CURVA'] ?? '',
-//             'MARGEM_CURVA' => $produto['MARGEM_CURVA'] ?? 0,
-//             'ETIQUETA' => $produto['ETIQUETA'] ?? '',
-//             'COMPRA' => $produto['COMPRA'] ?? '',
-//             'QTD_MAXIMA' => $produto['QTD_MAXIMA'] ?? 0,
-//             'QTD_GARANTIA' => $produto['QTD_GARANTIA'] ?? 0,
-//             'TRANCAR' => $produto['TRANCAR'] ?? '',
-//             'WEB' => $produto['WEB'] ?? '',
-//             'VENDA_COM_OFERTA' => $produto['VENDA_COM_OFERTA'] ?? ''
-//         ];
-
-    //         // Mesclar os dados atualizados com os campos obrigatórios
-//         $dadosCompletos = array_merge($camposObrigatorios, $dadosAtualizacao);
-
-    //         // Sanitizar os dados para garantir segurança
-//         foreach ($dadosCompletos as $campo => $valor) {
-//             if (is_string($valor)) {
-//                 $dadosCompletos[$campo] = Sanitizantes::filtro($valor);
-//             }
-//         }
-
-    //         // Preparar os dados para o PUT
-//         $dadosJson = json_encode($dadosCompletos);
-
-    //         // Construir o endpoint para o produto específico
-//         $endpoint = "(" . urlencode($produto) . ")";
-
-    //         // Fazer a requisição à API
-//         $this->apiServiceEmauto->set(
-//             apiProdutos . $endpoint,
-//             'PUT',
-//             $dadosJson,
-
-    //         );
-
-    //         // Obter o resultado
-//         $statusCode = $this->apiServiceEmauto->getStatus();
-//         $conteudo = $this->apiServiceEmauto->getConteudo();
-
-    //         // Verificar se a requisição foi bem-sucedida
-//          //  Erros::salva("TESTE",$conteudo );
-
-
-    //         if ($statusCode < 200 || $statusCode > 204) {
-
-
-    //             return [
-//                 'status' => false,
-//                 'mensagem' => 'Erro ao atualizar produto erro 1',
-//                 'detalhes' => $conteudo,
-//                 'codigo' => $statusCode
-//             ];
-//         }
-
-    //         return [
-//             'status' => true,
-//             'mensagem' => 'Produto atualizado com sucesso',
-//             'codigo' => $statusCode
-//         ];
-
-    //     } catch (\Throwable $th) {
-//         Erros::salva("ProdutosErro - Erro ao atualizar produto no EMAUTO", [
-//             'produto' => $produto,
-//             'dadosAtualizacao' => $dadosAtualizacao,
-//             'erro' => $th->getMessage()
-//         ]);
-
-    //         return [
-//             'status' => false,
-//             'mensagem' => 'Ocorreu um erro ao atualizar o produto',
-//             'detalhes' => $th->getMessage()
-//         ];
-//     }
-// }}
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -17,88 +17,121 @@ use utils\Tokens;
 class ProductController extends PageControl
 {
     private $produtoApi;
-    private  $frontController;
+
 
     public function __construct()
     {
         $this->produtoApi = new ProdutoApi();
-        $this->frontController = new FrontController();
-    //    $this->frontController->addAllowedController('ProductController');
-     //   $this->frontController->addAllowedMethods('ProductController', ['processarAtualizacaoAjax','buscar']);
     }
-
-
-
-      
-
 
     public function processarAtualizacaoAjax()
-    {
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['PUT'])) {
+        header('Content-Type: application/json');
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['PUT'])) {
-            //header('Content-Type: application/json');
-
-            // dd($_POST);
-
-            // O ID do produto vem do input hidden #modalIdProduto com name="id_produto"
-            $produtoId = $_POST['produto_id'] ?? null;
-
-            // Campos do formulário do modal. As chaves de $_POST correspondem
-            // aos 'name' dos inputs no modal e às chaves do formData no JS.
-            $codigoBarra = $_POST['codigobarra'] ?? null;
-            $qtdMaxArmazenagem = $_POST['qtd_max_armazenagem'] ?? null;
-            $local = $_POST['local'] ?? null;
-            $local2 = $_POST['local2'] ?? null;
-            $local3 = $_POST['local3'] ?? null;
-
-
-
-            if (!$produtoId) {
-                echo json_encode(['success' => false, 'message' => 'ID do produto não fornecido para atualização.']);
-                exit;
-            }
-
-            $dadosParaAtualizar = [];
-
-            if ($codigoBarra !== null) {
-                $dadosParaAtualizar['CODIGOBARRA'] = $codigoBarra;
-            }
-            if ($qtdMaxArmazenagem !== null) {
-                $dadosParaAtualizar['QTD_MAX_ARMAZENAGEM'] = (int) $qtdMaxArmazenagem; // Cast para int
-            }
-            if ($local !== null) {
-                $dadosParaAtualizar['LOCAL'] = $local;
-            }
-            if ($local2 !== null) {
-                $dadosParaAtualizar['LOCAL2'] = $local2;
-            }
-            if ($local3 !== null) {
-                $dadosParaAtualizar['LOCAL3'] = $local3;
-            }
-
+        try {
+            // Validar e sanitizar dados de entrada
+            $produtoId = $this->validarProdutoId($_POST['produto_id'] ?? null);
+            $dadosParaAtualizar = $this->processarDadosAtualizacao($_POST);
 
             if (empty($dadosParaAtualizar)) {
-                echo json_encode(['success' => false, 'message' => 'Nenhum dado válido para atualização foi fornecido.']);
-                exit;
+                $this->retornarErro('Nenhum dado válido para atualização foi fornecido.');
+                return;
             }
 
-            // Aqui, $produtoId é o valor de $produto['PRODUTO'] que foi enviado
+            // Fazer a atualização
             $resultado = $this->produtoApi->atualizarProduto($produtoId, $dadosParaAtualizar);
 
-            if (isset($resultado['status']) && $resultado['status']) { // Verifique se 'status' existe antes de acessá-lo
-                echo json_encode(['success' => true, 'message' => $resultado['mensagem'] ?? 'Produto atualizado com sucesso!', 'data' => $resultado]);
-            } else {
-                http_response_code(400); // Ou 500, dependendo da natureza do erro
-                echo json_encode([
-                    'success' => false,
-                    'message' => $resultado['mensagem'] ?? 'Falha ao atualizar o produto.',
-                    'details' => $resultado['detalhes'] ?? null,
-                    'api_status_code' => $resultado['codigo'] ?? null
-                ]);
-            }
-            exit;
+            // Processar resposta
+            $this->processarRespostaApi($resultado);
+
+        } catch (Exception $e) {
+            $this->retornarErro('Erro interno: ' . $e->getMessage(), 500);
         }
     }
+}
+
+private function validarProdutoId($produtoId): string
+{
+    if (empty($produtoId)) {
+        $this->retornarErro('ID do produto não fornecido para atualização.');
+        exit;
+    }
+    
+    return filter_var($produtoId, FILTER_SANITIZE_SPECIAL_CHARS);
+}
+
+private function processarDadosAtualizacao(array $post): array
+{
+    $dadosParaAtualizar = [];
+    
+    // Mapeamento de campos com suas validações
+    $campos = [
+        'codigobarra' => 'CODIGOBARRA',
+        'local' => 'LOCAL',
+        'local2' => 'LOCAL2',
+        'local3' => 'LOCAL3'
+    ];
+    
+    foreach ($campos as $inputName => $apiField) {
+        if (isset($post[$inputName]) && $post[$inputName] !== '') {
+            $valor = filter_var($post[$inputName], FILTER_SANITIZE_SPECIAL_CHARS);
+            if (!empty($valor)) {
+                $dadosParaAtualizar[$apiField] = $valor;
+            }
+        }
+    }
+    
+    // Campo especial: quantidade (deve ser inteiro)
+    if (isset($post['qtd_max_armazenagem']) && $post['qtd_max_armazenagem'] !== '') {
+        $qtd = filter_var($post['qtd_max_armazenagem'], FILTER_VALIDATE_INT);
+        if ($qtd !== false && $qtd >= 0) {
+            $dadosParaAtualizar['QTD_MAX_ARMAZENAGEM'] = $qtd;
+        }
+    }
+    
+    return $dadosParaAtualizar;
+}
+
+private function processarRespostaApi(array $resultado): void
+{
+    if (isset($resultado['status']) && $resultado['status']) {
+        echo json_encode([
+            'success' => true, 
+            'message' => $resultado['mensagem'] ?? 'Produto atualizado com sucesso!',
+            'data' => $resultado
+        ]);
+    } else {
+        $this->retornarErro(
+            $resultado['mensagem'] ?? 'Falha ao atualizar o produto.',
+            400,
+            [
+                'details' => $resultado['detalhes'] ?? null,
+                'api_status_code' => $resultado['codigo'] ?? null
+            ]
+        );
+    }
+    exit;
+}
+
+private function retornarErro(string $message, int $httpCode = 400, array $extraData = []): void
+{
+    http_response_code($httpCode);
+    
+    $response = [
+        'success' => false,
+        'message' => $message
+    ];
+    
+    if (!empty($extraData)) {
+        $response = array_merge($response, $extraData);
+    }
+    
+    echo json_encode($response);
+    exit;
+}
+
+
 
     public function buscar()
     {
@@ -117,22 +150,24 @@ class ProductController extends PageControl
             $produtos = $this->produtoApi->buscarTodos($termo, true, limite: $limite, pagina: $pagina);
         }
 
-       // $class = 'ProductController';
-       // $method = 'buscar';
+       // dd($produtos);
 
         View::render('page/teste3.html.php', [
             'produtos' => $produtos,
-          //  'class' => $class,
-          //  'method' => $method,
             'termo' => $termo,
             'pagina' => $pagina / 25, // Passar a página atual
             'limite' => $limite   // Passar o limite
         ], 'product2');
     }
 
-    
+  
+
 
 }
+
+
+
+
 
 
 

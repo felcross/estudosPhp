@@ -63,7 +63,7 @@ class RequestChavesEmauto
     public function logar(): void
     {
         $this->recuperaUsuario();
-        $this->processaLogin();
+        //  $this->processaLogin();
     }
 
 
@@ -77,32 +77,34 @@ class RequestChavesEmauto
      * 
      * @return void
      */
-    private function processaLogin(): void
+    public function processaLogin(array $Auth): bool
     {
 
-        try {
-            $dados = [
-                'usuario' => Crypto::descriptografar($this->dadosUser['usuario'] ?? null),
-                'senha' => Crypto::descriptografar($this->dadosUser['senha'] ?? null)
-            ];
 
-            $this->apiService->set(apiLogin, 'POST', $dados, false);
-            $conteudo = $this->apiService->getConteudo();
-            $this->resultado = $this->apiService->getStatus();
+        $dados = [
+            'usuario' => $Auth[0] ?? null,
+            'senha' => $Auth[1] ?? null
+        ];
 
-            if (is_null($conteudo['value'])) {
-                Erros::salva("API EMauto - Tentativa de logar", $conteudo);
-            }
+        $this->apiService->set(apiLogin, 'POST', $dados, false);
+        $conteudo = $this->apiService->getConteudo();
+        $this->resultado = $this->apiService->getStatus();
 
-            $_SESSION['chaveEMAUTO'] = Crypto::criptografar($conteudo['value']);
+          Erros::salva("Login", [$conteudo]);
 
-            $this->temp->salvaJSON(chaveAcessoEMAUTO, [
-                'chave' => Crypto::criptografar($conteudo['value'])
-            ],false);
-        } catch (\Throwable $th) {
-            $this->resultado = $th;
-            Erros::salva("Login", array("Há um erro ao tentar logar", $th));
+        if ($this->resultado < 200 || $this->resultado > 250) {
+
+            Erros::salva("Login", array("Há um erro ao tentar logar", $this->resultado));
+            return false;
+
         }
+        $_SESSION['chaveEMAUTO'] = Crypto::criptografar($conteudo['value']);
+
+      
+
+        return true;
+
+
     }
 
 

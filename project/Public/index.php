@@ -8,7 +8,7 @@ require 'FrontController.php'; // Nossa classe de segurança
 //require 'PageControl.php'; // Classe base segura dos controllers
 
 // CSRF
-utils\Tokens::geraTokenCSRF();
+//utils\Tokens::geraTokenCSRF();
 
 // Detecta AJAX
 $isAjax = (
@@ -25,8 +25,8 @@ if (!$isAjax) {
 $frontController = new FrontController();
 
 // Configurações adicionais (se necessário)
-//        $frontController->addAllowedController('ProductController');
-//        $frontController->addAllowedMethods('ProductController', ['processarAtualizacaoAjax','buscar']);
+ $frontController->addAllowedController('LoginController');
+ $frontController->addAllowedMethods('LoginController', ['login']);
 
 // Executa a requisição (que vai chamar $page->show() internamente)
 $frontController->dispatch();
