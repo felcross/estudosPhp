@@ -46,19 +46,6 @@ body {
 
 }
 
-.Rodape {
-    background-image: url("../photo/fundo.jpeg");
-    background-repeat: no-repeat;
-    background-size: 100%;
-    bottom: 0;
-    position: fixed;
-    width: 100%;
-    text-align: center;
-    overflow: hidden;
-    z-index: 4;
- 
-
-}
 
 
 

@@ -1,0 +1,201 @@
+[
+    {
+        "Referente": "Login",
+        "Horário": "11-06-2025 08:29:18",
+        "Erro": [
+            {
+                "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJVc3VhcmlvIjoiRURTT04iLCJNYXN0ZXIiOnRydWUsIkxpYmVyYSI6dHJ1ZSwiTml2ZWxMaWJlcmEiOiIxIiwiVmFsaWRhZGUiOiIxMVwvMDZcLzIwMjUiLCJpc3MiOiJFTUF1dG8gWERhdGEgU2VydmVyIn0.ViAjKDhsfctOjTJ066KeyARSR7xu-91uifqNSuz___4"
+            }
+        ]
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "11-06-2025 09:48:39",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "11-06-2025 10:04:13",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "11-06-2025 10:11:51",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "11-06-2025 10:12:14",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "11-06-2025 10:16:17",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "11-06-2025 10:16:30",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "11-06-2025 10:16:59",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "11-06-2025 10:17:07",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "11-06-2025 10:17:08",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "11-06-2025 11:37:46",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "11-06-2025 11:41:03",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "11-06-2025 11:48:21",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "11-06-2025 12:51:50",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "11-06-2025 12:54:15",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "11-06-2025 12:57:18",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "11-06-2025 13:02:07",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "11-06-2025 13:02:17",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "Login",
+        "Horário": "11-06-2025 13:39:18",
+        "Erro": [
+            {
+                "error": {
+                    "code": "Unauthorized",
+                    "message": "Usuário\/Senha inválida."
+                }
+            }
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "11-06-2025 13:39:18",
+        "Erro": [
+            "Há um erro ao tentar logar",
+            401
+        ]
+    }
+]

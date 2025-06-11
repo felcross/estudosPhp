@@ -11,55 +11,211 @@ use Exception;
 use FrontController;
 use utils\Tokens;
 use api\RequestChavesEmauto;
+use AuthMiddleware;
 
-
-// Controller
-
-class LoginController extends PageControl
+class LoginController
 {
-    
-
-       
-     private $login;
 
 
+    private $login;
 
     public function __construct()
     {
+        // Inicializa a classe de login
         $this->login = new RequestChavesEmauto();
+        
+        // Verifica se o usuário já está logado
+        if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+            // Redireciona para o dashboard se já estiver logado
+            header('Location: /dashboard');
+            exit();
+        }
     }
-
-
 
     public function login()
-
     {
-           
-        // Verifica se o usuário já está logado
-      //  if (isset($_SESSION['user'])) {
-           print_r( $_POST);
-
+        // Se já está logado, redireciona para dashboard
         
+        AuthMiddleware::requireGuest();
 
+        // Processa o login se houver dados POST
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = $_POST['usuario'] ?? '';
             $pass = $_POST['senha'] ?? '';
-     
 
-            if (!empty($_POST['usuario']) && !empty($_POST['senha'])) {
-
-                $this->login->processaLogin([$user,$pass]);
+            if (!empty($user) && !empty($pass)) {
+                $loginResult = $this->login->processaLogin([$user, $pass]);
+                
+                // Se login for bem-sucedido
+                if ($loginResult === true) {
+                    // Define sessão do usuário
+                    $_SESSION['user'] = $user;
+                    $_SESSION['logged_in'] = true;
+                    $_SESSION['login_time'] = time();
+                    
+                    // Nota: $_SESSION['chaveEMAUTO'] já foi definida no processaLogin()
+                    
+                    // Redireciona para dashboard
+                    header('Location: /dashboard');
+                    exit();
+                } else {
+                    // Login falhou - sua classe já salvou o erro nos logs
+                    $error = "Usuário ou senha inválidos. Tente novamente.";
                 }
-           
-        
-        View::render('page/login.html.php', [
-          
+            } else {
+                $error = "Por favor, preencha todos os campos";
+            }
+        }
+
+        // Renderiza a tela de login SEM sidebar
+        View::renderWithoutSidebar('page/login.html.php', [
+            'error' => $error ?? null
         ], 'login');
     }
+
+    public function logout()
+    {
+        // Limpa todas as variáveis de sessão
+        $_SESSION = array();
+        
+        // Se existe cookie de sessão, remove ele
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+        
+        // Destroi a sessão
+        session_destroy();
+        
+        // Redireciona para login
+        header('Location: /login');
+        exit();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// class LoginController extends PageControl
+// {
+    
+
+       
+//      private $login;
+
+
+
+//     public function __construct()
+//     {
+//         $this->login = new RequestChavesEmauto();
+//     }
+
+
+
+//     public function login()
+
+//     {
+           
+//         // Verifica se o usuário já está logado
+//       //  if (isset($_SESSION['user'])) {
+//            print_r( $_POST);
+
+        
+
+//             $user = $_POST['usuario'] ?? '';
+//             $pass = $_POST['senha'] ?? '';
+     
+
+//             if (!empty($_POST['usuario']) && !empty($_POST['senha'])) {
+
+//                 $this->login->processaLogin([$user,$pass]);
+//                 }
+           
+        
+//         View::render('page/login.html.php', [
+          
+//         ], 'login');
+//     }
 
   
 
 
-}
+// }
 
 
 

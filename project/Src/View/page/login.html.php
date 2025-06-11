@@ -2,6 +2,25 @@
     @import url("../public/css/login.css");
 </style>
 
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistema</title>
+
+    <!-- Bootstrap CSS -->
+    <link href=".\css\bootstrap.min.css"></link>    
+     
+    
+    <!-- jQuery -->
+     <script src=".\js\sass\jquery-3.7.1.min.js"></script>     
+     
+     <!-- Bootstrap JS -->
+    <script src=".\js\sass\bootstrap.bundle.min.js"></script>
+</head>
+
+
 
 
 
@@ -37,7 +56,7 @@
 
                 </div>
                 <br>
-
+      
                 <button type="submit" id="Entrar" class="btn btn-primary">Entrar</button>
             </form>
         </div>
@@ -84,7 +103,7 @@
 <br>
 
 
-<input type="hidden" name="emauto_token" value="<?php echo $_SESSION['TokenCSRF']; ?>">
+<!-- <input type="hidden" name="emauto_token" value="<?php echo $_SESSION['TokenCSRF']; ?>"> -->
 
 
 
