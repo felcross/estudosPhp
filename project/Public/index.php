@@ -21,11 +21,10 @@ $frontController = new FrontController();
 
 // Controllers 
 $frontController->addAllowedController('LoginController');
-$frontController->addAllowedController('DashboardController');
+
 
 // Métodos
 $frontController->addAllowedMethods('LoginController', ['login', 'logout']);
-$frontController->addAllowedMethods('DashboardController', ['index']);
 
 $frontController->dispatch();
 

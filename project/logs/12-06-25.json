@@ -1,0 +1,66 @@
+[
+    {
+        "Referente": "APIEmauto - Erro na requisição",
+        "Horário": "12-06-2025 11:00:59",
+        "Erro": "Failed to connect to 166.0.186.208 port 2002 after 21037 ms: Couldn't connect to server"
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "12-06-2025 11:17:07",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "12-06-2025 11:17:09",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "12-06-2025 11:17:24",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "Login",
+        "Horário": "12-06-2025 11:19:43",
+        "Erro": [
+            {
+                "error": {
+                    "code": "Unauthorized",
+                    "message": "Usuário\/Senha inválida."
+                }
+            }
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "12-06-2025 11:19:43",
+        "Erro": [
+            "Há um erro ao tentar logar",
+            401
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "12-06-2025 11:23:47",
+        "Erro": [
+            {
+                "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJVc3VhcmlvIjoiRURTT04iLCJNYXN0ZXIiOnRydWUsIkxpYmVyYSI6dHJ1ZSwiTml2ZWxMaWJlcmEiOiIxIiwiVmFsaWRhZGUiOiIxMlwvMDZcLzIwMjUiLCJpc3MiOiJFTUF1dG8gWERhdGEgU2VydmVyIn0.q_ieht5jd8KJwcTiG_1TKhCY9zFlbP_9S82ZfxnA0cE"
+            }
+        ]
+    }
+]
