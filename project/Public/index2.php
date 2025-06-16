@@ -26,7 +26,7 @@ $frontController = new FrontController();
 
 
  $frontController->addAllowedController('LoginController');
- $frontController->addAllowedMethods('LoginController', ['login']);
+ $frontController->addAllowedMethods('LoginController', ['login','processLogin']);
 
 
 $frontController->dispatch();

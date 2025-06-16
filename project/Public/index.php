@@ -24,7 +24,7 @@ $frontController->addAllowedController('LoginController');
 
 
 // Métodos
-$frontController->addAllowedMethods('LoginController', ['login', 'logout']);
+$frontController->addAllowedMethods('LoginController', ['login', 'processLogin']);
 
 $frontController->dispatch();
 

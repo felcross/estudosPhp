@@ -32,33 +32,152 @@ class LoginController extends PageControl
 
 
 
-    public function login()
+//     public function login()
 
-    {
+//     {
            
-        // Verifica se o usuário já está logado
-      //  if (isset($_SESSION['user'])) {
-           print_r( $_POST);
+//         // Verifica se o usuário já está logado
+//       //  if (isset($_SESSION['user'])) {
+//            print_r( $_POST);
 
         
 
-            $user = $_POST['usuario'] ?? '';
-            $pass = $_POST['senha'] ?? '';
+//             $user = $_POST['usuario'] ?? '';
+//             $pass = $_POST['senha'] ?? '';
      
 
-            if (!empty($_POST['usuario']) && !empty($_POST['senha'])) {
+//             if (!empty($_POST['usuario']) && !empty($_POST['senha'])) {
 
-                $this->login->processaLogin([$user,$pass]);
-                }
+//                 $this->login->processaLogin([$user,$pass]);
+//                 }
            
         
-        View::render('page/login.html.php', [
+//         View::render('page/login.html.php', [
           
-        ], 'login');
-    }
+//         ], 'login');
+//     }
 
   
 
+
+// }
+
+
+   public function login()
+    {
+     print_r( $_POST);
+
+        // Renderiza a página de login usando componentes
+        View::render('page/login.html.php', [
+            'title' => 'Login - Sistema'
+        ], '');
+    }
+    
+//     public function processLogin()
+//     {
+//         // Define o header para JSON
+//         header('Content-Type: application/json');
+        
+//         try {
+//             $user = $_POST['usuario'] ?? '';
+//             $pass = $_POST['senha'] ?? '';
+            
+//             if (empty($user) || empty($pass)) {
+//                 echo json_encode([
+//                     'success' => false,
+//                     'message' => 'Usuário e senha são obrigatórios!'
+//                 ]);
+//                 return;
+//             }
+            
+//             // Processa o login
+//             $loginResult = $this->login->processaLogin([$user, $pass]);
+            
+//             if ($loginResult) {
+//                 // Login bem-sucedido
+//                 echo json_encode([
+//                     'success' => true,
+//                     'message' => 'Login realizado com sucesso!',
+//                     'class' => $_POST['class'] ?? 'ProductController',
+//                     'method' => $_POST['method'] ?? 'buscar'
+//                 ]);
+//             } else {
+//                 // Login falhou
+//                 echo json_encode([
+//                     'success' => false,
+//                     'message' => 'Usuário ou senha inválidos!'
+//                 ]);
+//             }
+            
+//         } catch (Exception $e) {
+//             echo json_encode([
+//                 'success' => false,
+//                 'message' => 'Erro interno do servidor!'
+//             ]);
+//         }
+//     }
+// }
+
+
+public function processLogin()
+{
+    // Verifica se a requisição é AJAX
+    $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+
+    try {
+        $user = $_POST['usuario'] ?? '';
+        $pass = $_POST['senha'] ?? '';
+        
+        if (empty($user) || empty($pass)) {
+            if ($isAjax) {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'message' => 'Usuário e senha são obrigatórios!']);
+            } else {
+                // Redireciona de volta para a página de login com uma mensagem de erro (se o sistema suportar)
+                header('Location: index.php?class=LoginController&method=login&error=1');
+            }
+            return;
+        }
+        
+        // Processa o login
+        $loginResult = $this->login->processaLogin([$user, $pass]);
+        
+        if ($loginResult) {
+            // Login bem-sucedido
+            if ($isAjax) {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Login realizado com sucesso!',
+                    'class'   => $_POST['class'] ?? 'ProductController',
+                    'method'  => $_POST['method'] ?? 'buscar'
+                ]);
+            } else {
+                // Redirecionamento padrão se não for AJAX
+                $class = $_POST['class'] ?? 'ProductController';
+                $method = $_POST['method'] ?? 'buscar';
+                header("Location: index.php?class={$class}&method={$method}");
+                exit(); // É crucial chamar exit() após um redirecionamento de header
+            }
+        } else {
+            // Login falhou
+            if ($isAjax) {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'message' => 'Usuário ou senha inválidos!']);
+            } else {
+                header('Location: index.php?class=LoginController&method=login&error=2');
+            }
+        }
+        
+    } catch (Exception $e) {
+        if ($isAjax) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'Erro interno do servidor!']);
+        } else {
+            header('Location: index.php?class=LoginController&method=login&error=3');
+        }
+    }
+}
 
 }
 
