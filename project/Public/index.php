@@ -1,31 +1,23 @@
 <?php
-require '../config/sessoes.php';
 require '../autoLoad.php';
 require '../vendor/autoload.php';
 require '../functions.php';
-require 'FrontController.php';
+require_once 'SessionManager.php';
+require_once 'AuthMiddleware.php';
+require_once 'FrontController.php';
 
-// CSRF
-//utils\Tokens::geraTokenCSRF();
 
-// Detecta AJAX
 $isAjax = (
     !empty($_SERVER['HTTP_X_REQUESTED_WITH'])
     && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest'
 );
 
-// Layout inicial (se não for AJAX) - removido daqui pois será controlado pela View
-// A View agora controla quando incluir ou não o sidebar
-
-$frontController = new FrontController();
-
-// Controllers 
-$frontController->addAllowedController('LoginController');
-
-
-// Métodos
-$frontController->addAllowedMethods('LoginController', ['login', 'processLogin']);
-
-$frontController->dispatch();
-
-// Layout final removido - será controlado pela View
+try {
+    // Instancia e executa o FrontController
+    $frontController = new FrontController('config/controllers.json');
+    $frontController->dispatch();
+    
+} catch (Exception $e) {
+    error_log("Erro crítico: " . $e->getMessage());
+    echo "<h3>Sistema indisponível</h3>";
+}

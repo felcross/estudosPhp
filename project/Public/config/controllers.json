@@ -1,0 +1,26 @@
+{
+  "controllers": [
+    "LoginController",
+    "ProductController",
+    "HomeController"
+  ],
+  "methods": {
+    "LoginController": [
+      "login",
+      "logout",
+      "authenticate",
+      "processLogin"
+    ],
+    "ProductController": [
+      "processarAtualizacaoAjax",
+      "buscar",
+      "index",
+      "show"
+    ],
+    "HomeController": [
+      "index",
+      "sobre",
+      "contato"
+    ]
+  }
+}

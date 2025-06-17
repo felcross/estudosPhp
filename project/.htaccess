@@ -1,0 +1,185 @@
+RewriteEngine On
+
+# Redireciona todas as requisições para /public
+RewriteCond %{REQUEST_URI} !^/public/
+#Compressão de arquivos
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html
+AddOutputFilterByType DEFLATE application/x-httpd-php
+AddOutputFilterByType DEFLATE text/css
+AddOutputFilterByType DEFLATE text/javascript
+AddOutputFilterByType DEFLATE text/xml
+AddOutputFilterByType DEFLATE text/plain
+AddOutputFilterByType DEFLATE image/x-icon
+AddOutputFilterByType DEFLATE image/svg+xml
+AddOutputFilterByType DEFLATE application/rss+xml
+AddOutputFilterByType DEFLATE application/javascript
+AddOutputFilterByType DEFLATE application/x-javascript
+AddOutputFilterByType DEFLATE application/xml
+AddOutputFilterByType DEFLATE application/xhtml+xml
+AddOutputFilterByType DEFLATE application/x-font
+AddOutputFilterByType DEFLATE application/x-font-truetype
+AddOutputFilterByType DEFLATE application/x-font-ttf
+AddOutputFilterByType DEFLATE application/x-font-otf
+AddOutputFilterByType DEFLATE application/x-font-opentype
+AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+AddOutputFilterByType DEFLATE font/ttf
+AddOutputFilterByType DEFLATE font/otf
+AddOutputFilterByType DEFLATE font/opentype
+# For Older Browsers Which Can't Handle Compression
+BrowserMatch ^Mozilla/4 gzip-only-text/html
+BrowserMatch ^Mozilla/4\.0[678] no-gzip
+BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+</IfModule>
+
+
+
+
+
+#Bloqueando acesso a diretórios
+Options -Indexes
+
+
+
+#Configurações dos cabeçalhos
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set HttpOnly "true"
+    Header set SameSite "Strict"
+    Header unset X-Powered-By
+    Header always edit Set-Cookie "^(PHPSESSID=.*?); ?(Secure; ?)?(SameSite=None)?$" "$1; Secure; SameSite=None"
+    Header always set Referrer-Policy "same-origin"
+	Header set X-XSS-Protection "1; mode=block"
+
+</IfModule>
+
+
+
+# Fazer código PHP parecer com HTML
+AddType application/x-httpd-php .htm .html
+
+
+
+
+
+
+
+##Condificação UTF8
+AddDefaultCharset UTF-8
+AddCharset UTF-8 .js
+
+
+
+
+
+
+<IfModule mod_deflate.c>
+  
+    # Forçar compressão para navegadores que não enviam aceitação de codificação gzip
+    <IfModule mod_setenvif.c>
+        BrowserMatch ^Mozilla/4 gzip-only-text/html
+        BrowserMatch ^Mozilla/4\.0[678] no-gzip
+        BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+        BrowserMatch \bMSI[E] !no-gzip !gzip-only-text/html
+        
+    </IfModule>
+
+    # Compressão para conexões lentas
+    SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip dont-vary
+    SetEnvIfNoCase Request_URI \.(?:exe|t?gz|zip|bz2|sit|rar)$ no-gzip dont-vary
+    SetEnvIfNoCase Request_URI \.pdf$ no-gzip dont-vary
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+
+    # Habilitar cabeçalhos de cache para arquivos estáticos
+    <IfModule mod_expires.c>
+        ExpiresActive On
+        ExpiresByType text/css "access plus 1 year"
+        ExpiresByType application/javascript "access plus 1 year"
+        ExpiresByType image/png "access plus 1 year"
+        ExpiresByType image/jpeg "access plus 1 year"
+        ExpiresByType image/gif "access plus 1 year"
+        ExpiresByType image/svg+xml "access plus 1 year"
+        ExpiresByType image/webp "access plus 1 year"
+        FileETag None
+    </IfModule>
+
+   
+</IfModule>
+
+
+
+
+
+
+
+#Acelerando 
+<IfModule pagespeed_module>
+    ModPagespeed on
+    ModPagespeedEnableFilters rewrite_javascript,rewrite_css
+</IfModule>
+
+
+
+
+
+##Permitindo somente as solicitações de PHP internas podem acessar a pasta TEMP
+
+
+<IfModule mod_headers.c>
+    Header always edit Set-Cookie (.*) "$1; SameSite=Strict"
+	Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+	Header always edit Set-Cookie (.*) "$1; HttpOnly"
+</IfModule>
+
+
+
+
+
+<IfModule mod_evasive20.c>
+    DOSHashTableSize    3097
+    DOSPageCount        2
+    DOSSiteCount        50
+    DOSPageInterval     1
+    DOSSiteInterval     1
+    DOSBlockingPeriod   10
+</IfModule>
+
+
+<RequireAll>
+    Require all granted
+    Require not ip 192.168.1
+    Require not ip 10
+    Require not ip 172.16
+    Require not ip 127
+    Require not ip 0.0.0.0
+</RequireAll>
+
+
+
+<FilesMatch "\.(log|txt)$">
+    Require all denied
+</FilesMatch>
+
+
+<FilesMatch "^(config|system|funcoes|palavras|autoload)\.php$">
+    Require all denied
+</FilesMatch>
+
+# Permitir acesso ao diretório PortalWeb
+
+
+
+<Files "api.php">
+    Require all granted
+</Files>
+
+<IfModule mod_rewrite.c>
+
+    RewriteRule .* - [e=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+</IfModule>
+
+<FilesMatch "\.(json|txt|pem|env)$">
+    Require all denied
+</FilesMatch>

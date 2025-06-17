@@ -21,8 +21,6 @@ use Core\View;
 </head>
 <body>
     <?= View::component('LoginForm', [
-        'class' => $class ?? 'ProductController',
-        'method' => $method ?? 'buscar',
         'logoPath' => './photo/logo.png',
         'showForgotPassword' => true
     ]) ?>
@@ -36,7 +34,7 @@ use Core\View;
         <div class="sub-rodape">
             Sistemas de Gestão Empresarial no Setor de Varejo e Distribuição de Autopeças.
         </div>
-        
+        <input type="hidden" name="emauto_token" value="<?php echo $_SESSION['TokenCSRF']; ?>">
         <p>&copy;Portal de Clientes V 2.0</p>
     </footer>
 </body>

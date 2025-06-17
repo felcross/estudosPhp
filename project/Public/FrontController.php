@@ -2,359 +2,157 @@
 
 class FrontController
 {
-    private array $allowedControllers = [];
-    private array $allowedMethods = [];
-    private string $defaultController = 'HomeController';
-    private string $defaultMethod = 'index';
+    private array $config;
+    private string $configFile = 'config/controllers.json';
     private string $controllerNamespace = '\\controller\\';
 
-    public function __construct()
+    public function __construct( $configFile = null)
     {
-        $this->setupAllowedControllers();
-        $this->setupAllowedMethods();
+        $this->configFile = $configFile ?? $this->configFile;
+        $this->loadConfig();
     }
 
-    /**
-     * Processa a requisição atual
-     */
     public function dispatch(): void
     {
         try {
-            // Obtém e valida controller e método
-            $controllerName = $this->getValidatedController();
-            $methodName = $this->getValidatedMethod();
+            // Inicializa sessão
+            SessionManager::init();
 
-            // Executa o controller
-            $this->executeController($controllerName, $methodName);
+            // Sempre força login primeiro se não estiver logado
+            if (!$this->isUserLoggedIn()) {
+                $this->redirectToLogin();
+                return;
+            }
+
+            $controller = $this->getController();
+            $method = $this->getMethod();
+
+            $this->validateAccess($controller, $method);
+            $this->executeController($controller, $method);
 
         } catch (Exception $e) {
             $this->handleError($e);
         }
     }
 
-    /**
-     * Configura controllers permitidos (whitelist)
-     */
-    private function setupAllowedControllers(): void
+    private function loadConfig(): void
     {
-        $this->allowedControllers = [
-          //  'HomeController',
-            'ProductController',
-           
-        ];
+        if (!file_exists($this->configFile)) {
+            throw new Exception("Arquivo de configuração não encontrado: {$this->configFile}");
+        }
+
+        $json = file_get_contents($this->configFile);
+        $this->config = json_decode($json, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception("Erro ao decodificar JSON: " . json_last_error_msg());
+        }
     }
 
-    /**
-     * Configura métodos permitidos por controller
-     */
-    private function setupAllowedMethods(): void
+    private function isUserLoggedIn(): bool
     {
-        $this->allowedMethods = [
-           // 'HomeController' => ['index', 'sobre', 'contato'],
-            'ProductController' => ['processarAtualizacaoAjax', 'buscar'],
-         
-
-
-        ];
+        return AuthMiddleware::isAuthenticated();
     }
 
-    /**
-     * Obtém e valida o controller da requisição
-     */
-    private function getValidatedController(): string
+    private function redirectToLogin(): void
     {
-        $controller = $_GET['class'] ?? $this->defaultController;
+        $this->executeController('LoginController', 'login');
+    }
 
-        // Remove possíveis caracteres perigosos
-        $controller = $this->sanitizeInput($controller);
+    private function getController(): string
+    {
+        $controller = $this->sanitize($_GET['class'] ?? '');
+        
+        if (empty($controller)) {
+            return 'ControllerLogin';
+        }
 
-        // Garante que termina com 'Controller'
         if (!str_ends_with($controller, 'Controller')) {
             $controller .= 'Controller';
-        }
-
-        // Valida se está na whitelist
-        if (!$this->isControllerAllowed($controller)) {
-            throw new SecurityException("Controller '{$controller}' não autorizado");
-        }
-
-        // Verifica se a classe existe
-        $fullClassName = $this->controllerNamespace . $controller;
-        if (!class_exists($fullClassName)) {
-            throw new NotFoundException("Controller '{$controller}' não encontrado");
         }
 
         return $controller;
     }
 
-    /**
-     * Obtém e valida o método da requisição
-     */
-    private function getValidatedMethod(): string
+    private function getMethod(): string
     {
-        $method = $_GET['method'] ?? $this->defaultMethod;
-
-        // Remove possíveis caracteres perigosos
-        $method = $this->sanitizeInput($method);
-
-        // Valida formato do método (só letras, números e underscore)
-        if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $method)) {
-            throw new SecurityException("Método '{$method}' possui formato inválido");
-        }
-
-        return $method;
+        $method = $this->sanitize($_GET['method'] ?? '');
+        return empty($method) ? 'login' : $method;
     }
 
-    /**
-     * Executa o controller validado
-     */
-    private function executeController(string $controllerName, string $methodName): void
+    private function validateAccess(string $controller, string $method): void
     {
-        $fullClassName = $this->controllerNamespace . $controllerName;
-
-        // Instancia o controller
-        $controller = new $fullClassName;
-
-        // Validações finais de segurança (só se método foi especificado)
-        if ($methodName && $methodName !== 'show') {
-            $this->validateMethodExecution($controller, $controllerName, $methodName);
+        // Valida controller
+        if (!in_array($controller, $this->config['controllers'])) {
+            throw new SecurityException("Controller não autorizado: {$controller}");
         }
 
-        // Executa seguindo o padrão PageControl
-        // Todos os controllers estendem PageControl que tem o método show()
-        $controller->show();
-    }
-
-    /**
-     * Valida se o método pode ser executado com segurança
-     * Agora valida o método que será chamado pelo PageControl.show()
-     */
-    private function validateMethodExecution(object $controller, string $controllerName, string $methodName): void
-    {
-        // Se não há método específico, não precisa validar (show() vai usar default)
-        if (!$methodName || $methodName === 'show') {
-            return;
-        }
-
-        // 1. Verifica se o método existe
-        if (!method_exists($controller, $methodName)) {
-            throw new NotFoundException("Método '{$methodName}' não encontrado no controller '{$controllerName}'");
-        }
-
-        // 2. Verifica se o método é público (usando Reflection)
-        $reflection = new ReflectionMethod($controller, $methodName);
-        if (!$reflection->isPublic()) {
-            throw new SecurityException("Método '{$methodName}' não é público");
-        }
-
-        // 3. Verifica se não é método estático
-        if ($reflection->isStatic()) {
-            throw new SecurityException("Métodos estáticos não podem ser executados via URL");
-        }
-
-        // 4. Verifica whitelist de métodos por controller (se configurado)
-        if ($this->hasMethodWhitelist($controllerName)) {
-            if (!$this->isMethodAllowed($controllerName, $methodName)) {
-                throw new SecurityException("Método '{$methodName}' não autorizado para '{$controllerName}'");
+        // Valida método se especificado na configuração
+        if (isset($this->config['methods'][$controller])) {
+            if (!in_array($method, $this->config['methods'][$controller])) {
+                throw new SecurityException("Método não autorizado: {$method}");
             }
         }
 
-        // 5. Bloqueia métodos "perigosos" (construtores, destrutores, mágicos)
-        if ($this->isDangerousMethod($methodName)) {
-            throw new SecurityException("Método '{$methodName}' não pode ser executado via URL");
+        // Verifica se classe existe
+        $fullClass = $this->controllerNamespace . $controller;
+        if (!class_exists($fullClass)) {
+            throw new NotFoundException("Controller não encontrado: {$controller}");
         }
 
-        // 6. Valida se não está tentando chamar o próprio método show() 
-        // (para evitar recursão ou bypass)
-        if ($methodName === 'show') {
-            throw new SecurityException("Método 'show' não pode ser chamado diretamente via URL");
+        // Validações de segurança do método
+        $this->validateMethod($fullClass, $method);
+    }
+
+    private function validateMethod(string $className, string $method): void
+    {
+        if (!method_exists($className, $method)) {
+            throw new NotFoundException("Método não encontrado: {$method}");
+        }
+
+        $reflection = new ReflectionMethod($className, $method);
+        
+        if (!$reflection->isPublic() || $reflection->isStatic()) {
+            throw new SecurityException("Método não acessível: {$method}");
+        }
+
+        // Bloqueia métodos mágicos
+        if (str_starts_with($method, '__')) {
+            throw new SecurityException("Método protegido: {$method}");
         }
     }
 
-    /**
-     * Sanitiza entrada do usuário
-     */
-    private function sanitizeInput(string $input): string
+    private function executeController(string $controller, string $method): void
     {
-        // Remove caracteres perigosos
-        $input = preg_replace('/[^a-zA-Z0-9_]/', '', $input);
-
-        // Limita tamanho
-        $input = substr($input, 0, 50);
-
-        return $input;
+        $fullClass = $this->controllerNamespace . $controller;
+        $instance = new $fullClass();
+        
+        if (method_exists($instance, $method)) {
+            $instance->$method();
+        } else {
+            $instance->show();
+        }
     }
 
-    /**
-     * Verifica se controller está autorizado
-     */
-    private function isControllerAllowed(string $controller): bool
+    private function sanitize(string $input): string
     {
-        return in_array($controller, $this->allowedControllers);
+        return preg_replace('/[^a-zA-Z0-9_]/', '', substr($input, 0, 50));
     }
 
-    /**
-     * Verifica se controller tem whitelist de métodos
-     */
-    private function hasMethodWhitelist(string $controller): bool
-    {
-        return isset($this->allowedMethods[$controller]);
-    }
-
-    /**
-     * Verifica se método está autorizado para o controller
-     */
-    private function isMethodAllowed(string $controller, string $method): bool
-    {
-        return in_array($method, $this->allowedMethods[$controller] ?? []);
-    }
-
-    /**
-     * Verifica se é um método perigoso que não deve ser executado
-     */
-    private function isDangerousMethod(string $method): bool
-    {
-        $dangerousMethods = [
-            '__construct',
-            '__destruct',
-            '__call',
-            '__callStatic',
-            '__get',
-            '__set',
-            '__isset',
-            '__unset',
-            '__sleep',
-            '__wakeup',
-            '__serialize',
-            '__unserialize',
-            '__toString',
-            '__invoke',
-            '__set_state',
-            '__clone',
-            '__debugInfo',
-            'show' // Adiciona 'show' pois ele deve ser chamado automaticamente, não via URL
-        ];
-
-        return in_array($method, $dangerousMethods);
-    }
-
-    /**
-     * Manipula erros de forma centralizada
-     */
     private function handleError(Exception $e): void
     {
-        // Log do erro
-        error_log("FrontController Error: " . $e->getMessage() . " in " . $e->getFile() . ":" . $e->getLine());
+        error_log("FrontController: " . $e->getMessage());
 
-        // Determina tipo de erro
-        if ($e instanceof SecurityException) {
-            $this->handleSecurityError($e);
-        } elseif ($e instanceof NotFoundException) {
-            $this->handleNotFoundError($e);
+        http_response_code($e instanceof SecurityException ? 403 : 
+                          ($e instanceof NotFoundException ? 404 : 500));
+
+        if ($_ENV['APP_DEBUG'] ?? false) {
+            echo "<div class='error'><h4>Erro:</h4><p>{$e->getMessage()}</p></div>";
         } else {
-            $this->handleGenericError($e);
+            echo "<div class='error'><h4>Erro</h4><p>Tente novamente.</p></div>";
         }
-    }
-
-    /**
-     * Manipula erros de segurança
-     */
-    private function handleSecurityError(SecurityException $e): void
-    {
-        http_response_code(403);
-
-        if ($this->isDebugMode()) {
-            echo "<div class='alert alert-danger'>";
-            echo "<h4>Erro de Segurança:</h4>";
-            echo "<p>" . htmlspecialchars($e->getMessage()) . "</p>";
-            echo "</div>";
-        } else {
-            echo "<div class='alert alert-danger'>";
-            echo "<h4>Acesso Negado</h4>";
-            echo "<p>Você não tem permissão para acessar este recurso.</p>";
-            echo "</div>";
-        }
-    }
-
-    /**
-     * Manipula erros 404
-     */
-    private function handleNotFoundError(NotFoundException $e): void
-    {
-        http_response_code(404);
-
-        echo "<div class='alert alert-warning'>";
-        echo "<h4>Página Não Encontrada</h4>";
-        echo "<p>O recurso solicitado não foi encontrado.</p>";
-        echo "</div>";
-    }
-
-    /**
-     * Manipula erros genéricos
-     */
-    private function handleGenericError(Exception $e): void
-    {
-        http_response_code(500);
-
-        if ($this->isDebugMode()) {
-            echo "<div class='alert alert-danger'>";
-            echo "<h4>Erro Interno:</h4>";
-            echo "<p>" . htmlspecialchars($e->getMessage()) . "</p>";
-            echo "<pre>" . htmlspecialchars($e->getTraceAsString()) . "</pre>";
-            echo "</div>";
-        } else {
-            echo "<div class='alert alert-danger'>";
-            echo "<h4>Ops! Algo deu errado.</h4>";
-            echo "<p>Tente novamente mais tarde.</p>";
-            echo "</div>";
-        }
-    }
-
-    /**
-     * Verifica se está em modo debug
-     */
-    private function isDebugMode(): bool
-    {
-        return $_ENV['APP_DEBUG'] ?? false;
-    }
-
-    /**
-     * Adiciona controller à whitelist
-     */
-    public function addAllowedController(string $controller): void
-    {
-        if (!in_array($controller, $this->allowedControllers)) {
-            $this->allowedControllers[] = $controller;
-        }
-    }
-
-    /**
-     * Adiciona métodos permitidos para um controller
-     */
-    public function addAllowedMethods(string $controller, array $methods): void
-    {
-        if (isset($this->allowedMethods[$controller])) {
-            $this->allowedMethods[$controller] = array_merge($this->allowedMethods[$controller], $methods);
-        } else {
-            $this->allowedMethods[$controller] = $methods;
-        }
-    }
-
-    /**
-     * Define namespace dos controllers
-     */
-    public function setControllerNamespace(string $namespace): void
-    {
-        $this->controllerNamespace = $namespace;
     }
 }
 
-/**
- * Exceções customizadas
- */
-class SecurityException extends Exception
-{
-}
-class NotFoundException extends Exception
-{
-}
+class SecurityException extends Exception {}
+class NotFoundException extends Exception {}
