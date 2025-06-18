@@ -23,6 +23,7 @@ use Core\View;
     <?= View::component('LoginForm', [
         'logoPath' => './photo/logo.png',
         'showForgotPassword' => true
+       
     ]) ?>
     
     <footer class="Rodape">

@@ -9,6 +9,7 @@ require_once 'FrontController.php';
 
 try {
     // Instancia e executa o FrontController
+   
     $frontController = new FrontController('config/controllers.json');
     $frontController->dispatch();
     
@@ -16,3 +17,4 @@ try {
     error_log("Erro crítico: " . $e->getMessage());
     echo "<h3>Sistema indisponível</h3>";
 }
+

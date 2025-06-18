@@ -6,7 +6,7 @@ class FrontController
     private string $configFile = 'config/controllers.json';
     private string $controllerNamespace = '\\controller\\';
 
-    public function __construct(string $configFile = null)
+    public function __construct( $configFile = null)
     {
         $this->configFile = $configFile ?? $this->configFile;
         $this->loadConfig();
@@ -16,16 +16,16 @@ class FrontController
     {
         try {
             // Inicializa sessão
-          //  SessionManager::init();
+            SessionManager::init();
 
             $controller = $this->getController();
             $method = $this->getMethod();
 
-            // Permite LoginController mesmo sem autenticação
-            if ($controller !== 'LoginController') {
-                $this->handleUnauthenticated();
-                return;
-            }
+          //  Permite LoginController mesmo sem autenticação
+            // if ($controller !== 'LoginController') {
+            //     $this->handleUnauthenticated();
+            //     return;
+            // }
 
             $this->validateAccess($controller, $method);
             $this->executeController($controller, $method);
@@ -63,7 +63,7 @@ class FrontController
             echo json_encode([
                 'success' => false,
                 'message' => 'Sessão expirada. Faça login novamente.',
-                'redirect' => '?class=LoginController&method=login'
+              //  'redirect' => '?class=LoginController&method=login'
             ]);
             return;
         }
