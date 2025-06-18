@@ -7,9 +7,9 @@
   "methods": {
     "LoginController": [
       "login",
-      "logout",
-      "authenticate",
-      "processLogin"
+      "processLogin",
+      "forgotPassword",
+      "logout"
     ],
     "ProductController": [
       "processarAtualizacaoAjax",

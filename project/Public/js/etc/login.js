@@ -51,31 +51,40 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleLoading(entrarBtn, true);
         
         try {
-            // Envia dados via JSON seguindo o padrão especificado
+            // Envia dados via JSON com headers corretos para AJAX
             const response = await fetch('index.php?class=LoginController&method=processLogin', {
                 method: 'POST',
                 headers: { 
-                    'Content-Type': 'application/json' 
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest' // Header que identifica AJAX
                 },
                 body: JSON.stringify({
                     usuario: usuario,
                     senha: senha,
-                    token: document.querySelector('input[name="emauto_token"]').value,
-                    redirectClass: 'ProductController',
-                    redirectMethod: 'buscar'
+                  
                 })
             });
             
+            // Verifica se a resposta é JSON válida
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Resposta inválida do servidor');
+            }
+            
             const result = await response.json();
+
+           
             
             if (result.success) {
                 // Sucesso - redireciona para ProductController->buscar
+                 console.log(result);
                 window.location.href = 'index.php?class=ProductController&method=buscar';
             } else {
                 // Erro - mostra mensagem
                 showError(result.message || 'Usuário ou senha inválidos!');
             }
         } catch (error) {
+             
             console.error('Erro no login:', error);
             showError('Erro de conexão! Tente novamente.');
         } finally {
@@ -116,6 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
                     },
                     body: JSON.stringify({ email: email })
                 });

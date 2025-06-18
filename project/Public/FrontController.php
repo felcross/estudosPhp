@@ -6,7 +6,7 @@ class FrontController
     private string $configFile = 'config/controllers.json';
     private string $controllerNamespace = '\\controller\\';
 
-    public function __construct( $configFile = null)
+    public function __construct(string $configFile = null)
     {
         $this->configFile = $configFile ?? $this->configFile;
         $this->loadConfig();
@@ -16,16 +16,16 @@ class FrontController
     {
         try {
             // Inicializa sessão
-            SessionManager::init();
-
-            // Sempre força login primeiro se não estiver logado
-            if (!$this->isUserLoggedIn()) {
-                $this->redirectToLogin();
-                return;
-            }
+          //  SessionManager::init();
 
             $controller = $this->getController();
             $method = $this->getMethod();
+
+            // Permite LoginController mesmo sem autenticação
+            if ($controller !== 'LoginController') {
+                $this->handleUnauthenticated();
+                return;
+            }
 
             $this->validateAccess($controller, $method);
             $this->executeController($controller, $method);
@@ -54,6 +54,32 @@ class FrontController
         return AuthMiddleware::isAuthenticated();
     }
 
+    private function handleUnauthenticated(): void
+    {
+        // Se é uma requisição AJAX, retorna JSON
+        if ($this->isAjaxRequest()) {
+            http_response_code(401);
+            header('Content-Type: application/json');
+            echo json_encode([
+                'success' => false,
+                'message' => 'Sessão expirada. Faça login novamente.',
+                'redirect' => '?class=LoginController&method=login'
+            ]);
+            return;
+        }
+
+        // Se é navegação normal, redireciona para login
+        $this->redirectToLogin();
+    }
+
+    private function isAjaxRequest(): bool
+    {
+        return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+            strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest' ||
+            (isset($_SERVER['CONTENT_TYPE']) &&
+                strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false);
+    }
+
     private function redirectToLogin(): void
     {
         $this->executeController('LoginController', 'login');
@@ -61,10 +87,11 @@ class FrontController
 
     private function getController(): string
     {
+
         $controller = $this->sanitize($_GET['class'] ?? '');
-        
+
         if (empty($controller)) {
-            return 'ControllerLogin';
+            return 'LoginController';
         }
 
         if (!str_ends_with($controller, 'Controller')) {
@@ -72,7 +99,11 @@ class FrontController
         }
 
         return $controller;
+
+
     }
+
+
 
     private function getMethod(): string
     {
@@ -111,7 +142,7 @@ class FrontController
         }
 
         $reflection = new ReflectionMethod($className, $method);
-        
+
         if (!$reflection->isPublic() || $reflection->isStatic()) {
             throw new SecurityException("Método não acessível: {$method}");
         }
@@ -126,7 +157,7 @@ class FrontController
     {
         $fullClass = $this->controllerNamespace . $controller;
         $instance = new $fullClass();
-        
+
         if (method_exists($instance, $method)) {
             $instance->$method();
         } else {
@@ -143,8 +174,8 @@ class FrontController
     {
         error_log("FrontController: " . $e->getMessage());
 
-        http_response_code($e instanceof SecurityException ? 403 : 
-                          ($e instanceof NotFoundException ? 404 : 500));
+        http_response_code($e instanceof SecurityException ? 403 :
+            ($e instanceof NotFoundException ? 404 : 500));
 
         if ($_ENV['APP_DEBUG'] ?? false) {
             echo "<div class='error'><h4>Erro:</h4><p>{$e->getMessage()}</p></div>";
@@ -154,5 +185,9 @@ class FrontController
     }
 }
 
-class SecurityException extends Exception {}
-class NotFoundException extends Exception {}
+class SecurityException extends Exception
+{
+}
+class NotFoundException extends Exception
+{
+}

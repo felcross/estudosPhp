@@ -3,14 +3,9 @@ require '../autoLoad.php';
 require '../vendor/autoload.php';
 require '../functions.php';
 require_once 'SessionManager.php';
-require_once 'AuthMiddleware.php';
+//require_once 'AuthMiddleware.php';
 require_once 'FrontController.php';
 
-
-$isAjax = (
-    !empty($_SERVER['HTTP_X_REQUESTED_WITH'])
-    && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest'
-);
 
 try {
     // Instancia e executa o FrontController

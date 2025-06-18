@@ -455,5 +455,52 @@
             },
             "Url": "http:\/\/166.0.186.208:2002\/\/emsoft\/emauto\/Produto(2S6R7F094AB)"
         }
+    },
+    {
+        "Referente": "Login",
+        "Horário": "17-06-2025 20:57:40",
+        "Erro": [
+            {
+                "error": {
+                    "code": "Unauthorized",
+                    "message": "Usuário\/Senha inválida."
+                }
+            }
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "17-06-2025 20:57:40",
+        "Erro": [
+            "Há um erro ao tentar logar",
+            401
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "17-06-2025 20:59:02",
+        "Erro": [
+            {
+                "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJVc3VhcmlvIjoiRURTT04iLCJNYXN0ZXIiOnRydWUsIkxpYmVyYSI6dHJ1ZSwiTml2ZWxMaWJlcmEiOiIxIiwiVmFsaWRhZGUiOiIxN1wvMDZcLzIwMjUiLCJpc3MiOiJFTUF1dG8gWERhdGEgU2VydmVyIn0.vXYXxSat-HJN0yj2ElT9AgpBzk0jpH3VHwpq9rqXujM"
+            }
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "17-06-2025 21:09:19",
+        "Erro": [
+            {
+                "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJVc3VhcmlvIjoiRURTT04iLCJNYXN0ZXIiOnRydWUsIkxpYmVyYSI6dHJ1ZSwiTml2ZWxMaWJlcmEiOiIxIiwiVmFsaWRhZGUiOiIxN1wvMDZcLzIwMjUiLCJpc3MiOiJFTUF1dG8gWERhdGEgU2VydmVyIn0.vXYXxSat-HJN0yj2ElT9AgpBzk0jpH3VHwpq9rqXujM"
+            }
+        ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "17-06-2025 21:11:20",
+        "Erro": [
+            {
+                "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJVc3VhcmlvIjoiRURTT04iLCJNYXN0ZXIiOnRydWUsIkxpYmVyYSI6dHJ1ZSwiTml2ZWxMaWJlcmEiOiIxIiwiVmFsaWRhZGUiOiIxN1wvMDZcLzIwMjUiLCJpc3MiOiJFTUF1dG8gWERhdGEgU2VydmVyIn0.vXYXxSat-HJN0yj2ElT9AgpBzk0jpH3VHwpq9rqXujM"
+            }
+        ]
     }
 ]

@@ -12,6 +12,7 @@ use FrontController;
 use utils\Tokens;
 use api\RequestChavesEmauto;
 use AuthMiddleware;
+use SessionManager;
 
 
 
@@ -25,7 +26,13 @@ class LoginController extends PageControl
     }
 
     public function login()
-    {
+    {        
+
+        // if (AuthMiddleware::isAuthenticated()) {
+        //     header('Location: ?class=ProductController&method=buscar');
+        //     exit();
+        // }
+
         // Renderiza a página de login usando componentes
         View::render('page/login.html.php', [
             'title' => 'Login - Sistema'
@@ -33,130 +40,64 @@ class LoginController extends PageControl
     }
 
     public function processLogin()
-    {
-
-
-        // Define sempre como JSON response
-        header('Content-Type: application/json');
-
-        try {
-            // Lê os dados JSON do corpo da requisição
-            $input = file_get_contents('php://input');
-            $data = json_decode($input, true);
-
-            // Se não conseguiu decodificar JSON, tenta $_POST (fallback)
-            if (!$data) {
-                $data = $_POST;
-            }
-            if (!Tokens::verificaTokenCSRF($data['token'])) {
-                echo json_encode([
-                    'success' => false,
-                    'message' => 'Usuário e senha são obrigatórios!'
-                ]);
-                return;
-            }
-
-            $user = $data['usuario'] ?? '';
-            $pass = $data['senha'] ?? '';
-            $redirectClass = $data['redirectClass'] ?? 'ProductController';
-            $redirectMethod = $data['redirectMethod'] ?? 'buscar';
-
-            if (empty($user) || empty($pass)) {
-                echo json_encode([
-                    'success' => false,
-                    'message' => 'Usuário e senha são obrigatórios!'
-                ]);
-                return;
-            }
-
-            // Processa o login
-            $loginResult = $this->login->processaLogin([$user, $pass]);
-
-            if ($loginResult) {
-                // Login bem-sucedido
-                echo json_encode([
-                    'success' => true,
-                    'message' => 'Login realizado com sucesso!',
-                    'redirectClass' => $redirectClass,
-                    'redirectMethod' => $redirectMethod
-                ]);
-            } else {
-                // Login falhou
-                echo json_encode([
-                    'success' => false,
-                    'message' => 'Usuário ou senha inválidos!'
-                ]);
-            }
-
-        } catch (Exception $e) {
-            echo json_encode([
-                'success' => false,
-                'message' => 'Erro interno do servidor!',
-                'error' => $e->getMessage() // Apenas para debug, remova em produção
-            ]);
+{
+    header('Content-Type: application/json');
+    
+    try {
+        // Verifica se é POST
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            throw new Exception('Método não permitido');
         }
-    }
 
-    public function forgotPassword()
-    {
-        // Define sempre como JSON response
-        header('Content-Type: application/json');
-
-        try {
-            // Lê os dados JSON do corpo da requisição
-            $input = file_get_contents('php://input');
-            $data = json_decode($input, true);
-
-            $email = $data['email'] ?? '';
-
-            if (empty($email)) {
-                echo json_encode([
-                    'success' => false,
-                    'message' => 'Email é obrigatório!'
-                ]);
-                return;
-            }
-
-            // Validação básica de email
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                echo json_encode([
-                    'success' => false,
-                    'message' => 'Email inválido!'
-                ]);
-                return;
-            }
-
-            // Aqui você implementaria a lógica de recuperação de senha
-            // Por enquanto, simulando sucesso
-            $resetResult = $this->sendPasswordReset($email);
-
-            if ($resetResult) {
-                echo json_encode([
-                    'success' => true,
-                    'message' => 'Nova senha enviada para seu email!'
-                ]);
-            } else {
-                echo json_encode([
-                    'success' => false,
-                    'message' => 'Email não encontrado no sistema!'
-                ]);
-            }
-
-        } catch (Exception $e) {
-            echo json_encode([
-                'success' => false,
-                'message' => 'Erro interno do servidor!'
-            ]);
+        // Pega dados JSON
+        $input = json_decode(file_get_contents('php://input'), true);
+        
+        if (!$input) {
+            throw new Exception('Dados inválidos');
         }
-    }
 
-    private function sendPasswordReset($email)
-    {
-        // Implementar lógica de recuperação de senha
-        // Por enquanto retorna true para teste
-        return true;
+        $usuario = $input['usuario'] ?? '';
+        $senha = $input['senha'] ?? '';
+
+        // Validações básicas
+        if (empty($usuario) || empty($senha)) {
+            throw new Exception('Usuário e senha são obrigatórios');
+        }
+
+        // IMPORTANTE: Chama o processaLogin que autentica no endpoint
+        $loginResult = $this->login->processaLogin([$usuario, $senha]);
+        
+        if (!$loginResult) {
+            throw new Exception($loginResult['message'] ?? 'Usuário ou senha inválidos');
+        }
+
+        // Se chegou aqui, login foi bem-sucedido
+        // O $loginResult deve conter o token e outros dados do endpoint
+        
+        // Configura sessão com os dados retornados
+      //  SessionManager::setUserLogin($loginResult);
+
+        // Resposta de sucesso
+        echo json_encode([
+            'success' => true,
+            'message' => 'Login realizado com sucesso',
+          //  'token' => $loginResult['token'] ?? null,
+            'redirect' => '?class=ProductController&method=buscar'
+        ]);
+
+    } catch (Exception $e) {
+        http_response_code(401);
+        echo json_encode([
+            'success' => false,
+            'message' => $e->getMessage()
+        ]);
     }
 }
+ 
+}
+
+
+
 
 
 

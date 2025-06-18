@@ -34,7 +34,7 @@ use Core\View;
         <div class="sub-rodape">
             Sistemas de Gestão Empresarial no Setor de Varejo e Distribuição de Autopeças.
         </div>
-        <input type="hidden" name="emauto_token" value="<?php echo $_SESSION['TokenCSRF']; ?>">
+       
         <p>&copy;Portal de Clientes V 2.0</p>
     </footer>
 </body>
