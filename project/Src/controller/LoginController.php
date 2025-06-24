@@ -28,11 +28,7 @@ class LoginController extends PageControl
     public function login()
     {
 
-        // if (AuthMiddleware::isAuthenticated()) {
-        //     header('Location: ?class=ProductController&method=buscar');
-        //     exit();
-        // }
-
+     
         // Renderiza a página de login usando componentes
         View::render('page/login.html.php', [
             'title' => 'Login - Sistema'
@@ -50,12 +46,22 @@ class LoginController extends PageControl
                 throw new Exception('Método não permitido');
             }
 
+           
+
             // Pega dados JSON
             $input = json_decode(file_get_contents('php://input'), true);
+
+            Sanitizantes::filtro($input);
 
             if (!$input) {
                 throw new Exception('Dados inválidos');
             }
+
+             // VALIDAÇÃO CSRF AQUI
+        $csrfToken = $input['csrf_token'] ?? '';
+        if (!SessionManager::validateCsrfToken($csrfToken)) {
+            throw new Exception('Token CSRF inválido');
+        }
 
             $usuario = $input['usuario'] ?? '';
             $senha = $input['senha'] ?? '';
@@ -87,7 +93,6 @@ class LoginController extends PageControl
             echo json_encode([
                 'success' => true,
                 'message' => 'Login realizado com sucesso',
-                //  'token' => $loginResult['token'] ?? null,
                 'redirect' => '?class=ProductController&method=buscar'
             ]);
 

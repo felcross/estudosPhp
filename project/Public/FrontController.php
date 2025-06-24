@@ -21,11 +21,7 @@ class FrontController
             $controller = $this->getController();
             $method = $this->getMethod();
 
-          //  Permite LoginController mesmo sem autenticação
-            // if ($controller !== 'LoginController') {
-            //     $this->handleUnauthenticated();
-            //     return;
-            // }
+       
 
             $this->validateAccess($controller, $method);
             $this->executeController($controller, $method);
@@ -49,29 +45,7 @@ class FrontController
         }
     }
 
-    private function isUserLoggedIn(): bool
-    {
-        return AuthMiddleware::isAuthenticated();
-    }
-
-    private function handleUnauthenticated(): void
-    {
-        // Se é uma requisição AJAX, retorna JSON
-        if ($this->isAjaxRequest()) {
-            http_response_code(401);
-            header('Content-Type: application/json');
-            echo json_encode([
-                'success' => false,
-                'message' => 'Sessão expirada. Faça login novamente.',
-              //  'redirect' => '?class=LoginController&method=login'
-            ]);
-            return;
-        }
-
-        // Se é navegação normal, redireciona para login
-        $this->redirectToLogin();
-    }
-
+    
     private function isAjaxRequest(): bool
     {
         return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&

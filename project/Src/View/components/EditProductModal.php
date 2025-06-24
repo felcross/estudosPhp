@@ -16,7 +16,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="formEditarProduto" method="POST"> 
+                <form id="formEditarProduto" method="POST">
+                <input type="hidden" id="csrf_token" value="<?= SessionManager::getCsrfToken() ?>">
+ 
                     <input type="hidden" id="modalIdProduto" name="id_produto">
                     <input type="hidden" id="modalRowIndex" name="row_index">
                     <input type="hidden" id="modalReferencia" name="referencia">

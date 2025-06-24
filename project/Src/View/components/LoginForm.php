@@ -21,7 +21,10 @@
 
         <!-- Formulário de Login -->
         <div class="login-form-container">
-            <form id="loginForm">
+            <form  id="loginForm" method="POST">
+                <input type="hidden" id="csrf_token" value="<?= SessionManager::getCsrfToken() ?>">
+
+                    
                 <div class="form-group">
                     <label for="usuario">Usuário</label>
                     <input type="text" class="form-control" name="usuario" id="usuario" 
@@ -60,6 +63,8 @@
                 </div>
                 <?php endif; ?>
             </form>
+               
+
         </div>
 
         <!-- Formulário de Recuperação de Senha -->

@@ -23,6 +23,8 @@ class ProductController extends PageControl
     public function __construct()
     {
         $this->produtoApi = new ProdutoApi();
+      SessionManager::isLoggedIn() || (header('Location: 404.html.php') && exit);
+
     }
 
     public function processarAtualizacaoAjax()
@@ -31,18 +33,31 @@ class ProductController extends PageControl
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['PUT'])) {
             header('Content-Type: application/json');
 
-            // dd($_POST);
+
+             // ← VALIDAÇÃO CSRF
+        $csrfToken = $_POST['csrf_token'] ?? '';
+        if (!SessionManager::validateCsrfToken($csrfToken)) {
+            http_response_code(403);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Token CSRF inválido'
+            ]);
+            return;
+        }
+
+        
 
             // O ID do produto vem do input hidden #modalIdProduto com name="id_produto"
-            $produtoId = $_POST['produto_id'] ?? null;
+            $produtoId =  Sanitizantes::filtro(string: $_POST['produto_id']) ?? null;
+           
 
             // Campos do formulário do modal. As chaves de $_POST correspondem
             // aos 'name' dos inputs no modal e às chaves do formData no JS.
-            $codigoBarra = $_POST['codigobarra'] ?? null;
-            $qtdMaxArmazenagem = $_POST['qtd_max_armazenagem'] ?? null;
-            $local = $_POST['local'] ?? null;
-            $local2 = $_POST['local2'] ?? null;
-            $local3 = $_POST['local3'] ?? null;
+            $codigoBarra = Sanitizantes::filtro($_POST['codigobarra']) ?? null;
+            $qtdMaxArmazenagem =   Sanitizantes::filtro($_POST['qtd_max_armazenagem']) ?? null;
+            $local =   Sanitizantes::filtro($_POST['local']) ?? null;
+            $local2 =  Sanitizantes::filtro($_POST['local2']) ?? null;
+            $local3 =   Sanitizantes::filtro($_POST['local3'])?? null;
 
 
 
@@ -78,6 +93,8 @@ class ProductController extends PageControl
             // Aqui, $produtoId é o valor de $produto['PRODUTO'] que foi enviado
             $resultado = $this->produtoApi->atualizarProduto($produtoId, $dadosParaAtualizar);
 
+        
+
             if (isset($resultado['status']) && $resultado['status']) { // Verifique se 'status' existe antes de acessá-lo
                 echo json_encode(['success' => true, 'message' => $resultado['mensagem'] ?? 'Produto atualizado com sucesso!', 'data' => $resultado]);
             } else {
@@ -97,10 +114,7 @@ class ProductController extends PageControl
     public function buscar()
     {
 
-        if (!SessionManager::isLoggedIn()) {
-            header('Location: 404.html.php');
-            exit;
-        }
+       
 
         $this->processarAtualizacaoAjax();
 
@@ -118,7 +132,7 @@ class ProductController extends PageControl
 
         // dd($produtos);
 
-        View::render('page/teste3.html.php', [
+        View::render('page/search.html.php', [
             'produtos' => $produtos,
             'termo' => $termo,
             'pagina' => $pagina / 25, // Passar a página atual
@@ -156,203 +170,6 @@ class ProductController extends PageControl
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// class ProdutoController {
-//     private $produtoApi;
-
-//     public function __construct() {
-//         $this->produtoApi = new ProdutoApi();
-//     }
-
-
-//      // Fix your controller code:
-
-//      public function  atualizar() 
-//      { // Handle AJAX request first
-
-//        // dd('entrouuuuu');
-
-//     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['PUT'])) {
-
-
-//         // Process the AJAX update request
-//         $produtoId = $_POST['produto_id'] ?? null;
-//         $codigo = $_POST['codigo_produto'] ?? null;
-//         $descricao = $_POST['descricao'] ?? null;
-//         $referencia = $_POST['referencia'] ?? null;
-//         $referencia2 = $_POST['referencia2'] ?? null;
-//         $codigoBarra = $_POST['codigobarra'] ?? null;
-//         $preco = $_POST['preco'] ?? null;
-
-//         if ($produtoId) {
-
-//             $resultado = $this->produtoApi->atualizarProduto($produtoId, [
-//                 'codigo' => $codigo,
-//                 'descricao' => $descricao,
-//                 'referencia' => $referencia,
-//                 'referencia2' => $referencia2,
-//                 'codigobarra' => $codigoBarra,
-//                 'preco' => $preco
-
-//             ]);
-
-//              dd($resultado);
-
-//             // Return JSON response and exit to prevent rendering the HTML
-//             header('Content-Type: application/json');
-//             echo json_encode(['success' => true, 'message' => 'Produto atualizado com sucesso PROD']);
-//             exit; // Important! This prevents the rest of the page from loading
-//         } else {
-//             // Return error response
-//             header('Content-Type: application/json');
-//             echo json_encode(['success' => false, 'message' => 'ID do produto não fornecido']);
-//             exit;
-//         }
-//     } }
-
-// public function buscar()
-// {
-//        $this->atualizar();
-
-
-//     // Normal page load flow continues here
-//     $termo = $_GET['termo'] ?? '';
-//     $produtos = [];
-
-//     if (!empty($termo)) {
-//         $produtos = $this->produtoApi->buscarTodos($termo, true, limite: 15);
-//     }
-
-//     View::render('page/search2.html.php', [
-//         'produtos' => $produtos,
-//         'termo' => $termo,
-//     ],js:'product');
-// }
-
-
-
-
-
-
-
-// }
-
-
-// $productController = new ProdutoController;
-// $productController->buscar();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// class ProdutoController {
-//     private $produtoApi;
-
-//     public function __construct() {
-//         $this->produtoApi = new ProdutoApi();
-//     }
-
-//     public function buscar() {
-//         $termo = $_POST['termo'] ?? '';
-//       //  $buscaParcial = isset($_POST['parcial']) ? (bool)$_POST['parcial'] : true;
-
-//         $produtos = [];
-//         if (!empty($termo)) {
-//             $produtos = $this->produtoApi->buscarTodos($termo, true, limite:15);
-//         }
-
-//         View::render('page/search2.html.php', [
-//             'produtos' => $produtos,
-//             'termo' => $termo,
-//          //   'buscaParcial' => $buscaParcial
-//         ]);
-//     }}
-
-
-
-
-
-// $productController = new ProdutoController;
-// $productController->buscar();
 
 
 

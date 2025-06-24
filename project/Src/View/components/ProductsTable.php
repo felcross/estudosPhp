@@ -479,12 +479,16 @@ if (!empty($produtos) && is_array($produtos)): ?>
                     <div class="card-header">
                         <div class="card-codes">
                             <div class="code-item">
-                                <span class="code-label">Interno:</span>
-                                <span class="code-value"><?= htmlspecialchars($produto->PRODUTO ?? '') ?></span>
+                                <span class="code-label">Nome:</span>
+                                <span class="code-value"><?= htmlspecialchars($produto->NOME ?? '') ?></span>
                             </div>
                             <div class="code-item">
-                                <span class="code-label">Barras:</span>
+                                <span class="code-label">Cod.Barras:</span>
                                 <span class="code-value"><?= htmlspecialchars($produto->CODIGOBARRA ?? '') ?></span>
+                            </div>
+                              <div class="code-item">
+                                <span class="code-label">Produto:</span>
+                                <span class="code-value"><?= htmlspecialchars($produto->PRODUTO ?? '') ?></span>
                             </div>
                         </div>
                         <div class="card-quantity">

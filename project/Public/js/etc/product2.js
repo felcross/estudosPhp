@@ -218,74 +218,74 @@ document.addEventListener('DOMContentLoaded', function () {
  * @param {string|number} rowIndex - O índice do card a ser atualizado.
  * @param {object} newData - Um objeto contendo os novos dados para o card.
  */
-function updateProductCard(rowIndex, newData) {
-    console.log('=== Iniciando atualização do card ===');
-    console.log('Índice do Card (Row Index):', rowIndex);
-    console.log('Novos Dados:', newData);
+    function updateProductCard(rowIndex, newData) {
+        console.log('=== Iniciando atualização do card ===');
+        console.log('Índice do Card (Row Index):', rowIndex);
+        console.log('Novos Dados:', newData);
 
-    // Seleciona o card pelo índice (assumindo que você adicione um ID nos cards)
-    const cardId = `produto-card-${rowIndex}`;
-    console.log('Procurando por ID do card:', cardId);
+        // Seleciona o card pelo índice (assumindo que você adicione um ID nos cards)
+        const cardId = `produto-card-${rowIndex}`;
+        console.log('Procurando por ID do card:', cardId);
 
-    const card = document.getElementById(cardId);
-    console.log('Elemento do card encontrado:', card);
+        const card = document.getElementById(cardId);
+        console.log('Elemento do card encontrado:', card);
 
-    if (card) {
-        // Atualiza código interno
-        const codigoInternoElement = card.querySelector('.code-item .code-value');
-        if (codigoInternoElement && newData.PRODUTO !== undefined) {
-            codigoInternoElement.textContent = newData.PRODUTO;
+        if (card) {
+            // Atualiza código interno
+            const codigoInternoElement = card.querySelector('.code-item .code-value');
+            if (codigoInternoElement && newData.PRODUTO !== undefined) {
+                codigoInternoElement.textContent = newData.PRODUTO;
+            }
+
+            // Atualiza código de barras
+            const codigoBarrasElements = card.querySelectorAll('.code-item .code-value');
+            if (codigoBarrasElements[1] && newData.CODIGOBARRA !== undefined) {
+                codigoBarrasElements[1].textContent = newData.CODIGOBARRA || '';
+            }
+
+            // Atualiza quantidade máxima
+            const quantityBadge = card.querySelector('.quantity-badge');
+            if (quantityBadge && newData.QTD_MAX_ARMAZENAGEM !== undefined) {
+                quantityBadge.textContent = newData.QTD_MAX_ARMAZENAGEM || '0';
+            }
+
+            // Atualiza locais
+            const locationItems = card.querySelectorAll('.location-item');
+            if (locationItems[0] && newData.LOCAL !== undefined) {
+                locationItems[0].innerHTML = `<span class="location-label">Local 1</span>${newData.LOCAL || ''}`;
+                locationItems[0].classList.toggle('empty', !newData.LOCAL);
+            }
+            if (locationItems[1] && newData.LOCAL2 !== undefined) {
+                locationItems[1].innerHTML = `<span class="location-label">Local 2</span>${newData.LOCAL2 || ''}`;
+                locationItems[1].classList.toggle('empty', !newData.LOCAL2);
+            }
+            if (locationItems[2] && newData.LOCAL3 !== undefined) {
+                locationItems[2].innerHTML = `<span class="location-label">Local 3</span>${newData.LOCAL3 || ''}`;
+                locationItems[2].classList.toggle('empty', !newData.LOCAL3);
+            }
+
+            // Atualiza os atributos data-* do botão editar dentro do card
+            const editButton = card.querySelector('.btn-editar-produto');
+            if (editButton) {
+                if (newData.CODIGOBARRA !== undefined) editButton.setAttribute('data-codigobarra', newData.CODIGOBARRA || '');
+                if (newData.QTD_MAX_ARMAZENAGEM !== undefined) editButton.setAttribute('data-qtd_max_armazenagem', newData.QTD_MAX_ARMAZENAGEM || '0');
+                if (newData.LOCAL !== undefined) editButton.setAttribute('data-local', newData.LOCAL || '');
+                if (newData.LOCAL2 !== undefined) editButton.setAttribute('data-local2', newData.LOCAL2 || '');
+                if (newData.LOCAL3 !== undefined) editButton.setAttribute('data-local3', newData.LOCAL3 || '');
+            }
+
+            // Efeito visual
+            card.style.backgroundColor = '#d1e7dd';
+            card.style.transition = 'background-color 0.5s ease-in-out';
+            setTimeout(() => {
+                card.style.backgroundColor = '';
+            }, 2500);
+
+            console.log('=== ATUALIZAÇÃO DO CARD CONCLUÍDA ===');
+        } else {
+            console.error('❌ ERRO: Card não encontrado com ID:', cardId);
         }
-
-        // Atualiza código de barras
-        const codigoBarrasElements = card.querySelectorAll('.code-item .code-value');
-        if (codigoBarrasElements[1] && newData.CODIGOBARRA !== undefined) {
-            codigoBarrasElements[1].textContent = newData.CODIGOBARRA || '';
-        }
-
-        // Atualiza quantidade máxima
-        const quantityBadge = card.querySelector('.quantity-badge');
-        if (quantityBadge && newData.QTD_MAX_ARMAZENAGEM !== undefined) {
-            quantityBadge.textContent = newData.QTD_MAX_ARMAZENAGEM || '0';
-        }
-
-        // Atualiza locais
-        const locationItems = card.querySelectorAll('.location-item');
-        if (locationItems[0] && newData.LOCAL !== undefined) {
-            locationItems[0].innerHTML = `<span class="location-label">Local 1</span>${newData.LOCAL || ''}`;
-            locationItems[0].classList.toggle('empty', !newData.LOCAL);
-        }
-        if (locationItems[1] && newData.LOCAL2 !== undefined) {
-            locationItems[1].innerHTML = `<span class="location-label">Local 2</span>${newData.LOCAL2 || ''}`;
-            locationItems[1].classList.toggle('empty', !newData.LOCAL2);
-        }
-        if (locationItems[2] && newData.LOCAL3 !== undefined) {
-            locationItems[2].innerHTML = `<span class="location-label">Local 3</span>${newData.LOCAL3 || ''}`;
-            locationItems[2].classList.toggle('empty', !newData.LOCAL3);
-        }
-
-        // Atualiza os atributos data-* do botão editar dentro do card
-        const editButton = card.querySelector('.btn-editar-produto');
-        if (editButton) {
-            if (newData.CODIGOBARRA !== undefined) editButton.setAttribute('data-codigobarra', newData.CODIGOBARRA || '');
-            if (newData.QTD_MAX_ARMAZENAGEM !== undefined) editButton.setAttribute('data-qtd_max_armazenagem', newData.QTD_MAX_ARMAZENAGEM || '0');
-            if (newData.LOCAL !== undefined) editButton.setAttribute('data-local', newData.LOCAL || '');
-            if (newData.LOCAL2 !== undefined) editButton.setAttribute('data-local2', newData.LOCAL2 || '');
-            if (newData.LOCAL3 !== undefined) editButton.setAttribute('data-local3', newData.LOCAL3 || '');
-        }
-
-        // Efeito visual
-        card.style.backgroundColor = '#d1e7dd';
-        card.style.transition = 'background-color 0.5s ease-in-out';
-        setTimeout(() => {
-            card.style.backgroundColor = '';
-        }, 2500);
-
-        console.log('=== ATUALIZAÇÃO DO CARD CONCLUÍDA ===');
-    } else {
-        console.error('❌ ERRO: Card não encontrado com ID:', cardId);
     }
-}
 
     // Código jQuery para a submissão AJAX do formulário de edição.
     // $(document).ready() garante que o jQuery execute após o DOM estar pronto.
@@ -320,9 +320,10 @@ function updateProductCard(rowIndex, newData) {
                 'local3': $('#modalLocal3').val(),
                 'referencia': $('#modalReferencia').val(), // Campo hidden
                 'referencia2': $('#modalReferencia2').val(), // Campo hidden
-                'nome': $('#modalNome').val() // Campo hidden para o nome
+                'nome': $('#modalNome').val(), // Campo hidden para o nome
                 // Adicione o token CSRF se seu backend o exigir.
-                // 'token': $('#token').val()
+                'csrf_token': $('#csrf_token').val() // ← ADICIONAR ESTA LINHA
+
             };
 
             // Recupera o índice da linha que está sendo editada.
@@ -334,10 +335,7 @@ function updateProductCard(rowIndex, newData) {
             $.ajax({
                 url: window.location.href, // Ou a URL específica do seu controller de atualização
                 type: 'POST', // Ou 'PUT' se seu backend estiver configurado para isso (com formData 'PUT': true é uma convenção comum para simular PUT via POST)
-                data: { // Adiciona o token aqui, se tiver um campo #token no seu formulário/página
-                    ...formData,
-                    token: $('#token').val() // Exemplo de como pegar um token CSRF
-                },
+                data: formData,
                 dataType: 'json', // Espera uma resposta JSON do servidor
                 success: function (response) {
                     // Esta função é executada se a requisição for bem-sucedida.
@@ -389,7 +387,7 @@ function updateProductCard(rowIndex, newData) {
                                 const backdropElement = document.querySelector('.modal-backdrop.fade.show');
 
                                 if (backdropElement) {
- 
+
                                     console.log('Backdrop encontrado:', backdropElement);
 
                                     // backdropElement.className = 'modal fade';
@@ -407,6 +405,14 @@ function updateProductCard(rowIndex, newData) {
                     }
                 },
                 error: function (xhr, status, error) {
+
+                    // Adicione tratamento de erro para CSRF inválido
+                    if (xhr.status === 403) {
+                        alert('Token de segurança inválido. Recarregue a página.');
+                        location.reload();
+                    } else {
+                        console.error('Erro na requisição:', error);
+                    }
                     // Esta função é executada se ocorrer um erro na requisição AJAX (ex: erro de servidor 500, 404, etc.).
                     console.error('Erro na requisição AJAX:', status, error);
                     console.error('Resposta do servidor (XHR):', xhr);

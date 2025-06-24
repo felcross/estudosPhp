@@ -4,6 +4,8 @@ use Core\View;
 ?>
 
 <div class="container my-5">
+   
+
     <h1 class="mb-4">Busca e Edição de Produtos</h1>
 
     <!-- Área para mensagens flash -->

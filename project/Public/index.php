@@ -7,6 +7,7 @@ require_once 'SessionManager.php';
 require_once 'FrontController.php';
 
 
+
 try {
     // Instancia e executa o FrontController
    

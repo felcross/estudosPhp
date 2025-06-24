@@ -1,22 +1,5 @@
 <?php
 
-// ini_set('session.gc_maxlifetime', 82800);  
-// ini_set('session.cookie_lifetime', 82800);  
-// ini_set('session.cookie_httponly', 1);
-
-// header("X-Frame-Options: DENY");
-// header_remove("X-Powered-By");
-// header('Content-Type: text/html; charset=utf-8');
-// header('X-Content-Type-Options: nosniff');
-
-
-// if (session_status() === PHP_SESSION_NONE) {
-//     session_name('LOCALIZADOR');
-//     session_start();
-// }
-
-
-// session.php
 class SessionManager 
 {
     private static bool $initialized = false;
@@ -84,21 +67,53 @@ class SessionManager
             session_destroy();
         }
     }
-    
+
+
     /**
-     * Define dados de login do usuário
-     * @param array $userData - dados do usuário logado
-     */
-    public static function setUserLogin(array $userData): void
-    {
-        $_SESSION['user'] = $userData;
-        $_SESSION['logged_in'] = true;
-        $_SESSION['login_time'] = time();
-       // $_SESSION['chaveEMAUTO'] = self::generateSecureToken();
-        
-        // Regenera ID por segurança
-        self::regenerate();
+ * Gera token CSRF seguro
+ * @return string
+ */
+private static function generateSecureToken(): string
+{
+    return bin2hex(random_bytes(32));
+}
+
+/**
+ * Obtém token CSRF atual ou gera um novo se não existir
+ * @return string
+ */
+public static function getCsrfToken(): string
+{
+    if (!isset($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = self::generateSecureToken();
     }
+    
+    return $_SESSION['csrf_token'];
+}
+
+/**
+ * Valida token CSRF
+ * @param string $token - token recebido do formulário
+ * @return bool
+ */
+public static function validateCsrfToken(string $token): bool
+{
+    if (!isset($_SESSION['csrf_token'])) {
+        return false;
+    }
+    
+    return hash_equals($_SESSION['csrf_token'], $token);
+}
+   public static function setUserLogin(array $userData): void
+{
+    $_SESSION['user'] = $userData;
+    $_SESSION['logged_in'] = true;
+    $_SESSION['login_time'] = time();
+  //  $_SESSION['csrf_token'] = self::generateSecureToken(); // ← ADICIONAR ESTA LINHA
+    
+    // Regenera ID por segurança
+    self::regenerate();
+}
     
     /**
      * Verifica se usuário está logado
@@ -147,15 +162,7 @@ class SessionManager
     {
         unset($_SESSION[$key]);
     }
-    
-    /**
-     * Gera token seguro
-     * @return string
-     */
-    private static function generateSecureToken(): string
-    {
-        return bin2hex(random_bytes(32));
-    }
+
     
     /**
      * Faz logout do usuário
@@ -165,7 +172,8 @@ class SessionManager
         unset($_SESSION['user']);
         unset($_SESSION['logged_in']);
         unset($_SESSION['login_time']);
-        unset($_SESSION['chaveEMAUTO']);
+        unset($_SESSION['csrf_token']); // ← ADICIONAR ESTA LINHA
+
         
         self::regenerate();
     }
