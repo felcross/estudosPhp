@@ -4,6 +4,8 @@
 
 namespace Core;
 
+use SessionManager;
+
 class View 
 {
     /**
@@ -12,9 +14,14 @@ class View
     public static function render(string $path, array $attributes = [], string|null $js = null, bool $withSidebar = true, array $extraScripts = []): void
     {
         extract($attributes);
-        
-        // Carrega header com ou sem sidebar baseado no parâmetro
+
+        if (SessionManager::isLoggedIn()) 
+        {
+
+                // Carrega header com ou sem sidebar baseado no parâmetro
         print(self::layout($withSidebar, $extraScripts)['header']);
+
+        }       
         
         // Inclui a view solicitada
         file_exists(views . $path) && include views . $path;

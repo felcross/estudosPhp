@@ -215,5 +215,52 @@
                 "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJVc3VhcmlvIjoiRURTT04iLCJNYXN0ZXIiOnRydWUsIkxpYmVyYSI6dHJ1ZSwiTml2ZWxMaWJlcmEiOiIxIiwiVmFsaWRhZGUiOiIyMFwvMDZcLzIwMjUiLCJpc3MiOiJFTUF1dG8gWERhdGEgU2VydmVyIn0.x7sW0wVJW8jAk77ZzvszgVc6Q2B47bFhM878uZsfgvM"
             }
         ]
+    },
+    {
+        "Referente": "Login",
+        "Horário": "20-06-2025 22:03:28",
+        "Erro": [
+            {
+                "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJVc3VhcmlvIjoiRURTT04iLCJNYXN0ZXIiOnRydWUsIkxpYmVyYSI6dHJ1ZSwiTml2ZWxMaWJlcmEiOiIxIiwiVmFsaWRhZGUiOiIyMFwvMDZcLzIwMjUiLCJpc3MiOiJFTUF1dG8gWERhdGEgU2VydmVyIn0.x7sW0wVJW8jAk77ZzvszgVc6Q2B47bFhM878uZsfgvM"
+            }
+        ]
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "20-06-2025 22:04:04",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "Login",
+        "Horário": "20-06-2025 22:06:40",
+        "Erro": [
+            {
+                "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJVc3VhcmlvIjoiRURTT04iLCJNYXN0ZXIiOnRydWUsIkxpYmVyYSI6dHJ1ZSwiTml2ZWxMaWJlcmEiOiIxIiwiVmFsaWRhZGUiOiIyMFwvMDZcLzIwMjUiLCJpc3MiOiJFTUF1dG8gWERhdGEgU2VydmVyIn0.x7sW0wVJW8jAk77ZzvszgVc6Q2B47bFhM878uZsfgvM"
+            }
+        ]
+    },
+    {
+        "Referente": "APIEmauto - Chaves",
+        "Horário": "20-06-2025 22:07:07",
+        "Erro": {
+            "error": {
+                "code": "Unauthorized",
+                "message": "Token Vencido."
+            }
+        }
+    },
+    {
+        "Referente": "Login",
+        "Horário": "20-06-2025 22:08:28",
+        "Erro": [
+            {
+                "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJVc3VhcmlvIjoiRURTT04iLCJNYXN0ZXIiOnRydWUsIkxpYmVyYSI6dHJ1ZSwiTml2ZWxMaWJlcmEiOiIxIiwiVmFsaWRhZGUiOiIyMFwvMDZcLzIwMjUiLCJpc3MiOiJFTUF1dG8gWERhdGEgU2VydmVyIn0.x7sW0wVJW8jAk77ZzvszgVc6Q2B47bFhM878uZsfgvM"
+            }
+        ]
     }
 ]

@@ -213,6 +213,80 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    /**
+ * Função para atualizar um card específico com novos dados (versão mobile).
+ * @param {string|number} rowIndex - O índice do card a ser atualizado.
+ * @param {object} newData - Um objeto contendo os novos dados para o card.
+ */
+function updateProductCard(rowIndex, newData) {
+    console.log('=== Iniciando atualização do card ===');
+    console.log('Índice do Card (Row Index):', rowIndex);
+    console.log('Novos Dados:', newData);
+
+    // Seleciona o card pelo índice (assumindo que você adicione um ID nos cards)
+    const cardId = `produto-card-${rowIndex}`;
+    console.log('Procurando por ID do card:', cardId);
+
+    const card = document.getElementById(cardId);
+    console.log('Elemento do card encontrado:', card);
+
+    if (card) {
+        // Atualiza código interno
+        const codigoInternoElement = card.querySelector('.code-item .code-value');
+        if (codigoInternoElement && newData.PRODUTO !== undefined) {
+            codigoInternoElement.textContent = newData.PRODUTO;
+        }
+
+        // Atualiza código de barras
+        const codigoBarrasElements = card.querySelectorAll('.code-item .code-value');
+        if (codigoBarrasElements[1] && newData.CODIGOBARRA !== undefined) {
+            codigoBarrasElements[1].textContent = newData.CODIGOBARRA || '';
+        }
+
+        // Atualiza quantidade máxima
+        const quantityBadge = card.querySelector('.quantity-badge');
+        if (quantityBadge && newData.QTD_MAX_ARMAZENAGEM !== undefined) {
+            quantityBadge.textContent = newData.QTD_MAX_ARMAZENAGEM || '0';
+        }
+
+        // Atualiza locais
+        const locationItems = card.querySelectorAll('.location-item');
+        if (locationItems[0] && newData.LOCAL !== undefined) {
+            locationItems[0].innerHTML = `<span class="location-label">Local 1</span>${newData.LOCAL || ''}`;
+            locationItems[0].classList.toggle('empty', !newData.LOCAL);
+        }
+        if (locationItems[1] && newData.LOCAL2 !== undefined) {
+            locationItems[1].innerHTML = `<span class="location-label">Local 2</span>${newData.LOCAL2 || ''}`;
+            locationItems[1].classList.toggle('empty', !newData.LOCAL2);
+        }
+        if (locationItems[2] && newData.LOCAL3 !== undefined) {
+            locationItems[2].innerHTML = `<span class="location-label">Local 3</span>${newData.LOCAL3 || ''}`;
+            locationItems[2].classList.toggle('empty', !newData.LOCAL3);
+        }
+
+        // Atualiza os atributos data-* do botão editar dentro do card
+        const editButton = card.querySelector('.btn-editar-produto');
+        if (editButton) {
+            if (newData.CODIGOBARRA !== undefined) editButton.setAttribute('data-codigobarra', newData.CODIGOBARRA || '');
+            if (newData.QTD_MAX_ARMAZENAGEM !== undefined) editButton.setAttribute('data-qtd_max_armazenagem', newData.QTD_MAX_ARMAZENAGEM || '0');
+            if (newData.LOCAL !== undefined) editButton.setAttribute('data-local', newData.LOCAL || '');
+            if (newData.LOCAL2 !== undefined) editButton.setAttribute('data-local2', newData.LOCAL2 || '');
+            if (newData.LOCAL3 !== undefined) editButton.setAttribute('data-local3', newData.LOCAL3 || '');
+        }
+
+        // Efeito visual
+        card.style.backgroundColor = '#d1e7dd';
+        card.style.transition = 'background-color 0.5s ease-in-out';
+        setTimeout(() => {
+            card.style.backgroundColor = '';
+        }, 2500);
+
+        console.log('=== ATUALIZAÇÃO DO CARD CONCLUÍDA ===');
+    } else {
+        console.error('❌ ERRO: Card não encontrado com ID:', cardId);
+    }
+}
+
     // Código jQuery para a submissão AJAX do formulário de edição.
     // $(document).ready() garante que o jQuery execute após o DOM estar pronto.
     // No seu caso, como está dentro do 'DOMContentLoaded', já é seguro.
@@ -291,6 +365,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 // Adicione outros campos que são exibidos na tabela e podem ter sido alterados
                             };
                             updateTableRow(rowIndex, dataToUpdate);
+                            updateProductCard(rowIndex, dataToUpdate); // ADICIONE ESTA LINHA
                         } else {
                             console.warn('Row index não encontrado. A tabela não será atualizada dinamicamente.');
                             // Neste caso, você pode querer recarregar a página ou a tabela inteira
